@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Management UI</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the page */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Simple animation for button hover */
+        .btn-hover-effect {
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-hover-effect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .active-btn {
+            background-color: #3B82F6; /* blue-500 */
+            color: white;
+        }
+        .action-btn-active {
+            background-color: #2563EB; /* blue-600 */
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        /* Custom scrollbar for category list */
+        .category-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .category-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .category-list::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .category-list::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Styles for modals */
+        .modal-hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="modal-hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
+        <div class="relative mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">Confirm Action</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p id="confirm-modal-message" class="text-sm text-gray-500"></p>
+                </div>
+                <div class="items-center px-4 py-3">
+                    <button id="modal-confirm-btn" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-auto shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                        Confirm
+                    </button>
+                    <button id="modal-cancel-btn" class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-auto ml-2 shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Notification Modal -->
+    <div id="success-modal" class="modal-hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
+        <div class="relative mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <h3 id="success-modal-title" class="text-lg leading-6 font-medium text-gray-900">Success</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p id="success-modal-message" class="text-sm text-gray-500"></p>
+                </div>
+                <div class="items-center px-4 py-3">
+                    <button id="success-modal-ok-btn" class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-auto shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container mx-auto p-4 md:p-8">
+        <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg min-h-[80vh]">
+            
+            <!-- Sidebar Navigation -->
+            <aside class="w-full md:w-64 p-6 border-b md:border-b-0 md:border-r border-gray-200">
+                <nav id="sidebar-nav" class="space-y-4">
+                    <!-- Navigation Button: OB Entery -->
+                    <button id="ob-entery-btn" data-view="ob-entery-view" class="w-full flex items-center justify-between p-3 rounded-lg bg-blue-500 text-white font-semibold shadow-md btn-hover-effect">
+                        <span>OB Entery</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                    </button>
+                    <!-- Navigation Button: Category Edit -->
+                    <button id="category-edit-btn" data-view="category-edit-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Category Edit</button>
+                    
+                    <!-- Other Navigation Buttons -->
+                    <button data-view="default-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Recoveries</button>
+                    <button data-view="default-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Complaints</button>
+                    <button data-view="default-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Positive Arrests</button>
+                    <button data-view="default-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Add/Remove Users</button>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main id="main-content" class="flex-1 p-6 md:p-10">
+                <!-- Default View (Now hidden by default) -->
+                <div id="default-view" class="view-panel hidden flex items-center justify-center h-full border-2 border-dashed border-gray-300 rounded-xl">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-500">Select an option from the sidebar</h1>
+                </div>
+
+                <!-- OB Entery View (Now visible by default) -->
+                <div id="ob-entery-view" class="view-panel">
+                    <div id="ob-actions" class="flex justify-center space-x-4 mb-6">
+                        <button data-action="add" class="ob-action-btn px-6 py-2 rounded-lg bg-blue-500 text-white font-semibold shadow-md btn-hover-effect action-btn-active">Add Record</button>
+                        <button data-action="remove" class="ob-action-btn px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Remove Record</button>
+                        <button data-action="update" class="ob-action-btn px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Update Record</button>
+                        <button data-action="view" class="ob-action-btn px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">View Record</button>
+                    </div>
+
+                    <div class="border rounded-lg p-6 bg-gray-50">
+                        <div class="flex justify-between items-center border-b pb-4 mb-6">
+                             <h2 class="text-xl font-bold text-gray-800">Occurrence Book (INSERT)</h2>
+                             <span class="text-sm font-medium text-gray-600">UID:</span>
+                        </div>
+                       
+                        <form id="ob-form" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">OB Number:</label>
+                                    <span id="ob-number-display" class="font-bold text-gray-800"></span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Created:</label>
+                                    <span id="created-date" class="text-gray-800"></span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1">
+                                <div class="flex items-center">
+                                    <label class="w-48 text-gray-600 font-medium">Time of Incident:</label>
+                                    <span class="mr-2">From</span>
+                                    <input type="datetime-local" class="p-2 border rounded-md w-full">
+                                    <span class="mx-2">To</span>
+                                    <input type="datetime-local" class="p-2 border rounded-md w-full">
+                                </div>
+                            </div>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Created By:</label>
+                                    <span class="text-gray-800">Mahesh Palad</span>
+                                </div>
+                            </div>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">OB Type<span class="text-red-500">*</span>:</label>
+                                    <select id="ob-type-select" class="p-2 border rounded-md w-2/3"></select>
+                                </div>
+                            </div>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">OB Category:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                            </div>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Police Station:</label>
+                                    <select id="police-station-select" class="p-2 border rounded-md w-2/3"></select>
+                                </div>
+                            </div>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">CAS Number:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                            </div>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Requires Followup:</label>
+                                    <input type="checkbox" class="h-5 w-5">
+                                </div>
+                            </div>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Follow up User:</label>
+                                    <select id="follow-up-user-select" class="p-2 border rounded-md w-2/3"></select>
+                                </div>
+                            </div>
+                            <!-- Save Button -->
+                            <div class="flex justify-end pt-4">
+                                <button type="button" id="save-record-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Record</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Category Edit View -->
+                <div id="category-edit-view" class="view-panel hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Category Editor</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <label for="category-selector" class="block text-sm font-medium text-gray-700 mb-2">Select a category to edit:</label>
+                            <select id="category-selector" class="w-full p-2 border rounded-md">
+                                <option value="obType">OB Type</option>
+                                <option value="policeStation">Police Station</option>
+                                <option value="followUpUser">Follow up User</option>
+                            </select>
+                        </div>
+                        <div id="editor-panel">
+                            <h3 id="editing-category-name" class="text-xl font-semibold mb-4"></h3>
+                            <div class="bg-gray-50 border rounded-lg p-4">
+                                <div class="mb-4">
+                                    <label for="new-item-input" class="block text-sm font-medium text-gray-700">Add new item:</label>
+                                    <div class="mt-1 flex rounded-md shadow-sm">
+                                        <input type="text" id="new-item-input" class="flex-1 block w-full rounded-none rounded-l-md p-2 border-gray-300" placeholder="New category item">
+                                        <button id="add-item-btn" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 hover:bg-gray-100">Add</button>
+                                    </div>
+                                </div>
+                                <div id="category-item-list" class="category-list max-h-80 overflow-y-auto space-y-2">
+                                    <!-- Items will be dynamically inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Immediately hide modals to prevent flash on load
+        document.getElementById('confirmation-modal').style.display = 'none';
+        document.getElementById('success-modal').style.display = 'none';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- STATE MANAGEMENT ---
+            let obCounter = 1;
+            let currentRecordAction = 'add'; // Default action
+            let dropdownOptions; // Will be loaded from localStorage or defaults
+
+            // Default data structure in case localStorage is empty
+            const defaultDropdownOptions = {
+                obType: [
+                    "Daily Crimes", "ABDUCTION", "ACCIDENT", "ACCIDENT/INJURY", "ACCIDENTAL DISCHARGE OF FIREARM", "ALARM ACTIVATIONS", "ARMED ROBBERY", 
+                    "ARMED ROBBERY WITH SHOOTING INCIDENT", "ARREST AND RECOVERY", "ARREST OF SUSPECT/S", "ARSON - FIRE", "ASSAULT", "ATM CRIMES", 
+                    "ATTACK ON PERSON/PERSONS", "ATTEMPED THEFT OUT OF MOTOR VEHICLE", "ATTEMPTED ARMED ROBBERY", "ATTEMPTED BUSINESS BREAKING", 
+                    "ATTEMPTED BUSINESS ROBBERY", "ATTEMPTED ENTRY IN COMPLEX VIA FENCE/GATE", "ATTEMPTED HI JACKING", "ATTEMPTED HOUSE BREAKING WITH THEFT", 
+                    "ATTEMPTED HOUSE BREAKING WITHOUT THEFT", "ATTEMPTED HOUSE ROBBERY", "ATTEMPTED KIDNAPPING", "ATTEMPTED MUGGING", "ATTEMPTED MURDER", 
+                    "ATTEMPTED RAPE", "ATTEMPTED REMOTE JAMMING", "ATTEMPTED SUICIDE", "ATTEMPTED THEFT", "ATTEMPTED THEFT OF MOTOR VEHICLE", "AUDIT FINDING", 
+                    "AUDIT FINDINGS", "AURA RESPONSES", "BICYCLE REPAIRS", "BOOKING OFF", "BUSINESS BREAKING", "BUSINESS ROBBERY", "CCTV MALFUNCTION ON SITE", 
+                    "CLIENT COMPLAINT", "Common Robbery", "Common Theft", "Culpable Homicide", "DAMAGE ON SITE", "DISCIPLINARY", "DISTURBANCE ON SITE", 
+                    "DOMESTIC ISSUE", "DOOR LEFT UNLOCKED/OPEN", "DRINKING IN PUBLIC", "DRIVING UNDER THE INFLUENCE", "DROWNING", "DRUNK DRIVING"
+                ],
+                policeStation: ["No Police Station Selected", "Central Station", "North Division", "South Precinct"],
+                followUpUser: ["No User Selected", "Admin", "Operator 1", "Investigator"]
+            };
+
+            // --- ELEMENT REFERENCES ---
+            const sidebarNav = document.getElementById('sidebar-nav');
+            const viewPanels = document.querySelectorAll('.view-panel');
+            const obNumberDisplay = document.getElementById('ob-number-display');
+            const obActionButtons = document.querySelectorAll('.ob-action-btn');
+            const saveRecordBtn = document.getElementById('save-record-btn');
+            const obTypeSelect = document.getElementById('ob-type-select');
+            const policeStationSelect = document.getElementById('police-station-select');
+            const followUpUserSelect = document.getElementById('follow-up-user-select');
+            const categorySelector = document.getElementById('category-selector');
+            const editingCategoryName = document.getElementById('editing-category-name');
+            const categoryItemList = document.getElementById('category-item-list');
+            const newItemInput = document.getElementById('new-item-input');
+            const addItemBtn = document.getElementById('add-item-btn');
+            const createdDateEl = document.getElementById('created-date');
+            
+            // Modal References
+            const confirmModal = document.getElementById('confirmation-modal');
+            const confirmModalMessage = document.getElementById('confirm-modal-message');
+            const modalConfirmBtn = document.getElementById('modal-confirm-btn');
+            const modalCancelBtn = document.getElementById('modal-cancel-btn');
+            
+            const successModal = document.getElementById('success-modal');
+            const successModalTitle = document.getElementById('success-modal-title');
+            const successModalMessage = document.getElementById('success-modal-message');
+            const successModalOkBtn = document.getElementById('success-modal-ok-btn');
+
+            // --- FUNCTIONS ---
+
+            const showConfirmationModal = (message, onConfirmCallback) => {
+                confirmModalMessage.textContent = message;
+                confirmModal.style.display = 'flex'; // Use flex to center it
+                const newConfirmBtn = modalConfirmBtn.cloneNode(true);
+                modalConfirmBtn.parentNode.replaceChild(newConfirmBtn, modalConfirmBtn);
+                newConfirmBtn.addEventListener('click', () => {
+                    confirmModal.style.display = 'none';
+                    onConfirmCallback();
+                });
+            };
+            
+            modalCancelBtn.addEventListener('click', () => confirmModal.style.display = 'none');
+
+            const showSuccessModal = (title, message) => {
+                successModalTitle.textContent = title;
+                successModalMessage.textContent = message;
+                successModal.style.display = 'flex'; // Use flex to center it
+            };
+
+            successModalOkBtn.addEventListener('click', () => successModal.style.display = 'none');
+
+            const saveDropdownOptions = () => localStorage.setItem('dropdownData', JSON.stringify(dropdownOptions));
+            const loadDropdownOptions = () => {
+                const savedData = localStorage.getItem('dropdownData');
+                dropdownOptions = savedData ? JSON.parse(savedData) : defaultDropdownOptions;
+            };
+            
+            const showView = (viewId) => {
+                viewPanels.forEach(panel => {
+                    panel.id === viewId ? panel.classList.remove('hidden') : panel.classList.add('hidden');
+                });
+                if (viewId === 'ob-entery-view') updateObNumberDisplay();
+            };
+
+            const populateDropdown = (selectElement, options) => {
+                selectElement.innerHTML = '';
+                options.forEach(optionText => {
+                    const option = document.createElement('option');
+                    option.value = optionText;
+                    option.textContent = optionText;
+                    selectElement.appendChild(option);
+                });
+            };
+
+            const renderCategoryEditor = (categoryKey) => {
+                const categoryData = dropdownOptions[categoryKey];
+                editingCategoryName.textContent = `Editing: ${categorySelector.options[categorySelector.selectedIndex].text}`;
+                categoryItemList.innerHTML = '';
+                categoryData.forEach((item, index) => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'flex justify-between items-center p-2 bg-white rounded-md shadow-sm';
+                    itemDiv.innerHTML = `
+                        <span class="flex-grow">${item}</span>
+                        <button data-item="${item}" data-index="${index}" class="text-red-500 hover:text-red-700 font-bold delete-item-btn p-1">X</button>
+                    `;
+                    categoryItemList.appendChild(itemDiv);
+                });
+            };
+
+            const updateObNumberDisplay = () => {
+                obNumberDisplay.textContent = obCounter;
+                createdDateEl.textContent = new Date().toLocaleString();
+            };
+
+            const handleAddItem = () => {
+                const selectedCategory = categorySelector.value;
+                const newItem = newItemInput.value.trim();
+                if (newItem && !dropdownOptions[selectedCategory].includes(newItem)) {
+                    showConfirmationModal(`Are you sure you want to add "${newItem}"?`, () => {
+                        dropdownOptions[selectedCategory].push(newItem);
+                        saveDropdownOptions();
+                        renderCategoryEditor(selectedCategory);
+                        updateAllDropdowns();
+                        newItemInput.value = '';
+                        showSuccessModal('Success', `Successfully added "${newItem}".`);
+                    });
+                } else if (newItem) {
+                    showSuccessModal('Error', `Item "${newItem}" already exists in this category.`);
+                }
+            };
+
+            const handleDeleteItem = (event) => {
+                const deleteButton = event.target.closest('.delete-item-btn');
+                if (deleteButton) {
+                    const selectedCategory = categorySelector.value;
+                    const itemIndex = parseInt(deleteButton.dataset.index, 10);
+                    const itemToDelete = deleteButton.dataset.item;
+                    showConfirmationModal(`Are you sure you want to delete "${itemToDelete}"?`, () => {
+                        dropdownOptions[selectedCategory].splice(itemIndex, 1);
+                        saveDropdownOptions();
+                        renderCategoryEditor(selectedCategory);
+                        updateAllDropdowns();
+                        showSuccessModal('Success', `Successfully deleted "${itemToDelete}".`);
+                    });
+                }
+            };
+            
+            const updateAllDropdowns = () => {
+                populateDropdown(obTypeSelect, dropdownOptions.obType);
+                populateDropdown(policeStationSelect, dropdownOptions.policeStation);
+                populateDropdown(followUpUserSelect, dropdownOptions.followUpUser);
+            };
+            
+            const handleSaveRecord = () => {
+                const actionText = currentRecordAction.charAt(0).toUpperCase() + currentRecordAction.slice(1);
+                const obNumber = obNumberDisplay.textContent;
+                
+                showConfirmationModal(`Are you sure you want to ${currentRecordAction} record OB-${obNumber}?`, () => {
+                    // Simulate saving logic
+                    let successMessage = `Record OB-${obNumber} has been successfully ${currentRecordAction}d.`;
+                    if (currentRecordAction === 'add') {
+                        const savedNumber = obCounter;
+                        obCounter++;
+                        updateObNumberDisplay();
+                        successMessage = `Record OB-${savedNumber} has been successfully saved.`
+                    }
+                    
+                    showSuccessModal('Success', successMessage);
+                });
+            };
+
+            // --- EVENT LISTENERS ---
+            sidebarNav.addEventListener('click', (event) => {
+                const clickedButton = event.target.closest('button');
+                if (!clickedButton || !clickedButton.dataset.view) return;
+
+                sidebarNav.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('active-btn', 'bg-blue-500', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700');
+                });
+                clickedButton.classList.add('active-btn', 'bg-blue-500', 'text-white');
+                clickedButton.classList.remove('bg-gray-200', 'text-gray-700');
+
+                showView(clickedButton.dataset.view);
+            });
+            
+            obActionButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentRecordAction = btn.dataset.action;
+                    obActionButtons.forEach(b => b.classList.remove('action-btn-active', 'bg-blue-500', 'text-white'));
+                    btn.classList.add('action-btn-active', 'bg-blue-500', 'text-white');
+                });
+            });
+
+            saveRecordBtn.addEventListener('click', handleSaveRecord);
+
+            categorySelector.addEventListener('change', () => renderCategoryEditor(categorySelector.value));
+            addItemBtn.addEventListener('click', handleAddItem);
+            newItemInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddItem(); });
+            categoryItemList.addEventListener('click', handleDeleteItem);
+
+            // --- INITIALIZATION ---
+            const initializeApp = () => {
+                loadDropdownOptions();
+                updateAllDropdowns();
+                updateObNumberDisplay();
+                renderCategoryEditor(categorySelector.value);
+            };
+
+            initializeApp();
+        });
+    </script>
+</body>
+</html>

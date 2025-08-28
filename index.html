@@ -222,9 +222,7 @@
                                         <div class="flex items-center">
                                             <label class="w-1/3 text-gray-600 font-medium">Area:</label>
                                             <div class="flex w-2/3">
-                                                <select class="p-2 border rounded-md w-full">
-                                                    <option>No Area Selected</option>
-                                                </select>
+                                                <select id="area-select" class="p-2 border rounded-md w-full"></select>
                                             </div>
                                         </div>
                                     </div>
@@ -297,6 +295,7 @@
                                 <option value="obType">OB Type</option>
                                 <option value="policeStation">Police Station</option>
                                 <option value="followUpUser">Follow up User</option>
+                                <option value="area">Area</option>
                             </select>
                         </div>
                         <div id="editor-panel">
@@ -362,7 +361,17 @@
                     "Umbilo", "Umhlali", "Umkomaas", "Umlazi", "Umsinga", "Umzinto", "Umzinto North", "Underberg", "Utrecht", "Van Reenen", "Verulam", "Vryheid", 
                     "Wartburg", "Weenen", "Wentworth", "Westville"
                 ],
-                followUpUser: ["No User Selected", "Admin", "Operator 1", "Investigator"]
+                followUpUser: ["No User Selected", "Admin", "Operator 1", "Investigator"],
+                area: [
+                    "No Area Selected", "AMAOTI", "ATHLONE", "AVOCA", "AVOCA HILLS", "BALLITO", "BELLAIR", "BEREA", "BLUFF", "BRIARDENE", "CHESTERVILLE", "CLAREMONT", "CORNUBIA", 
+                    "DURBAN CENTRAL", "DURBAN NORTH", "EFFINGHAM", "GLEN ANIL", "GLEN HILLS", "GLENASHLEY", "GREENWOOD PARK", "HERWOOD PARK", "INANDA", "IZINGA RIDGE", 
+                    "KENVILLE", "KWA MASHU", "LA LUCIA", "LA LUCIA RIDGE", "LOWER LA LUCIA", "LOWER UMHLANGA", "M4 SOUTHERN FREEWAY", "MAPHUMULO", "MORNINGSIDE", 
+                    "MOUNT EDGECOMBE", "MOUNT MORIAH", "N2 FREEWAY", "N2/M7 FREEWAY", "NDWEDWE", "NEWLANDS EAST", "NEWLANDS WEST", "NKANDLA", "NTUZUMU", "PARK HILL", 
+                    "PHOENIX", "PINETOWN", "PRESTONDALE", "RED HILL", "RICHMOND", "RIVERHORSE VALLEY", "ROSEHILL", "SALT ROCK", "SAVANAH PARK", "SEACOWLAKE", 
+                    "SHEFFIELD BEACH", "SHERWOOD", "SOMERSET PARK", "SOUTH LYING AREAS", "SPRINGFIELD", "SPRINGFIELD PARK", "STAMFORDHILL", "SUNNINGDALE", "UMDLOTI", 
+                    "UMGENI PARK", "UMHLALI", "UMHLANGA", "UMHLANGA MANORS", "UMHLANGA RIDGE", "VERULAM", "VIRGINIA", "WESTBROOK", "WESTMEAD - SECTOR ONE", 
+                    "WESTMEAD SECTOR TWO", "WESTVILLE", "WYEBANK"
+                ]
             };
 
             // --- ELEMENT REFERENCES ---
@@ -374,6 +383,7 @@
             const obTypeSelect = document.getElementById('ob-type-select');
             const policeStationSelect = document.getElementById('police-station-select');
             const followUpUserSelect = document.getElementById('follow-up-user-select');
+            const areaSelect = document.getElementById('area-select');
             const categorySelector = document.getElementById('category-selector');
             const editingCategoryName = document.getElementById('editing-category-name');
             const categoryItemList = document.getElementById('category-item-list');
@@ -518,6 +528,7 @@
                 populateDropdown(obTypeSelect, dropdownOptions.obType);
                 populateDropdown(policeStationSelect, dropdownOptions.policeStation);
                 populateDropdown(followUpUserSelect, dropdownOptions.followUpUser);
+                populateDropdown(areaSelect, dropdownOptions.area);
             };
             
             const handleSaveRecord = () => {

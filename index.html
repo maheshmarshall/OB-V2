@@ -120,7 +120,7 @@
             </aside>
 
             <!-- Main Content Area -->
-            <main id="main-content" class="flex-1 p-6 md:p-10">
+            <main id="main-content" class="flex-1 p-6 md:p-10 overflow-auto">
                 <!-- Default View (Now hidden by default) -->
                 <div id="default-view" class="view-panel hidden flex items-center justify-center h-full border-2 border-dashed border-gray-300 rounded-xl">
                     <h1 class="text-2xl md:text-3xl font-bold text-gray-500">Select an option from the sidebar</h1>
@@ -197,7 +197,7 @@
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">SAP 13 Number:</label>
                                     <div class="flex items-center w-2/3 space-x-2">
-                                        <input type="text" class="p-2 border rounded-md flex-grow" placeholder="Number" oninput="this.style.width = ((this.value.length + 1) * 8) + 'px';">
+                                        <input type="text" id="sap-number-input" class="p-2 border rounded-md shrink-0" placeholder="Number">
                                         <span class="text-gray-500">/</span>
                                         <select id="sap-month-select" class="p-2 border rounded-md"></select>
                                         <span class="text-gray-500">/</span>
@@ -289,6 +289,44 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <!-- Suspicious Vehicles Section -->
+                            <div class="border-t pt-6 mt-6">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Suspicious Vehicles</h3>
+                                <div class="space-y-4">
+                                    <div class="flex justify-end mb-2">
+                                        <button type="button" id="add-vehicle-btn" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect">Add Vehicle</button>
+                                    </div>
+                                    <div class="overflow-x-auto">
+                                        <table class="min-w-full bg-white border">
+                                            <thead class="bg-gray-200">
+                                                <tr>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Registration</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Make</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Model</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Colour</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="suspicious-vehicles-tbody">
+                                                <!-- Dynamic rows will be inserted here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                                        <div class="flex items-center">
+                                            <input id="bolo-checkbox" type="checkbox" class="h-5 w-5 mr-2">
+                                            <label for="bolo-checkbox" class="text-gray-600 font-medium">BOLO (Be on the Lookout)</label>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-1 gap-6">
+                                         <div class="flex">
+                                            <label class="w-1/6 text-gray-600 font-medium">Comments:</label>
+                                            <textarea class="p-2 border rounded-md w-5/6 h-24"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 
                             <!-- Save Button -->
@@ -310,6 +348,7 @@
                                 <option value="policeStation">Police Station</option>
                                 <option value="followUpUser">Follow up User</option>
                                 <option value="area">Area</option>
+                                <option value="vehicleMake">Vehicle Make</option>
                             </select>
                         </div>
                         <div id="editor-panel">
@@ -385,6 +424,9 @@
                     "SHEFFIELD BEACH", "SHERWOOD", "SOMERSET PARK", "SOUTH LYING AREAS", "SPRINGFIELD", "SPRINGFIELD PARK", "STAMFORDHILL", "SUNNINGDALE", "UMDLOTI", 
                     "UMGENI PARK", "UMHLALI", "UMHLANGA", "UMHLANGA MANORS", "UMHLANGA RIDGE", "VERULAM", "VIRGINIA", "WESTBROOK", "WESTMEAD - SECTOR ONE", 
                     "WESTMEAD SECTOR TWO", "WESTVILLE", "WYEBANK"
+                ],
+                vehicleMake: [
+                    "No vehicle selected", "Volkswagen", "Toyota", "Hyundai", "Isuzu", "Nissan", "Alfa Romeo", "Audi", "BMW", "Chery", "Chevrolet", "Chrysler", "Citroen", "Datsun", "Dodge", "Fiat", "Ford", "Haval", "Honda", "Infiniti", "Jaguar", "Jeep", "Kia", "LandRover", "Lexus", "Mahindra", "Mazda", "Mercedes-Benz", "Mini", "Mitsubishi", "Opel", "Peugeot", "Renault", "Saab", "Scion", "Seat", "Skoda", "Subaru", "Suzuki", "Volvo"
                 ]
             };
 
@@ -406,7 +448,10 @@
             const createdDateEl = document.getElementById('created-date');
             const sapMonthSelect = document.getElementById('sap-month-select');
             const sapYearSelect = document.getElementById('sap-year-select');
+            const sapNumberInput = document.getElementById('sap-number-input');
             const statusButtonsContainer = document.getElementById('status-buttons');
+            const addVehicleBtn = document.getElementById('add-vehicle-btn');
+            const suspiciousVehiclesTbody = document.getElementById('suspicious-vehicles-tbody');
             
             // Modal References
             const confirmModal = document.getElementById('confirmation-modal');
@@ -484,6 +529,44 @@
                     option.textContent = year;
                     sapYearSelect.appendChild(option);
                 }
+            };
+            
+            const autosizeInput = (inputElement) => {
+                if (!inputElement) return;
+                const tempSpan = document.createElement('span');
+                tempSpan.style.visibility = 'hidden';
+                tempSpan.style.position = 'absolute';
+                tempSpan.style.whiteSpace = 'nowrap';
+                tempSpan.style.font = window.getComputedStyle(inputElement).font;
+                
+                tempSpan.textContent = inputElement.value || inputElement.placeholder;
+                
+                document.body.appendChild(tempSpan);
+                const width = tempSpan.offsetWidth;
+                document.body.removeChild(tempSpan);
+
+                // Set a minimum width and add padding
+                inputElement.style.width = `${Math.max(60, width + 20)}px`;
+            };
+
+            const autosizeSelect = (selectElement) => {
+                if (!selectElement) return;
+                // Create a hidden span to measure text width
+                const tempSpan = document.createElement('span');
+                tempSpan.style.visibility = 'hidden';
+                tempSpan.style.position = 'absolute';
+                tempSpan.style.whiteSpace = 'nowrap';
+                tempSpan.style.font = window.getComputedStyle(selectElement).font;
+                
+                const selectedOption = selectElement.options[selectElement.selectedIndex];
+                tempSpan.textContent = selectedOption.textContent;
+                
+                document.body.appendChild(tempSpan);
+                const width = tempSpan.offsetWidth;
+                document.body.removeChild(tempSpan);
+
+                // Add some padding for the dropdown arrow and to prevent text clipping
+                selectElement.style.width = `${width + 30}px`;
             };
 
             const renderCategoryEditor = (categoryKey) => {
@@ -599,12 +682,51 @@
                 }
             });
 
+            addVehicleBtn.addEventListener('click', () => {
+                const newRow = document.createElement('tr');
+                const makeOptions = dropdownOptions.vehicleMake.map(make => `<option value="${make}">${make}</option>`).join('');
+                newRow.innerHTML = `
+                    <td class="border-b p-2"><input type="text" class="autosize-vehicle-input p-1 border rounded-md" placeholder="Registration"></td>
+                    <td class="border-b p-2"><select class="vehicle-make-select p-1 border rounded-md">${makeOptions}</select></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-vehicle-input p-1 border rounded-md" placeholder="Model"></td>
+                    <td class="border-b p-2"><input type="text" class="p-1 border rounded-md w-full" placeholder="Colour"></td>
+                    <td class="border-b p-2 text-center"><button type="button" class="remove-vehicle-btn text-red-500 font-bold px-2">X</button></td>
+                `;
+                suspiciousVehiclesTbody.appendChild(newRow);
+                
+                const newSelect = newRow.querySelector('.vehicle-make-select');
+                autosizeSelect(newSelect);
+                
+                const newInputs = newRow.querySelectorAll('.autosize-vehicle-input');
+                newInputs.forEach(input => autosizeInput(input));
+            });
+
+            suspiciousVehiclesTbody.addEventListener('click', (event) => {
+                if (event.target.classList.contains('remove-vehicle-btn')) {
+                    event.target.closest('tr').remove();
+                }
+            });
+
+            suspiciousVehiclesTbody.addEventListener('change', (event) => {
+                if (event.target.classList.contains('vehicle-make-select')) {
+                    autosizeSelect(event.target);
+                }
+            });
+
+            suspiciousVehiclesTbody.addEventListener('input', (event) => {
+                if (event.target.classList.contains('autosize-vehicle-input')) {
+                    autosizeInput(event.target);
+                }
+            });
+
             saveRecordBtn.addEventListener('click', handleSaveRecord);
 
             categorySelector.addEventListener('change', () => renderCategoryEditor(categorySelector.value));
             addItemBtn.addEventListener('click', handleAddItem);
             newItemInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddItem(); });
             categoryItemList.addEventListener('click', handleDeleteItem);
+
+            sapNumberInput.addEventListener('input', (event) => autosizeInput(event.target));
 
             // --- INITIALIZATION ---
             const initializeApp = () => {
@@ -613,6 +735,7 @@
                 populateSapDropdowns();
                 updateObNumberDisplay();
                 renderCategoryEditor(categorySelector.value);
+                autosizeInput(sapNumberInput);
             };
 
             initializeApp();
@@ -620,3 +743,6 @@
     </script>
 </body>
 </html>
+
+
+

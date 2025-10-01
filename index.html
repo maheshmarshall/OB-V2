@@ -55,6 +55,10 @@
         .modal-hidden {
             display: none;
         }
+        .autosize-person-textarea {
+            resize: none;
+            overflow-y: hidden;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -79,7 +83,7 @@
         </div>
     </div>
 
-    <!-- Success Notification Modal -->
+    <!-- Success/Notification Modal -->
     <div id="success-modal" class="modal-hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50">
         <div class="relative mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
             <div class="mt-3 text-center">
@@ -197,7 +201,7 @@
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">SAP 13 Number:</label>
                                     <div class="flex items-center w-2/3 space-x-2">
-                                        <input type="text" id="sap-number-input" class="p-2 border rounded-md shrink-0" placeholder="Number">
+                                        <input type="text" id="sap-number-input" class="p-2 border rounded-md shrink-0 numeric-only" placeholder="Number">
                                         <span class="text-gray-500">/</span>
                                         <select id="sap-month-select" class="p-2 border rounded-md"></select>
                                         <span class="text-gray-500">/</span>
@@ -248,7 +252,7 @@
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
                                         <div class="flex items-center">
                                             <label class="w-1/3 text-gray-600 font-medium">Contact No:</label>
-                                            <input type="text" class="p-2 border rounded-md w-2/3">
+                                            <input type="text" id="contact-no-input" class="p-2 border rounded-md w-2/3 numeric-only">
                                         </div>
                                     </div>
                                     <div class="grid grid-cols-1 gap-6 bg-blue-50 p-4 rounded-md">
@@ -327,6 +331,37 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <!-- Persons of Interest Section -->
+                            <div class="border-t pt-6 mt-6">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Persons of Interest</h3>
+                                <div class="space-y-4">
+                                    <div class="flex justify-end mb-2">
+                                        <button type="button" id="add-person-btn" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect">Add Person</button>
+                                    </div>
+                                    <div class="overflow-x-auto">
+                                        <table class="min-w-full bg-white border">
+                                            <thead class="bg-gray-200">
+                                                <tr>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Firstname</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Lastname</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Age</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Ethnicity</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Hair</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Eye</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Gender</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Id</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Description</th>
+                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="persons-of-interest-tbody">
+                                                <!-- Dynamic rows will be inserted here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
 
 
                             <!-- Save Button -->
@@ -349,6 +384,7 @@
                                 <option value="followUpUser">Follow up User</option>
                                 <option value="area">Area</option>
                                 <option value="vehicleMake">Vehicle Make</option>
+                                <option value="ethnicity">Ethnicity</option>
                             </select>
                         </div>
                         <div id="editor-panel">
@@ -382,6 +418,7 @@
             let obCounter = 1;
             let currentRecordAction = 'add'; // Default action
             let dropdownOptions; // Will be loaded from localStorage or defaults
+            let personRowCounter = 0;
 
             // Default data structure in case localStorage is empty
             const defaultDropdownOptions = {
@@ -427,6 +464,9 @@
                 ],
                 vehicleMake: [
                     "No vehicle selected", "Volkswagen", "Toyota", "Hyundai", "Isuzu", "Nissan", "Alfa Romeo", "Audi", "BMW", "Chery", "Chevrolet", "Chrysler", "Citroen", "Datsun", "Dodge", "Fiat", "Ford", "Haval", "Honda", "Infiniti", "Jaguar", "Jeep", "Kia", "LandRover", "Lexus", "Mahindra", "Mazda", "Mercedes-Benz", "Mini", "Mitsubishi", "Opel", "Peugeot", "Renault", "Saab", "Scion", "Seat", "Skoda", "Subaru", "Suzuki", "Volvo"
+                ],
+                ethnicity: [
+                    "No Ethnicity Selected", "Asian", "Black", "Coloured", "Indian", "White", "Other"
                 ]
             };
 
@@ -452,7 +492,10 @@
             const statusButtonsContainer = document.getElementById('status-buttons');
             const addVehicleBtn = document.getElementById('add-vehicle-btn');
             const suspiciousVehiclesTbody = document.getElementById('suspicious-vehicles-tbody');
-            
+            const addPersonBtn = document.getElementById('add-person-btn');
+            const personsOfInterestTbody = document.getElementById('persons-of-interest-tbody');
+            const obForm = document.getElementById('ob-form');
+
             // Modal References
             const confirmModal = document.getElementById('confirmation-modal');
             const confirmModalMessage = document.getElementById('confirm-modal-message');
@@ -501,6 +544,7 @@
             };
 
             const populateDropdown = (selectElement, options) => {
+                if (!selectElement) return;
                 selectElement.innerHTML = '';
                 options.forEach(optionText => {
                     const option = document.createElement('option');
@@ -559,7 +603,7 @@
                 tempSpan.style.font = window.getComputedStyle(selectElement).font;
                 
                 const selectedOption = selectElement.options[selectElement.selectedIndex];
-                tempSpan.textContent = selectedOption.textContent;
+                tempSpan.textContent = selectedOption ? selectedOption.textContent : '';
                 
                 document.body.appendChild(tempSpan);
                 const width = tempSpan.offsetWidth;
@@ -569,8 +613,14 @@
                 selectElement.style.width = `${width + 30}px`;
             };
 
+            const autosizeTextarea = (textarea) => {
+                if (!textarea) return;
+                textarea.style.height = 'auto'; // Reset height
+                textarea.style.height = textarea.scrollHeight + 'px'; // Set to scroll height
+            }
+
             const renderCategoryEditor = (categoryKey) => {
-                const categoryData = dropdownOptions[categoryKey];
+                const categoryData = dropdownOptions[categoryKey] || [];
                 editingCategoryName.textContent = `Editing: ${categorySelector.options[categorySelector.selectedIndex].text}`;
                 categoryItemList.innerHTML = '';
                 categoryData.forEach((item, index) => {
@@ -682,6 +732,31 @@
                 }
             });
 
+            obForm.addEventListener('input', (event) => {
+                const target = event.target;
+
+                // Handle numeric-only fields
+                if (target.classList.contains('numeric-only')) {
+                    const originalValue = target.value;
+                    const numericValue = originalValue.replace(/[^0-9]/g, '');
+
+                    if (originalValue !== numericValue) {
+                        target.value = numericValue;
+                        showSuccessModal('Invalid Input', 'Only numbers are allowed in this field.');
+                    }
+                }
+
+                // Handle autosizing for various text inputs
+                if (target.matches('#sap-number-input, .autosize-vehicle-input, .autosize-person-input, #contact-no-input')) {
+                    autosizeInput(target);
+                }
+
+                // Handle autosizing for textareas
+                if (target.matches('.autosize-person-textarea')) {
+                    autosizeTextarea(target);
+                }
+            });
+
             addVehicleBtn.addEventListener('click', () => {
                 const newRow = document.createElement('tr');
                 const makeOptions = dropdownOptions.vehicleMake.map(make => `<option value="${make}">${make}</option>`).join('');
@@ -690,7 +765,7 @@
                     <td class="border-b p-2"><select class="vehicle-make-select p-1 border rounded-md">${makeOptions}</select></td>
                     <td class="border-b p-2"><input type="text" class="autosize-vehicle-input p-1 border rounded-md" placeholder="Model"></td>
                     <td class="border-b p-2"><input type="text" class="p-1 border rounded-md w-full" placeholder="Colour"></td>
-                    <td class="border-b p-2 text-center"><button type="button" class="remove-vehicle-btn text-red-500 font-bold px-2">X</button></td>
+                    <td class="border-b p-2 text-center"><button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button></td>
                 `;
                 suspiciousVehiclesTbody.appendChild(newRow);
                 
@@ -702,7 +777,7 @@
             });
 
             suspiciousVehiclesTbody.addEventListener('click', (event) => {
-                if (event.target.classList.contains('remove-vehicle-btn')) {
+                if (event.target.classList.contains('remove-row-btn')) {
                     event.target.closest('tr').remove();
                 }
             });
@@ -713,11 +788,52 @@
                 }
             });
 
-            suspiciousVehiclesTbody.addEventListener('input', (event) => {
-                if (event.target.classList.contains('autosize-vehicle-input')) {
-                    autosizeInput(event.target);
+            addPersonBtn.addEventListener('click', () => {
+                personRowCounter++; // Increment for a unique name
+                const genderName = `gender-${personRowCounter}`;
+                const newRow = document.createElement('tr');
+                const ethnicityOptions = dropdownOptions.ethnicity.map(e => `<option value="${e}">${e}</option>`).join('');
+                newRow.innerHTML = `
+                    <td class="border-b p-2"><input type="text" class="autosize-person-input p-1 border rounded-md" placeholder="Firstname"></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-person-input p-1 border rounded-md" placeholder="Lastname"></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-person-input numeric-only p-1 border rounded-md" placeholder="Age"></td>
+                    <td class="border-b p-2"><select class="person-ethnicity-select p-1 border rounded-md">${ethnicityOptions}</select></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-person-input p-1 border rounded-md" placeholder="Hair"></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-person-input p-1 border rounded-md" placeholder="Eye"></td>
+                    <td class="border-b p-2">
+                        <div class="flex items-center gap-x-3 p-1">
+                            <label class="flex items-center gap-1 text-sm whitespace-nowrap"><input type="radio" name="${genderName}" value="Male">Male</label>
+                            <label class="flex items-center gap-1 text-sm whitespace-nowrap"><input type="radio" name="${genderName}" value="Female">Female</label>
+                        </div>
+                    </td>
+                    <td class="border-b p-2"><input type="text" class="autosize-person-input numeric-only p-1 border rounded-md" placeholder="Id"></td>
+                    <td class="border-b p-2"><textarea class="autosize-person-textarea p-1 border rounded-md w-full" rows="1" placeholder="Description"></textarea></td>
+                    <td class="border-b p-2 text-center"><button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button></td>
+                `;
+                personsOfInterestTbody.appendChild(newRow);
+
+                // Initialize autosizing for new elements
+                const newEthnicitySelect = newRow.querySelector('.person-ethnicity-select');
+                const newInputs = newRow.querySelectorAll('.autosize-person-input');
+                const newDescriptionTextarea = newRow.querySelector('.autosize-person-textarea');
+                
+                autosizeSelect(newEthnicitySelect);
+                newInputs.forEach(input => autosizeInput(input));
+                autosizeTextarea(newDescriptionTextarea);
+            });
+
+            personsOfInterestTbody.addEventListener('click', (event) => {
+                if (event.target.classList.contains('remove-row-btn')) {
+                    event.target.closest('tr').remove();
                 }
             });
+
+            personsOfInterestTbody.addEventListener('change', (event) => {
+                if (event.target.classList.contains('person-ethnicity-select')) {
+                    autosizeSelect(event.target);
+                }
+            });
+
 
             saveRecordBtn.addEventListener('click', handleSaveRecord);
 
@@ -725,8 +841,6 @@
             addItemBtn.addEventListener('click', handleAddItem);
             newItemInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddItem(); });
             categoryItemList.addEventListener('click', handleDeleteItem);
-
-            sapNumberInput.addEventListener('input', (event) => autosizeInput(event.target));
 
             // --- INITIALIZATION ---
             const initializeApp = () => {
@@ -743,6 +857,4 @@
     </script>
 </body>
 </html>
-
-
 

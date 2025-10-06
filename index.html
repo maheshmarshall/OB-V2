@@ -113,23 +113,18 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
                     </button>
                     <!-- Navigation Button: Category Edit -->
-                    <button id="category-edit-btn" data-view="category-edit-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Category Edit</button>
+                    <button data-view="category-edit-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Category Edit</button>
                     
                     <!-- Other Navigation Buttons -->
-                    <button data-view="default-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Recoveries</button>
-                    <button data-view="default-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Complaints</button>
-                    <button data-view="default-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Positive Arrests</button>
-                    <button data-view="default-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Add/Remove Users</button>
+                    <button data-view="recoveries-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Recoveries</button>
+                    <button data-view="complaints-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Complaints</button>
+                    <button data-view="positive-arrests-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Positive Arrests</button>
+                    <button data-view="add-remove-users-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Add/Remove Users</button>
                 </nav>
             </aside>
 
             <!-- Main Content Area -->
             <main id="main-content" class="flex-1 p-6 md:p-10 overflow-auto">
-                <!-- Default View (Now hidden by default) -->
-                <div id="default-view" class="view-panel hidden flex items-center justify-center h-full border-2 border-dashed border-gray-300 rounded-xl">
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-500">Select an option from the sidebar</h1>
-                </div>
-
                 <!-- OB Entry View (Now visible by default) -->
                 <div id="ob-entry-view" class="view-panel">
                     <div id="ob-actions" class="flex justify-center space-x-4 mb-6">
@@ -404,6 +399,130 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Recoveries View -->
+                <div id="recoveries-view" class="view-panel hidden">
+                     <div id="recoveries-actions" class="flex justify-center space-x-4 mb-6">
+                        <button data-action="add" class="ob-action-btn px-6 py-2 rounded-lg bg-blue-500 text-white font-semibold shadow-md btn-hover-effect action-btn-active">Add Record</button>
+                        <button data-action="remove" class="ob-action-btn px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Remove Record</button>
+                        <button data-action="update" class="ob-action-btn px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Update Record</button>
+                        <button data-action="view" class="ob-action-btn px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">View Record</button>
+                    </div>
+                    <div class="border rounded-lg p-6 bg-gray-50">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">Recoveries</h2>
+                        <form class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Date and Time:</label>
+                                    <input type="datetime-local" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Name:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Division:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Recovery Type:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Incident Type:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Duration of Incident:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Registration:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Vin Number:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Items Recovered:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Vehicle Brand:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Make of vehicle:</label>
+                                    <select id="recovery-vehicle-make-select" class="p-2 border rounded-md w-2/3"></select>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Police Station (From):</label>
+                                    <select id="recovery-ps-from-select" class="p-2 border rounded-md w-2/3"></select>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Case number:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Police Station (Recovered):</label>
+                                    <select id="recovery-ps-recovered-select" class="p-2 border rounded-md w-2/3"></select>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Estimated Value of vehicle:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                 <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Estimated Value of Items:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                 <div class="flex items-center col-span-1 md:col-span-2">
+                                    <label class="w-1/6 text-gray-600 font-medium">Address Of Incident:</label>
+                                    <textarea class="p-2 border rounded-md w-5/6 h-20"></textarea>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Coordinates (Recovery):</label>
+                                    <div class="flex w-2/3 gap-2">
+                                        <input type="text" placeholder="Latitude" class="p-2 border rounded-md w-1/2">
+                                        <input type="text" placeholder="Longitude" class="p-2 border rounded-md w-1/2">
+                                    </div>
+                                </div>
+                                 <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Marshall OB number:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Recovered by:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Photo of Vehicle Stolen:</label>
+                                    <input type="file" class="p-1 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Photo of Items Stolen:</label>
+                                    <input type="file" class="p-1 border rounded-md w-2/3">
+                                </div>
+                            </div>
+                             <div class="flex justify-end pt-4">
+                                <button type="button" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Recovery</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="complaints-view" class="view-panel hidden flex items-center justify-center h-full border-2 border-dashed border-gray-300 rounded-xl">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-500">Complaints</h1>
+                </div>
+                <div id="positive-arrests-view" class="view-panel hidden flex items-center justify-center h-full border-2 border-dashed border-gray-300 rounded-xl">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-500">Positive Arrests</h1>
+                </div>
+                <div id="add-remove-users-view" class="view-panel hidden flex items-center justify-center h-full border-2 border-dashed border-gray-300 rounded-xl">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-500">Add/Remove Users</h1>
+                </div>
             </main>
         </div>
     </div>
@@ -495,6 +614,9 @@
             const addPersonBtn = document.getElementById('add-person-btn');
             const personsOfInterestTbody = document.getElementById('persons-of-interest-tbody');
             const obForm = document.getElementById('ob-form');
+            const recoveryVehicleMakeSelect = document.getElementById('recovery-vehicle-make-select');
+            const recoveryPsFromSelect = document.getElementById('recovery-ps-from-select');
+            const recoveryPsRecoveredSelect = document.getElementById('recovery-ps-recovered-select');
 
             // Modal References
             const confirmModal = document.getElementById('confirmation-modal');
@@ -685,6 +807,10 @@
                 populateDropdown(policeStationSelect, dropdownOptions.policeStation);
                 populateDropdown(followUpUserSelect, dropdownOptions.followUpUser);
                 populateDropdown(areaSelect, dropdownOptions.area);
+                // Also populate recoveries dropdowns
+                populateDropdown(recoveryVehicleMakeSelect, dropdownOptions.vehicleMake);
+                populateDropdown(recoveryPsFromSelect, dropdownOptions.policeStation);
+                populateDropdown(recoveryPsRecoveredSelect, dropdownOptions.policeStation);
             };
             
             const handleSaveRecord = () => {
@@ -844,11 +970,21 @@
 
 
             saveRecordBtn.addEventListener('click', handleSaveRecord);
-
-            categorySelector.addEventListener('change', () => renderCategoryEditor(categorySelector.value));
-            addItemBtn.addEventListener('click', handleAddItem);
-            newItemInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddItem(); });
-            categoryItemList.addEventListener('click', handleDeleteItem);
+            
+            // Category Editor event listeners
+            const categoryEditBtn = document.querySelector('[data-view="category-edit-view"]');
+            const categoryEditorView = document.getElementById('category-edit-view');
+            const categorySelectorElem = document.getElementById('category-selector');
+            const editorPanel = document.getElementById('editor-panel');
+            const editingCategoryNameElem = document.getElementById('editing-category-name');
+            const categoryItemListElem = document.getElementById('category-item-list');
+            const newItemInputElem = document.getElementById('new-item-input');
+            const addItemBtnElem = document.getElementById('add-item-btn');
+            
+            categorySelectorElem.addEventListener('change', () => renderCategoryEditor(categorySelectorElem.value));
+            addItemBtnElem.addEventListener('click', handleAddItem);
+            newItemInputElem.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddItem(); });
+            categoryItemListElem.addEventListener('click', handleDeleteItem);
 
             // --- INITIALIZATION ---
             const initializeApp = () => {
@@ -856,8 +992,8 @@
                 updateAllDropdowns();
                 populateSapDropdowns();
                 updateObNumberDisplay();
-                renderCategoryEditor(categorySelector.value);
                 autosizeInput(sapNumberInput);
+                renderCategoryEditor(categorySelectorElem.value);
             };
 
             initializeApp();

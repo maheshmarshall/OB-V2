@@ -531,9 +531,17 @@
             successModalOkBtn.addEventListener('click', () => successModal.style.display = 'none');
 
             const saveDropdownOptions = () => localStorage.setItem('dropdownData', JSON.stringify(dropdownOptions));
+            
             const loadDropdownOptions = () => {
                 const savedData = localStorage.getItem('dropdownData');
-                dropdownOptions = savedData ? JSON.parse(savedData) : defaultDropdownOptions;
+                const savedOptions = savedData ? JSON.parse(savedData) : {};
+                // Robustly merge defaults with saved data.
+                dropdownOptions = { ...defaultDropdownOptions };
+                for (const key in savedOptions) {
+                    if (Object.hasOwnProperty.call(savedOptions, key) && Array.isArray(savedOptions[key])) {
+                        dropdownOptions[key] = savedOptions[key];
+                    }
+                }
             };
             
             const showView = (viewId) => {

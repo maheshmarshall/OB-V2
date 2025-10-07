@@ -380,6 +380,9 @@
                                 <option value="area">Area</option>
                                 <option value="vehicleMake">Vehicle Make</option>
                                 <option value="ethnicity">Ethnicity</option>
+                                <option value="division">Division</option>
+                                <option value="recoveryType">Recovery Type</option>
+                                <option value="incidentType">Incident Type</option>
                             </select>
                         </div>
                         <div id="editor-panel">
@@ -422,15 +425,15 @@
                                 </div>
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">Division:</label>
-                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                    <select id="recovery-division-select" class="p-2 border rounded-md w-2/3"></select>
                                 </div>
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">Recovery Type:</label>
-                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                    <select id="recovery-type-select" class="p-2 border rounded-md w-2/3"></select>
                                 </div>
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">Incident Type:</label>
-                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                    <select id="recovery-incident-type-select" class="p-2 border rounded-md w-2/3"></select>
                                 </div>
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">Duration of Incident:</label>
@@ -450,11 +453,11 @@
                                 </div>
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">Vehicle Brand:</label>
-                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                    <select id="recovery-vehicle-brand-select" class="p-2 border rounded-md w-2/3"></select>
                                 </div>
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">Make of vehicle:</label>
-                                    <select id="recovery-vehicle-make-select" class="p-2 border rounded-md w-2/3"></select>
+                                     <input type="text" class="p-2 border rounded-md w-2/3">
                                 </div>
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">Police Station (From):</label>
@@ -586,6 +589,15 @@
                 ],
                 ethnicity: [
                     "No Ethnicity Selected", "Asian", "Black", "Coloured", "Indian", "White", "Other"
+                ],
+                division: [
+                    "No Division Selected", "SOT", "Reaction", "WestMead (Sector 1)", "WestMead (Sector 2)"
+                ],
+                recoveryType: [
+                    "No Recovery Type Selected", "Vehicle", "Items"
+                ],
+                incidentType: [
+                    "No Incident Type Selected", "HIJACKED", "STOLEN", "MISSING PERSON", "HOUSE BREAKING", "SNIPR", "FRAUD", "THEFT"
                 ]
             };
 
@@ -614,9 +626,12 @@
             const addPersonBtn = document.getElementById('add-person-btn');
             const personsOfInterestTbody = document.getElementById('persons-of-interest-tbody');
             const obForm = document.getElementById('ob-form');
-            const recoveryVehicleMakeSelect = document.getElementById('recovery-vehicle-make-select');
+            const recoveryVehicleBrandSelect = document.getElementById('recovery-vehicle-brand-select');
             const recoveryPsFromSelect = document.getElementById('recovery-ps-from-select');
             const recoveryPsRecoveredSelect = document.getElementById('recovery-ps-recovered-select');
+            const recoveryDivisionSelect = document.getElementById('recovery-division-select');
+            const recoveryTypeSelect = document.getElementById('recovery-type-select');
+            const recoveryIncidentTypeSelect = document.getElementById('recovery-incident-type-select');
 
             // Modal References
             const confirmModal = document.getElementById('confirmation-modal');
@@ -808,9 +823,12 @@
                 populateDropdown(followUpUserSelect, dropdownOptions.followUpUser);
                 populateDropdown(areaSelect, dropdownOptions.area);
                 // Also populate recoveries dropdowns
-                populateDropdown(recoveryVehicleMakeSelect, dropdownOptions.vehicleMake);
+                populateDropdown(recoveryVehicleBrandSelect, dropdownOptions.vehicleMake);
                 populateDropdown(recoveryPsFromSelect, dropdownOptions.policeStation);
                 populateDropdown(recoveryPsRecoveredSelect, dropdownOptions.policeStation);
+                populateDropdown(recoveryDivisionSelect, dropdownOptions.division);
+                populateDropdown(recoveryTypeSelect, dropdownOptions.recoveryType);
+                populateDropdown(recoveryIncidentTypeSelect, dropdownOptions.incidentType);
             };
             
             const handleSaveRecord = () => {

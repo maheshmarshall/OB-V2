@@ -383,6 +383,7 @@
                                 <option value="division">Division</option>
                                 <option value="recoveryType">Recovery Type</option>
                                 <option value="incidentType">Incident Type</option>
+                                <option value="natureOfCrime">Nature of Crime</option>
                             </select>
                         </div>
                         <div id="editor-panel">
@@ -530,8 +531,139 @@
                 <div id="complaints-view" class="view-panel hidden flex items-center justify-center h-full border-2 border-dashed border-gray-300 rounded-xl">
                     <h1 class="text-2xl md:text-3xl font-bold text-gray-500">Complaints</h1>
                 </div>
-                <div id="positive-arrests-view" class="view-panel hidden flex items-center justify-center h-full border-2 border-dashed border-gray-300 rounded-xl">
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-500">Positive Arrests</h1>
+                <div id="positive-arrests-view" class="view-panel hidden">
+                     <div id="positive-arrests-actions" class="flex justify-center space-x-4 mb-6">
+                        <button data-action="add" class="ob-action-btn px-6 py-2 rounded-lg bg-blue-500 text-white font-semibold shadow-md btn-hover-effect action-btn-active">Add Record</button>
+                        <button data-action="remove" class="ob-action-btn px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Remove Record</button>
+                        <button data-action="update" class="ob-action-btn px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Update Record</button>
+                        <button data-action="view" class="ob-action-btn px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">View Record</button>
+                    </div>
+                    <div class="border rounded-lg p-6 bg-gray-50">
+                        <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">Positive Arrests</h2>
+                        <form id="positive-arrests-form" class="space-y-6">
+                            <!-- Basic Info -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Date Time Captured:</label>
+                                    <input type="datetime-local" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Information Entered by:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Division:</label>
+                                    <select id="pa-division-select" class="p-2 border rounded-md w-2/3"></select>
+                                </div>
+                                <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Date:</label>
+                                    <input type="date" class="p-2 border rounded-md w-2/3">
+                                </div>
+                                <div class="flex items-center col-span-1 md:col-span-2">
+                                    <label class="w-1/6 text-gray-600 font-medium">Address of Crime:</label>
+                                    <textarea class="p-2 border rounded-md w-5/6 h-20"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Crime Details Sections -->
+                            <div id="crime-details-container" class="space-y-4">
+                                <!-- Crime 1 -->
+                                <div class="border-t pt-4 mt-4">
+                                     <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 1</h3>
+                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">Nature of Crime:</label>
+                                             <select class="pa-nature-crime-select p-2 border rounded-md w-2/3"></select>
+                                         </div>
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">Police station:</label>
+                                             <select class="pa-police-station-select p-2 border rounded-md w-2/3"></select>
+                                         </div>
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">SAPS Case number:</label>
+                                             <input type="text" class="p-2 border rounded-md w-2/3">
+                                         </div>
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
+                                             <div class="flex items-center w-2/3 space-x-2">
+                                                 <input type="text" class="p-2 border rounded-md shrink-0 numeric-only pa-sap-number" placeholder="Number">
+                                                 <span class="text-gray-500">/</span>
+                                                 <select class="p-2 border rounded-md pa-sap-month"></select>
+                                                 <span class="text-gray-500">/</span>
+                                                 <select class="p-2 border rounded-md pa-sap-year"></select>
+                                             </div>
+                                         </div>
+                                     </div>
+                                </div>
+                                <!-- Other crimes will be similar -->
+                            </div>
+
+                             <!-- Pictures Section -->
+                            <div class="border-t pt-4 mt-4">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Evidence Pictures</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">Pictures of Scene:</label>
+                                        <input type="file" multiple class="p-1 border rounded-md w-2/3">
+                                    </div>
+                                    <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">Picture of Statement:</label>
+                                        <input type="file" class="p-1 border rounded-md w-2/3">
+                                    </div>
+                                     <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">Picture of Statement 2:</label>
+                                        <input type="file" class="p-1 border rounded-md w-2/3">
+                                    </div>
+                                     <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">Picture of Statement 3:</label>
+                                        <input type="file" class="p-1 border rounded-md w-2/3">
+                                    </div>
+                                     <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">Picture of Statement 4:</label>
+                                        <input type="file" class="p-1 border rounded-md w-2/3">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Suspects Section -->
+                            <div class="border-t pt-4 mt-4">
+                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Suspect Details</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                                     <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">Total Suspects:</label>
+                                        <input type="text" class="p-2 border rounded-md w-2/3 numeric-only">
+                                    </div>
+                                </div>
+                                <div class="flex justify-end mb-2">
+                                    <button type="button" id="add-suspect-btn" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect">Add Suspect</button>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full bg-white border">
+                                        <thead class="bg-gray-200">
+                                            <tr>
+                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Suspect Name</th>
+                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">ID Number</th>
+                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">ID Picture</th>
+                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="suspects-tbody"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                                 <div class="flex items-center">
+                                    <label class="w-1/3 text-gray-600 font-medium">Arrested By:</label>
+                                    <input type="text" class="p-2 border rounded-md w-2/3">
+                                </div>
+                             </div>
+
+                             <div class="flex justify-end pt-4">
+                                <button type="button" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Arrest</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <div id="add-remove-users-view" class="view-panel hidden flex items-center justify-center h-full border-2 border-dashed border-gray-300 rounded-xl">
                     <h1 class="text-2xl md:text-3xl font-bold text-gray-500">Add/Remove Users</h1>
@@ -608,6 +740,9 @@
                 ],
                 incidentType: [
                     "No Incident Type Selected", "HIJACKED", "STOLEN", "MISSING PERSON", "HOUSE BREAKING", "SNIPR", "FRAUD", "THEFT"
+                ],
+                 natureOfCrime: [
+                    "No Crime Selected", "HIJACKED", "STOLEN", "MISSING PERSON", "HOUSE BREAKING", "SNIPR", "FRAUD", "THEFT"
                 ]
             };
 
@@ -644,6 +779,8 @@
             const recoverySapNumberInput = document.getElementById('recovery-sap-number-input');
             const recoverySapMonthSelect = document.getElementById('recovery-sap-month-select');
             const recoverySapYearSelect = document.getElementById('recovery-sap-year-select');
+            const addSuspectBtn = document.getElementById('add-suspect-btn');
+            const suspectsTbody = document.getElementById('suspects-tbody');
 
 
             // Modal References
@@ -844,6 +981,9 @@
                 populateDropdown(recoveryDivisionSelect, dropdownOptions.division);
                 populateDropdown(recoveryTypeSelect, dropdownOptions.recoveryType);
                 populateDropdown(recoveryIncidentTypeSelect, dropdownOptions.incidentType);
+                populateDropdown(document.getElementById('pa-division-select'), dropdownOptions.division);
+                document.querySelectorAll('.pa-nature-crime-select').forEach(select => populateDropdown(select, dropdownOptions.natureOfCrime));
+                document.querySelectorAll('.pa-police-station-select').forEach(select => populateDropdown(select, dropdownOptions.policeStation));
             };
             
             const handleSaveRecord = () => {
@@ -1058,12 +1198,45 @@
             newItemInputElem.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddItem(); });
             categoryItemListElem.addEventListener('click', handleDeleteItem);
 
+            addSuspectBtn.addEventListener('click', () => {
+                const rowCount = suspectsTbody.rows.length + 1;
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td class="border-b p-2">
+                        <input type="text" placeholder="Name" class="p-1 border rounded-md w-full">
+                    </td>
+                     <td class="border-b p-2">
+                        <input type="text" placeholder="ID Number" class="p-1 border rounded-md w-full numeric-only">
+                    </td>
+                    <td class="border-b p-2">
+                         <input type="file" class="p-1 border rounded-md w-full">
+                    </td>
+                    <td class="border-b p-2 text-center align-middle">
+                        <button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button>
+                    </td>
+                `;
+                suspectsTbody.appendChild(newRow);
+            });
+
+            suspectsTbody.addEventListener('click', (event) => {
+                if (event.target.classList.contains('remove-row-btn')) {
+                    event.target.closest('tr').remove();
+                }
+            });
+
             // --- INITIALIZATION ---
             const initializeApp = () => {
                 loadDropdownOptions();
                 updateAllDropdowns();
                 populateSapDropdowns(sapMonthSelect, sapYearSelect);
                 populateSapDropdowns(recoverySapMonthSelect, recoverySapYearSelect);
+                
+                document.querySelectorAll('.pa-sap-month').forEach((elem, index) => {
+                    const yearElem = document.querySelectorAll('.pa-sap-year')[index];
+                    populateSapDropdowns(elem, yearElem);
+                });
+
+
                 updateObNumberDisplay();
                 autosizeInput(sapNumberInput);
                 autosizeInput(document.getElementById('recovery-sap-number-input'));

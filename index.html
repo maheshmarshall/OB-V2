@@ -195,12 +195,12 @@
                              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">SAP 13 Number:</label>
-                                    <div class="flex items-center w-2/3 space-x-2">
-                                        <input type="text" id="sap-number-input" class="p-2 border rounded-md shrink-0 numeric-only" placeholder="Number">
+                                    <div class="flex items-center w-2/3 space-x-2 flex-wrap">
+                                        <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
                                         <span class="text-gray-500">/</span>
-                                        <select id="sap-month-select" class="p-2 border rounded-md"></select>
+                                        <select class="p-2 border rounded-md"></select>
                                         <span class="text-gray-500">/</span>
-                                        <select id="sap-year-select" class="p-2 border rounded-md"></select>
+                                        <select class="p-2 border rounded-md"></select>
                                     </div>
                                 </div>
                             </div>
@@ -247,7 +247,7 @@
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
                                         <div class="flex items-center">
                                             <label class="w-1/3 text-gray-600 font-medium">Contact No:</label>
-                                            <input type="text" id="contact-no-input" class="p-2 border rounded-md w-2/3 numeric-only">
+                                            <input type="text" class="p-2 border rounded-md w-2/3 numeric-only autosize-input">
                                         </div>
                                     </div>
                                     <div class="grid grid-cols-1 gap-6 bg-blue-50 p-4 rounded-md">
@@ -478,8 +478,8 @@
                                 </div>
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
-                                    <div class="flex items-center w-2/3 space-x-2">
-                                        <input type="text" id="recovery-sap-number-input" class="p-2 border rounded-md shrink-0 numeric-only" placeholder="Number">
+                                    <div class="flex items-center w-2/3 space-x-2 flex-wrap">
+                                        <input type="text" id="recovery-sap-number-input" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
                                         <span class="text-gray-500">/</span>
                                         <select id="recovery-sap-month-select" class="p-2 border rounded-md"></select>
                                         <span class="text-gray-500">/</span>
@@ -585,8 +585,8 @@
                                          </div>
                                          <div class="flex items-center">
                                              <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
-                                             <div class="flex items-center w-2/3 space-x-2">
-                                                 <input type="text" class="p-2 border rounded-md shrink-0 numeric-only pa-sap-number" placeholder="Number">
+                                             <div class="flex items-center w-2/3 space-x-2 flex-wrap">
+                                                 <input type="text" class="p-2 border rounded-md numeric-only pa-sap-number autosize-input" placeholder="Number">
                                                  <span class="text-gray-500">/</span>
                                                  <select class="p-2 border rounded-md pa-sap-month"></select>
                                                  <span class="text-gray-500">/</span>
@@ -595,7 +595,90 @@
                                          </div>
                                      </div>
                                 </div>
-                                <!-- Other crimes will be similar -->
+                                <!-- Crime 2 -->
+                                <div class="border-t pt-4 mt-4">
+                                     <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 2</h3>
+                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">Nature of Crime:</label>
+                                             <select class="pa-nature-crime-select p-2 border rounded-md w-2/3"></select>
+                                         </div>
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">Police station:</label>
+                                             <select class="pa-police-station-select p-2 border rounded-md w-2/3"></select>
+                                         </div>
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">SAPS Case number:</label>
+                                             <input type="text" class="p-2 border rounded-md w-2/3">
+                                         </div>
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
+                                             <div class="flex items-center w-2/3 space-x-2 flex-wrap">
+                                                 <input type="text" class="p-2 border rounded-md numeric-only pa-sap-number autosize-input" placeholder="Number">
+                                                 <span class="text-gray-500">/</span>
+                                                 <select class="p-2 border rounded-md pa-sap-month"></select>
+                                                 <span class="text-gray-500">/</span>
+                                                 <select class="p-2 border rounded-md pa-sap-year"></select>
+                                             </div>
+                                         </div>
+                                     </div>
+                                </div>
+                                <!-- Crime 3 -->
+                                <div class="border-t pt-4 mt-4">
+                                     <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 3</h3>
+                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">Nature of Crime:</label>
+                                             <select class="pa-nature-crime-select p-2 border rounded-md w-2/3"></select>
+                                         </div>
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">Police station:</label>
+                                             <select class="pa-police-station-select p-2 border rounded-md w-2/3"></select>
+                                         </div>
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">SAPS Case number:</label>
+                                             <input type="text" class="p-2 border rounded-md w-2/3">
+                                         </div>
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
+                                             <div class="flex items-center w-2/3 space-x-2 flex-wrap">
+                                                 <input type="text" class="p-2 border rounded-md numeric-only pa-sap-number autosize-input" placeholder="Number">
+                                                 <span class="text-gray-500">/</span>
+                                                 <select class="p-2 border rounded-md pa-sap-month"></select>
+                                                 <span class="text-gray-500">/</span>
+                                                 <select class="p-2 border rounded-md pa-sap-year"></select>
+                                             </div>
+                                         </div>
+                                     </div>
+                                </div>
+                                <!-- Crime 4 -->
+                                <div class="border-t pt-4 mt-4">
+                                     <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 4</h3>
+                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">Nature of Crime:</label>
+                                             <select class="pa-nature-crime-select p-2 border rounded-md w-2/3"></select>
+                                         </div>
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">Police station:</label>
+                                             <select class="pa-police-station-select p-2 border rounded-md w-2/3"></select>
+                                         </div>
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">SAPS Case number:</label>
+                                             <input type="text" class="p-2 border rounded-md w-2/3">
+                                         </div>
+                                         <div class="flex items-center">
+                                             <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
+                                             <div class="flex items-center w-2/3 space-x-2 flex-wrap">
+                                                 <input type="text" class="p-2 border rounded-md numeric-only pa-sap-number autosize-input" placeholder="Number">
+                                                 <span class="text-gray-500">/</span>
+                                                 <select class="p-2 border rounded-md pa-sap-month"></select>
+                                                 <span class="text-gray-500">/</span>
+                                                 <select class="p-2 border rounded-md pa-sap-year"></select>
+                                             </div>
+                                         </div>
+                                     </div>
+                                </div>
                             </div>
 
                              <!-- Pictures Section -->
@@ -684,68 +767,70 @@
             let dropdownOptions; // Will be loaded from localStorage or defaults
             let personRowCounter = 0;
 
+            const toSentenceCase = (str) => {
+                 if (typeof str !== 'string' || str.length === 0) return str;
+                 let lowerCaseStr = str.toLowerCase();
+                 return lowerCaseStr.charAt(0).toUpperCase() + lowerCaseStr.slice(1);
+            };
+
             // Default data structure in case localStorage is empty
             const defaultDropdownOptions = {
                 obType: [
-                    "ABDUCTION", "ACCIDENT", "ACCIDENT/INJURY", "ACCIDENTAL DISCHARGE OF FIREARM", "ALARM ACTIVATIONS", "ARMED ROBBERY", 
-                    "ARMED ROBBERY WITH SHOOTING INCIDENT", "ARREST AND RECOVERY", "ARREST OF SUSPECT/S", "ARSON - FIRE", "ASSAULT", "ATM CRIMES", 
-                    "ATTACK ON PERSON/PERSONS", "ATTEMPED THEFT OUT OF MOTOR VEHICLE", "ATTEMPTED ARMED ROBBERY", "ATTEMPTED BUSINESS BREAKING", 
-                    "ATTEMPTED BUSINESS ROBBERY", "ATTEMPTED ENTRY IN COMPLEX VIA FENCE/GATE", "ATTEMPTED HI JACKING", "ATTEMPTED HOUSE BREAKING WITH THEFT", 
-                    "ATTEMPTED HOUSE BREAKING WITHOUT THEFT", "ATTEMPTED HOUSE ROBBERY", "ATTEMPTED KIDNAPPING", "ATTEMPTED MUGGING", "ATTEMPTED MURDER", 
-                    "ATTEMPTED RAPE", "ATTEMPTED REMOTE JAMMING", "ATTEMPTED SUICIDE", "ATTEMPTED THEFT", "ATTEMPTED THEFT OF MOTOR VEHICLE", "AUDIT FINDING", 
-                    "AUDIT FINDINGS", "AURA RESPONSES", "BICYCLE REPAIRS", "BOOKING OFF", "BUSINESS BREAKING", "BUSINESS ROBBERY", "CCTV MALFUNCTION ON SITE", 
-                    "CLIENT COMPLAINT", "Common Robbery", "Common Theft", "Culpable Homicide", "DAMAGE ON SITE", "DISCIPLINARY", "DISTURBANCE ON SITE", 
-                    "DOMESTIC ISSUE", "DOOR LEFT UNLOCKED/OPEN", "DRINKING IN PUBLIC", "DRIVING UNDER THE INFLUENCE", "DROWNING", "DRUNK DRIVING"
+                    "Abduction", "Accident", "Accident/injury", "Accidental discharge of firearm", "Alarm activations", "Armed robbery", 
+                    "Armed robbery with shooting incident", "Arrest and recovery", "Arrest of suspect/s", "Arson - fire", "Assault", "Atm crimes", 
+                    "Attack on person/persons", "Attemped theft out of motor vehicle", "Attempted armed robbery", "Attempted business breaking", 
+                    "Attempted business robbery", "Attempted entry in complex via fence/gate", "Attempted hi jacking", "Attempted house breaking with theft", 
+                    "Attempted house breaking without theft", "Attempted house robbery", "Attempted kidnapping", "Attempted mugging", "Attempted murder", 
+                    "Attempted rape", "Attempted remote jamming", "Attempted suicide", "Attempted theft", "Attempted theft of motor vehicle", "Audit finding", 
+                    "Audit findings", "Aura responses", "Bicycle repairs", "Booking off", "Business breaking", "Business robbery", "Cctv malfunction on site", 
+                    "Client complaint", "Common robbery", "Common theft", "Culpable homicide", "Damage on site", "Disciplinary", "Disturbance on site", 
+                    "Domestic issue", "Door left unlocked/open", "Drinking in public", "Driving under the influence", "Drowning", "Drunk driving"
                 ],
                 policeStation: [
-                    "No Police Station Selected", "Alexandra Road", "Amangwe/Loskop", "Amanzimtoti", "Babanango", "Bayview", "Bellair", "Berea", "Bergville", "Besters", "Bhekithemba", 
-                    "Bishopstowe", "Boston", "Brighton Beach", "Bulwer", "Camperdown", "Cato Manor", "Ceza", "Charlestown", "Chatsworth", "Colenso", "Cramond", 
-                    "Creighton", "Dalton", "Dannhauser", "Donnybrook", "Dududu", "Dundee", "Durban Central", "Durban Harbour", "Durban North", "Ekombe", "Ekuvukeni", 
+                    "Alexandra road", "Amangwe/loskop", "Amanzimtoti", "Babanango", "Bayview", "Bellair", "Berea", "Bergville", "Besters", "Bhekithemba", 
+                    "Bishopstowe", "Boston", "Brighton beach", "Bulwer", "Camperdown", "Cato manor", "Ceza", "Charlestown", "Chatsworth", "Colenso", "Cramond", 
+                    "Creighton", "Dalton", "Dannhauser", "Donnybrook", "Dududu", "Dundee", "Durban central", "Durban harbour", "Durban north", "Ekombe", "Ekuvukeni", 
                     "Elandslaagte", "Emanguzi", "Ematimatolo", "Ematsheni", "Emondlo", "Empangeni", "Eshowe", "Esikhawini", "Estcourt", "Evatt", "Ezakheni", 
-                    "Ezibayeni", "Ezinqoleni", "Folweni", "Franklin", "Gamalakhe", "Gingindlovu", "Glencoe", "Glendale", "Gluckstadt", "Gowan Lea", "Greenwood Park", 
-                    "Greytown", "Groenvlei", "Hammersdale", "Harburg", "Harding", "Hattingspruit", "Helpmekaar", "Hibberdene", "Highflats", "Hillcrest", "Hilton-Kzn", 
+                    "Ezibayeni", "Ezinqoleni", "Folweni", "Franklin", "Gamalakhe", "Gingindlovu", "Glencoe", "Glendale", "Gluckstadt", "Gowan lea", "Greenwood park", 
+                    "Greytown", "Groenvlei", "Hammersdale", "Harburg", "Harding", "Hattingspruit", "Helpmekaar", "Hibberdene", "Highflats", "Hillcrest", "Hilton-kzn", 
                     "Himeville", "Hlabisa", "Hlobane", "Hluhluwe", "Howick", "Ibisi", "Impendle", "Inanda", "Inchanga", "Ingogo", "Ingwavuma", "Intsikeni", "Isipingo", 
-                    "Ixopo", "Jozini", "King Shaka International Airport", "Kingsley", "Kokstad", "Kranskop", "Kwa Dabeka", "KwaMashu E", "Kwadukuza", "Kwamakutha", 
+                    "Ixopo", "Jozini", "King shaka international airport", "Kingsley", "Kokstad", "Kranskop", "Kwa dabeka", "Kwamashu e", "Kwadukuza", "Kwamakutha", 
                     "Kwambonambi", "Kwamsane", "Kwandengezi", "Ladysmith", "Lamontville", "Louwsburg", "Madadeni", "Magudu", "Mahlabathini", "Malvern", "Mandeni", 
-                    "Maphumulo", "Margate", "Mariannhill", "Mayville", "Mbazwana", "Mbongolwane", "Mehlomnyama", "Melmoth", "Mid Illovo", "Mkuze", "Mondlo", "Montclair", 
-                    "Mooi Rivier", "Mountain Rise", "Mpophomeni", "Mpumalanga-Kzn", "Mpungamhlophe", "Msinga", "Msinsini", "Mtubatuba", "Mtunzini", "Muden", "Ndumo", 
-                    "Ndwedwe", "New Hanover", "Newcastle", "Ngome", "Ngwavuma", "Nkandla", "Nongoma", "Nqutu", "Nottingham Road", "Okhahlamba", "Oribi", "Paulpietersburg", 
-                    "Plessislaer", "Point", "Pomeroy", "Pongola", "Port Edward", "Port Shepstone", "Prestbury", "Richards Bay", "Richmond-Kzn", "Rietvlei", "Sawoti", 
-                    "Scottburgh", "Stanger", "Sundumbili", "Swartberg", "Sydenham", "Taylors Halt", "Thornville", "Tongaat", "Town Hill", "Tugela Ferry", "Ubombo", 
-                    "Umbilo", "Umhlali", "Umkomaas", "Umlazi", "Umsinga", "Umzinto", "Umzinto North", "Underberg", "Utrecht", "Van Reenen", "Verulam", "Vryheid", 
+                    "Maphumulo", "Margate", "Mariannhill", "Mayville", "Mbazwana", "Mbongolwane", "Mehlomnyama", "Melmoth", "Mid illovo", "Mkuze", "Mondlo", "Montclair", 
+                    "Mooi rivier", "Mountain rise", "Mpophomeni", "Mpumalanga-kzn", "Mpungamhlophe", "Msinga", "Msinsini", "Mtubatuba", "Mtunzini", "Muden", "Ndumo", 
+                    "Ndwedwe", "New hanover", "Newcastle", "Ngome", "Ngwavuma", "Nkandla", "Nongoma", "Nqutu", "Nottingham road", "Okhahlamba", "Oribi", "Paulpietersburg", 
+                    "Plessislaer", "Point", "Pomeroy", "Pongola", "Port edward", "Port shepstone", "Prestbury", "Richards bay", "Richmond-kzn", "Rietvlei", "Sawoti", 
+                    "Scottburgh", "Stanger", "Sundumbili", "Swartberg", "Sydenham", "Taylors halt", "Thornville", "Tongaat", "Town hill", "Tugela ferry", "Ubombo", 
+                    "Umbilo", "Umhlali", "Umkomaas", "Umlazi", "Umsinga", "Umzinto", "Umzinto north", "Underberg", "Utrecht", "Van reenen", "Verulam", "Vryheid", 
                     "Wartburg", "Weenen", "Wentworth", "Westville"
                 ],
-                followUpUser: ["No User Selected", "Admin", "Operator 1", "Investigator"],
+                followUpUser: ["Admin", "Operator 1", "Investigator"],
                 area: [
-                    "No Area Selected", "AMAOTI", "ATHLONE", "AVOCA", "AVOCA HILLS", "BALLITO", "BELLAIR", "BEREA", "BLUFF", "BRIARDENE", "CHESTERVILLE", "CLAREMONT", "CORNUBIA", 
-                    "DURBAN CENTRAL", "DURBAN NORTH", "EFFINGHAM", "GLEN ANIL", "GLEN HILLS", "GLENASHLEY", "GREENWOOD PARK", "HERWOOD PARK", "INANDA", "IZINGA RIDGE", 
-                    "KENVILLE", "KWA MASHU", "LA LUCIA", "LA LUCIA RIDGE", "LOWER LA LUCIA", "LOWER UMHLANGA", "M4 SOUTHERN FREEWAY", "MAPHUMULO", "MORNINGSIDE", 
-                    "MOUNT EDGECOMBE", "MOUNT MORIAH", "N2 FREEWAY", "N2/M7 FREEWAY", "NDWEDWE", "NEWLANDS EAST", "NEWLANDS WEST", "NKANDLA", "NTUZUMU", "PARK HILL", 
-                    "PHOENIX", "PINETOWN", "PRESTONDALE", "RED HILL", "RICHMOND", "RIVERHORSE VALLEY", "ROSEHILL", "SALT ROCK", "SAVANAH PARK", "SEACOWLAKE", 
-                    "SHEFFIELD BEACH", "SHERWOOD", "SOMERSET PARK", "SOUTH LYING AREAS", "SPRINGFIELD", "SPRINGFIELD PARK", "STAMFORDHILL", "SUNNINGDALE", "UMDLOTI", 
-                    "UMGENI PARK", "UMHLALI", "UMHLANGA", "UMHLANGA MANORS", "UMHLANGA RIDGE", "VERULAM", "VIRGINIA", "WESTBROOK", "WESTMEAD - SECTOR ONE", 
-                    "WESTMEAD SECTOR TWO", "WESTVILLE", "WYEBANK"
+                    "Amaoti", "Athlone", "Avoca", "Avoca hills", "Ballito", "Bellair", "Berea", "Bluff", "Briardene", "Chesterville", "Claremont", "Cornubia", 
+                    "Durban central", "Durban north", "Effingham", "Glen anil", "Glen hills", "Glenashley", "Greenwood park", "Herwood park", "Inanda", "Izinga ridge", 
+                    "Kenville", "Kwa mashu", "La lucia", "La lucia ridge", "Lower la lucia", "Lower umhlanga", "M4 southern freeway", "Maphumulo", "Morningside", 
+                    "Mount edgecombe", "Mount moriah", "N2 freeway", "N2/m7 freeway", "Ndwedwe", "Newlands east", "Newlands west", "Nkandla", "Ntuzumu", "Park hill", 
+                    "Phoenix", "Pinetown", "Prestondale", "Red hill", "Richmond", "Riverhorse valley", "Rosehill", "Salt rock", "Savanah park", "Seacowlake", 
+                    "Sheffield beach", "Sherwood", "Somerset park", "South lying areas", "Springfield", "Springfield park", "Stamfordhill", "Sunningdale", "Umdloti", 
+                    "Umgeni park", "Umhlali", "Umhlanga", "Umhlanga manors", "Umhlanga ridge", "Verulam", "Virginia", "Westbrook", "Westmead - sector one", 
+                    "Westmead sector two", "Westville", "Wyebank"
                 ],
                 vehicleMake: [
-                    "No vehicle selected", "Volkswagen", "Toyota", "Hyundai", "Isuzu", "Nissan", "Alfa Romeo", "Audi", "BMW", "Chery", "Chevrolet", "Chrysler", "Citroen", "Datsun", "Dodge", "Fiat", "Ford", "Haval", "Honda", "Infiniti", "Jaguar", "Jeep", "Kia", "LandRover", "Lexus", "Mahindra", "Mazda", "Mercedes-Benz", "Mini", "Mitsubishi", "Opel", "Peugeot", "Renault", "Saab", "Scion", "Seat", "Skoda", "Subaru", "Suzuki", "Volvo"
+                    "Volkswagen", "Toyota", "Hyundai", "Isuzu", "Nissan", "Alfa romeo", "Audi", "Bmw", "Chery", "Chevrolet", "Chrysler", "Citroen", "Datsun", "Dodge", "Fiat", "Ford", "Haval", "Honda", "Infiniti", "Jaguar", "Jeep", "Kia", "Landrover", "Lexus", "Mahindra", "Mazda", "Mercedes-benz", "Mini", "Mitsubishi", "Opel", "Peugeot", "Renault", "Saab", "Scion", "Seat", "Skoda", "Subaru", "Suzuki", "Volvo"
                 ],
-                ethnicity: [
-                    "No Ethnicity Selected", "Asian", "Black", "Coloured", "Indian", "White", "Other"
-                ],
-                division: [
-                    "No Division Selected", "SOT", "Reaction", "WestMead (Sector 1)", "WestMead (Sector 2)"
-                ],
-                recoveryType: [
-                    "No Recovery Type Selected", "Vehicle", "Items"
-                ],
-                incidentType: [
-                    "No Incident Type Selected", "HIJACKED", "STOLEN", "MISSING PERSON", "HOUSE BREAKING", "SNIPR", "FRAUD", "THEFT"
-                ],
-                 natureOfCrime: [
-                    "No Crime Selected", "HIJACKED", "STOLEN", "MISSING PERSON", "HOUSE BREAKING", "SNIPR", "FRAUD", "THEFT"
+                ethnicity: [ "Asian", "Black", "Coloured", "Indian", "White", "Other"],
+                division: ["Sot", "Reaction", "Westmead (sector 1)", "Westmead (sector 2)"],
+                recoveryType: ["Vehicle", "Items"],
+                incidentType: ["Hijacked", "Stolen", "Missing person", "House breaking", "Snipr", "Fraud", "Theft"],
+                natureOfCrime: [
+                    "Damage to property (mi2p)", "Section 36 ( possession of stolen property )", "Theft of cellphone", "Theft", "Trespassing", "Attempted house breaking", "House robbery",
+                    "Armed robbery", "House breaking without theft", "Business robbery", "Theft of copper", "Theft of petrol", "Fraud/counterfeit money", "Murder", "Assault",
+                    "Damage to property", "Robbery", "Attempted murder", "Hijacking", "Rape", "House breaking", "In possession off illegal firearm and ammunition",
+                    "In possession off illegal firearm", "In possession off illegal ammunition", "Common robbery", "Business breakin and theft", "Attempted theft out of mv",
+                    "Theft out of mv", "Attempted theft from mv", "Theft from mv", "In possession of car breaking implements", "Fraud", "Facial reg app"
                 ]
             };
-
+            
             // --- ELEMENT REFERENCES ---
             const sidebarNav = document.getElementById('sidebar-nav');
             const viewPanels = document.querySelectorAll('.view-panel');
@@ -838,10 +923,19 @@
                 if (viewId === 'ob-entry-view') updateObNumberDisplay();
             };
 
-            const populateDropdown = (selectElement, options) => {
+            const populateDropdown = (selectElement, options, placeholder) => {
                 if (!selectElement) return;
                 selectElement.innerHTML = '';
-                options.forEach(optionText => {
+                
+                // Add a disabled, selected placeholder option
+                const placeholderOpt = document.createElement('option');
+                placeholderOpt.value = "";
+                placeholderOpt.textContent = placeholder || "No Selection";
+                placeholderOpt.disabled = true;
+                placeholderOpt.selected = true;
+                selectElement.appendChild(placeholderOpt);
+
+                options.forEach((optionText) => {
                     const option = document.createElement('option');
                     option.value = optionText;
                     option.textContent = optionText;
@@ -850,6 +944,7 @@
             };
             
             const populateSapDropdowns = (monthSelect, yearSelect) => {
+                if (!monthSelect || !yearSelect) return;
                 // Populate months
                 const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
                 monthSelect.innerHTML = '';
@@ -970,20 +1065,19 @@
             };
             
             const updateAllDropdowns = () => {
-                populateDropdown(obTypeSelect, dropdownOptions.obType);
-                populateDropdown(policeStationSelect, dropdownOptions.policeStation);
-                populateDropdown(followUpUserSelect, dropdownOptions.followUpUser);
-                populateDropdown(areaSelect, dropdownOptions.area);
-                // Also populate recoveries dropdowns
-                populateDropdown(recoveryVehicleBrandSelect, dropdownOptions.vehicleMake);
-                populateDropdown(recoveryPsFromSelect, dropdownOptions.policeStation);
-                populateDropdown(recoveryPsRecoveredSelect, dropdownOptions.policeStation);
-                populateDropdown(recoveryDivisionSelect, dropdownOptions.division);
-                populateDropdown(recoveryTypeSelect, dropdownOptions.recoveryType);
-                populateDropdown(recoveryIncidentTypeSelect, dropdownOptions.incidentType);
-                populateDropdown(document.getElementById('pa-division-select'), dropdownOptions.division);
-                document.querySelectorAll('.pa-nature-crime-select').forEach(select => populateDropdown(select, dropdownOptions.natureOfCrime));
-                document.querySelectorAll('.pa-police-station-select').forEach(select => populateDropdown(select, dropdownOptions.policeStation));
+                populateDropdown(obTypeSelect, dropdownOptions.obType, 'No OB Type Selected');
+                populateDropdown(policeStationSelect, dropdownOptions.policeStation, 'No Police Station Selected');
+                populateDropdown(followUpUserSelect, dropdownOptions.followUpUser, 'No User Selected');
+                populateDropdown(areaSelect, dropdownOptions.area, 'No Area Selected');
+                populateDropdown(recoveryVehicleBrandSelect, dropdownOptions.vehicleMake, 'No Vehicle Brand Selected');
+                populateDropdown(recoveryPsFromSelect, dropdownOptions.policeStation, 'No Police Station Selected');
+                populateDropdown(recoveryPsRecoveredSelect, dropdownOptions.policeStation, 'No Police Station Selected');
+                populateDropdown(recoveryDivisionSelect, dropdownOptions.division, 'No Division Selected');
+                populateDropdown(recoveryTypeSelect, dropdownOptions.recoveryType, 'No Recovery Type Selected');
+                populateDropdown(recoveryIncidentTypeSelect, dropdownOptions.incidentType, 'No Incident Type Selected');
+                populateDropdown(document.getElementById('pa-division-select'), dropdownOptions.division, 'No Division Selected');
+                document.querySelectorAll('.pa-nature-crime-select').forEach(select => populateDropdown(select, dropdownOptions.natureOfCrime, 'No Crime Selected'));
+                document.querySelectorAll('.pa-police-station-select').forEach(select => populateDropdown(select, dropdownOptions.policeStation, 'No Police Station Selected'));
             };
             
             const handleSaveRecord = () => {
@@ -1092,7 +1186,7 @@
 
 
                 // Handle autosizing for various text inputs
-                if (target.matches('#sap-number-input, .autosize-vehicle-input, .autosize-person-input, #contact-no-input, #recovery-sap-number-input')) {
+                if (target.classList.contains('autosize-input')) {
                     autosizeInput(target);
                 }
 
@@ -1102,23 +1196,29 @@
                 }
             });
 
+            document.body.addEventListener('change', (event) => {
+                if (event.target.tagName === 'SELECT') {
+                    autosizeSelect(event.target);
+                }
+            });
+
 
             addVehicleBtn.addEventListener('click', () => {
                 const newRow = document.createElement('tr');
-                const makeOptions = dropdownOptions.vehicleMake.map(make => `<option value="${make}">${make}</option>`).join('');
                 newRow.innerHTML = `
-                    <td class="border-b p-2"><input type="text" class="autosize-vehicle-input p-1 border rounded-md" placeholder="Registration"></td>
-                    <td class="border-b p-2"><select class="vehicle-make-select p-1 border rounded-md">${makeOptions}</select></td>
-                    <td class="border-b p-2"><input type="text" class="autosize-vehicle-input p-1 border rounded-md" placeholder="Model"></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Registration"></td>
+                    <td class="border-b p-2"><select class="vehicle-make-select p-1 border rounded-md"></select></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Model"></td>
                     <td class="border-b p-2"><input type="text" class="p-1 border rounded-md w-full" placeholder="Colour"></td>
                     <td class="border-b p-2 text-center"><button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button></td>
                 `;
                 suspiciousVehiclesTbody.appendChild(newRow);
                 
                 const newSelect = newRow.querySelector('.vehicle-make-select');
+                populateDropdown(newSelect, dropdownOptions.vehicleMake, 'No vehicle selected');
                 autosizeSelect(newSelect);
                 
-                const newInputs = newRow.querySelectorAll('.autosize-vehicle-input');
+                const newInputs = newRow.querySelectorAll('.autosize-input');
                 newInputs.forEach(input => autosizeInput(input));
             });
 
@@ -1128,31 +1228,24 @@
                 }
             });
 
-            suspiciousVehiclesTbody.addEventListener('change', (event) => {
-                if (event.target.classList.contains('vehicle-make-select')) {
-                    autosizeSelect(event.target);
-                }
-            });
-
             addPersonBtn.addEventListener('click', () => {
                 personRowCounter++; // Increment for a unique name
                 const genderName = `gender-${personRowCounter}`;
                 const newRow = document.createElement('tr');
-                const ethnicityOptions = dropdownOptions.ethnicity.map(e => `<option value="${e}">${e}</option>`).join('');
                 newRow.innerHTML = `
-                    <td class="border-b p-2"><input type="text" class="autosize-person-input p-1 border rounded-md" placeholder="Firstname"></td>
-                    <td class="border-b p-2"><input type="text" class="autosize-person-input p-1 border rounded-md" placeholder="Lastname"></td>
-                    <td class="border-b p-2"><input type="text" class="autosize-person-input numeric-only p-1 border rounded-md" placeholder="Age"></td>
-                    <td class="border-b p-2"><select class="person-ethnicity-select p-1 border rounded-md">${ethnicityOptions}</select></td>
-                    <td class="border-b p-2"><input type="text" class="autosize-person-input p-1 border rounded-md" placeholder="Hair"></td>
-                    <td class="border-b p-2"><input type="text" class="autosize-person-input p-1 border rounded-md" placeholder="Eye"></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Firstname"></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Lastname"></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-input numeric-only p-1 border rounded-md" placeholder="Age"></td>
+                    <td class="border-b p-2"><select class="person-ethnicity-select p-1 border rounded-md"></select></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Hair"></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Eye"></td>
                     <td class="border-b p-2">
                         <div class="flex items-center gap-x-3 p-1">
                             <label class="flex items-center gap-1 text-sm whitespace-nowrap"><input type="radio" name="${genderName}" value="Male">Male</label>
                             <label class="flex items-center gap-1 text-sm whitespace-nowrap"><input type="radio" name="${genderName}" value="Female">Female</label>
                         </div>
                     </td>
-                    <td class="border-b p-2"><input type="text" class="autosize-person-input numeric-only p-1 border rounded-md" placeholder="Id"></td>
+                    <td class="border-b p-2"><input type="text" class="autosize-input numeric-only p-1 border rounded-md" placeholder="Id"></td>
                     <td class="border-b p-2"><textarea class="autosize-person-textarea p-1 border rounded-md w-full" rows="1" placeholder="Description"></textarea></td>
                     <td class="border-b p-2 text-center"><button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button></td>
                 `;
@@ -1160,11 +1253,13 @@
 
                 // Initialize autosizing for new elements
                 const newEthnicitySelect = newRow.querySelector('.person-ethnicity-select');
-                const newInputs = newRow.querySelectorAll('.autosize-person-input');
-                const newDescriptionTextarea = newRow.querySelector('.autosize-person-textarea');
-                
+                populateDropdown(newEthnicitySelect, dropdownOptions.ethnicity, 'No Ethnicity Selected');
                 autosizeSelect(newEthnicitySelect);
+
+                const newInputs = newRow.querySelectorAll('.autosize-input');
                 newInputs.forEach(input => autosizeInput(input));
+
+                const newDescriptionTextarea = newRow.querySelector('.autosize-person-textarea');
                 autosizeTextarea(newDescriptionTextarea);
             });
 
@@ -1173,13 +1268,6 @@
                     event.target.closest('tr').remove();
                 }
             });
-
-            personsOfInterestTbody.addEventListener('change', (event) => {
-                if (event.target.classList.contains('person-ethnicity-select')) {
-                    autosizeSelect(event.target);
-                }
-            });
-
 
             saveRecordBtn.addEventListener('click', handleSaveRecord);
             
@@ -1238,8 +1326,8 @@
 
 
                 updateObNumberDisplay();
-                autosizeInput(sapNumberInput);
-                autosizeInput(document.getElementById('recovery-sap-number-input'));
+                document.querySelectorAll('.autosize-input').forEach(input => autosizeInput(input));
+                document.querySelectorAll('select').forEach(select => autosizeSelect(select));
                 renderCategoryEditor(categorySelectorElem.value);
             };
 

@@ -100,6 +100,11 @@
         </div>
     </div>
 
+    <div class="w-full bg-gray-800 p-2 text-white flex justify-end items-center">
+        <label for="login-as-select" class="text-sm mr-2">Currently logged in as:</label>
+        <select id="login-as-select" class="bg-gray-700 text-white p-1 rounded-md text-sm"></select>
+    </div>
+
 
     <div class="container mx-auto p-4 md:p-8">
         <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-lg min-h-[80vh]">
@@ -959,46 +964,74 @@
                         </div>
 
                         <div id="permissions-container" class="space-y-4 pt-4 border-t">
-                             <!-- Headers -->
-                            <div class="grid grid-cols-5 items-center font-semibold text-gray-600 px-4">
-                                <div class="col-span-1">Tab</div>
-                                <div class="col-span-1 text-center">Add Record</div>
-                                <div class="col-span-1 text-center">Remove Record</div>
-                                <div class="col-span-1 text-center">Update Record</div>
-                                <div class="col-span-1 text-center">View Record</div>
-                            </div>
-                            
-                            <!-- Permissions Rows -->
-                            <div data-view-name="ob-entry-view" class="permission-row grid grid-cols-5 items-center border-b py-3">
-                                <div class="col-span-1 font-semibold text-gray-700">OB Entry</div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5"></div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5"></div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5"></div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5"></div>
-                            </div>
-                            <div data-view-name="recoveries-view" class="permission-row grid grid-cols-5 items-center border-b py-3">
-                                <div class="col-span-1 font-semibold text-gray-700">Recoveries</div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5"></div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5"></div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5"></div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5"></div>
-                            </div>
-                            <div data-view-name="positive-arrests-view" class="permission-row grid grid-cols-5 items-center border-b py-3">
-                                <div class="col-span-1 font-semibold text-gray-700">Positive Arrests</div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5"></div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5"></div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5"></div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5"></div>
-                            </div>
-                            <div data-view-name="sot-view" class="permission-row grid grid-cols-5 items-center border-b py-3">
-                                <div class="col-span-1 font-semibold text-gray-700">SOT Positives</div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5"></div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5"></div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5"></div>
-                                <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5"></div>
-                            </div>
-
-                        </div>
+                            <!-- Headers -->
+                           <div class="grid grid-cols-6 items-center font-semibold text-gray-600 px-4">
+                               <div class="col-span-2">Tab</div>
+                               <div class="col-span-1 text-center">Access</div>
+                               <div class="col-span-1 text-center">Add</div>
+                               <div class="col-span-1 text-center">Remove</div>
+                               <div class="col-span-1 text-center">Update</div>
+                               <div class="col-span-1 text-center">View</div>
+                           </div>
+                           
+                           <!-- Permissions Rows -->
+                           <div data-view-name="ob-entry-view" class="permission-row grid grid-cols-6 items-center border-b py-3">
+                               <div class="col-span-2 font-semibold text-gray-700">OB Entry</div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="access" class="h-5 w-5 tab-access-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5 action-cb"></div>
+                           </div>
+                           <div data-view-name="category-edit-view" class="permission-row grid grid-cols-6 items-center border-b py-3">
+                               <div class="col-span-2 font-semibold text-gray-700">Category Edit</div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="access" class="h-5 w-5 tab-access-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5 action-cb" disabled></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5 action-cb" disabled></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5 action-cb" disabled></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5 action-cb" disabled></div>
+                           </div>
+                           <div data-view-name="recoveries-view" class="permission-row grid grid-cols-6 items-center border-b py-3">
+                               <div class="col-span-2 font-semibold text-gray-700">Recoveries</div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="access" class="h-5 w-5 tab-access-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5 action-cb"></div>
+                           </div>
+                           <div data-view-name="complaints-view" class="permission-row grid grid-cols-6 items-center border-b py-3">
+                               <div class="col-span-2 font-semibold text-gray-700">Complaints</div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="access" class="h-5 w-5 tab-access-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5 action-cb"></div>
+                           </div>
+                           <div data-view-name="positive-arrests-view" class="permission-row grid grid-cols-6 items-center border-b py-3">
+                               <div class="col-span-2 font-semibold text-gray-700">Positive Arrests</div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="access" class="h-5 w-5 tab-access-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5 action-cb"></div>
+                           </div>
+                           <div data-view-name="sot-view" class="permission-row grid grid-cols-6 items-center border-b py-3">
+                               <div class="col-span-2 font-semibold text-gray-700">SOT Positives</div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="access" class="h-5 w-5 tab-access-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5 action-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5 action-cb"></div>
+                           </div>
+                           <div data-view-name="manage-users-view" class="permission-row grid grid-cols-6 items-center border-b py-3">
+                               <div class="col-span-2 font-semibold text-gray-700">Manage Users</div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="access" class="h-5 w-5 tab-access-cb"></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5 action-cb" disabled></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5 action-cb" disabled></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5 action-cb" disabled></div>
+                               <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5 action-cb" disabled></div>
+                           </div>
+                       </div>
                          <!-- Save Button -->
                         <div class="flex justify-end pt-6 mt-6 border-t">
                             <button id="save-permissions-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Permissions</button>
@@ -1019,113 +1052,38 @@
         document.addEventListener('DOMContentLoaded', () => {
             // --- STATE MANAGEMENT ---
             let obCounter = 1;
-            let currentRecordAction = 'add'; // Default action
-            let dropdownOptions; // Will be loaded from localStorage or defaults
-            let users = []; // Array of user objects
+            let currentRecordAction = 'add';
+            let dropdownOptions;
+            let users = [];
             let userPermissions = {};
+            let currentUser = 'admin'; // 'admin' or a user ID
 
             const toSentenceCase = (str) => {
                 if (typeof str !== 'string' || str.length === 0) return str;
-                let lowerCaseStr = str.toLowerCase();
-                return lowerCaseStr.charAt(0).toUpperCase() + lowerCaseStr.slice(1);
+                return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
             };
 
-            // Default data structure in case localStorage is empty
             const defaultDropdownOptions = {
-                obType: [
-                    "Abduction", "Accident", "Accident/injury", "Accidental discharge of firearm", "Alarm activations", "Armed robbery", 
-                    "Armed robbery with shooting incident", "Arrest and recovery", "Arrest of suspect/s", "Arson - fire", "Assault", "Atm crimes", 
-                    "Attack on person/persons", "Attemped theft out of motor vehicle", "Attempted armed robbery", "Attempted business breaking", 
-                    "Attempted business robbery", "Attempted entry in complex via fence/gate", "Attempted hi jacking", "Attempted house breaking with theft", 
-                    "Attempted house breaking without theft", "Attempted house robbery", "Attempted kidnapping", "Attempted mugging", "Attempted murder", 
-                    "Attempted rape", "Attempted remote jamming", "Attempted suicide", "Attempted theft", "Attempted theft of motor vehicle", "Audit finding", 
-                    "Audit findings", "Aura responses", "Bicycle repairs", "Booking off", "Business breaking", "Business robbery", "Cctv malfunction on site", 
-                    "Client complaint", "Common robbery", "Common theft", "Culpable homicide", "Damage on site", "Disciplinary", "Disturbance on site", 
-                    "Domestic issue", "Door left unlocked/open", "Drinking in public", "Driving under the influence", "Drowning", "Drunk driving"
-                ],
-                policeStation: [
-                    "Alexandra road", "Amangwe/loskop", "Amanzimtoti", "Babanango", "Bayview", "Bellair", "Berea", "Bergville", "Besters", "Bhekithemba", 
-                    "Bishopstowe", "Boston", "Brighton beach", "Bulwer", "Camperdown", "Cato manor", "Ceza", "Charlestown", "Chatsworth", "Colenso", "Cramond", 
-                    "Creighton", "Dalton", "Dannhauser", "Donnybrook", "Dududu", "Dundee", "Durban central", "Durban harbour", "Durban north", "Ekombe", "Ekuvukeni", 
-                    "Elandslaagte", "Emanguzi", "Ematimatolo", "Ematsheni", "Emondlo", "Empangeni", "Eshowe", "Esikhawini", "Estcourt", "Evatt", "Ezakheni", 
-                    "Ezibayeni", "Ezinqoleni", "Folweni", "Franklin", "Gamalakhe", "Gingindlovu", "Glencoe", "Glendale", "Gluckstadt", "Gowan lea", "Greenwood park", 
-                    "Greytown", "Groenvlei", "Hammersdale", "Harburg", "Harding", "Hattingspruit", "Helpmekaar", "Hibberdene", "Highflats", "Hillcrest", "Hilton-kzn", 
-                    "Himeville", "Hlabisa", "Hlobane", "Hluhluwe", "Howick", "Ibisi", "Impendle", "Inanda", "Inchanga", "Ingogo", "Ingwavuma", "Intsikeni", "Isipingo", 
-                    "Ixopo", "Jozini", "King shaka international airport", "Kingsley", "Kokstad", "Kranskop", "Kwa dabeka", "Kwamashu e", "Kwadukuza", "Kwamakutha", 
-                    "Kwambonambi", "Kwamsane", "Kwandengezi", "Ladysmith", "Lamontville", "Louwsburg", "Madadeni", "Magudu", "Mahlabathini", "Malvern", "Mandeni", 
-                    "Maphumulo", "Margate", "Mariannhill", "Mayville", "Mbazwana", "Mbongolwane", "Mehlomnyama", "Melmoth", "Mid illovo", "Mkuze", "Mondlo", "Montclair", 
-                    "Mooi rivier", "Mountain rise", "Mpophomeni", "Mpumalanga-kzn", "Mpungamhlophe", "Msinga", "Msinsini", "Mtubatuba", "Mtunzini", "Muden", "Ndumo", 
-                    "Ndwedwe", "New hanover", "Newcastle", "Ngome", "Ngwavuma", "Nkandla", "Nongoma", "Nqutu", "Nottingham road", "Okhahlamba", "Oribi", "Paulpietersburg", 
-                    "Plessislaer", "Point", "Pomeroy", "Pongola", "Port edward", "Port shepstone", "Prestbury", "Richards bay", "Richmond-kzn", "Rietvlei", "Sawoti", 
-                    "Scottburgh", "Stanger", "Sundumbili", "Swartberg", "Sydenham", "Taylors halt", "Thornville", "Tongaat", "Town hill", "Tugela ferry", "Ubombo", 
-                    "Umbilo", "Umhlali", "Umkomaas", "Umlazi", "Umsinga", "Umzinto", "Umzinto north", "Underberg", "Utrecht", "Van reenen", "Verulam", "Vryheid", 
-                    "Wartburg", "Weenen", "Wentworth", "Westville"
-                ],
-                followUpUser: ["Admin", "Operator 1", "Investigator"],
-                area: [
-                    "Amaoti", "Athlone", "Avoca", "Avoca hills", "Ballito", "Bellair", "Berea", "Bluff", "Briardene", "Chesterville", "Claremont", "Cornubia", 
-                    "Durban central", "Durban north", "Effingham", "Glen anil", "Glen hills", "Glenashley", "Greenwood park", "Herwood park", "Inanda", "Izinga ridge", 
-                    "Kenville", "Kwa mashu", "La lucia", "La lucia ridge", "Lower la lucia", "Lower umhlanga", "M4 southern freeway", "Maphumulo", "Morningside", 
-                    "Mount edgecombe", "Mount moriah", "N2 freeway", "N2/m7 freeway", "Ndwedwe", "Newlands east", "Newlands west", "Nkandla", "Ntuzumu", "Park hill", 
-                    "Phoenix", "Pinetown", "Prestondale", "Red hill", "Richmond", "Riverhorse valley", "Rosehill", "Salt rock", "Savanah park", "Seacowlake", 
-                    "Sheffield beach", "Sherwood", "Somerset park", "South lying areas", "Springfield", "Springfield park", "Stamfordhill", "Sunningdale", "Umdloti", 
-                    "Umgeni park", "Umhlali", "Umhlanga", "Umhlanga manors", "Umhlanga ridge", "Verulam", "Virginia", "Westbrook", "Westmead - sector one", 
-                    "Westmead sector two", "Westville", "Wyebank"
-                ],
-                vehicleMake: [
-                    "Volkswagen", "Toyota", "Hyundai", "Isuzu", "Nissan", "Alfa romeo", "Audi", "Bmw", "Chery", "Chevrolet", "Chrysler", "Citroen", "Datsun", "Dodge", "Fiat", "Ford", "Haval", "Honda", "Infiniti", "Jaguar", "Jeep", "Kia", "Landrover", "Lexus", "Mahindra", "Mazda", "Mercedes-benz", "Mini", "Mitsubishi", "Opel", "Peugeot", "Renault", "Saab", "Scion", "Seat", "Skoda", "Subaru", "Suzuki", "Volvo"
-                ],
-                ethnicity: [ "Asian", "Black", "Coloured", "Indian", "White", "Other"],
-                division: ["Sot", "Reaction", "Westmead (sector 1)", "Westmead (sector 2)"],
+                obType: ["Abduction", "Accident", "Armed robbery", "Assault", "Business breaking", "Business robbery", "Common robbery", "House breaking", "House robbery", "Theft"],
+                policeStation: ["Durban North", "Berea", "Durban Central", "Mayville", "Westville", "Pinetown"],
+                followUpUser: [], // Will be populated from users
+                area: ["Durban North", "Umhlanga", "La Lucia", "Glenwood", "Morningside"],
+                vehicleMake: ["Toyota", "Volkswagen", "Ford", "Hyundai", "BMW", "Mercedes-Benz"],
+                ethnicity: ["Asian", "Black", "Coloured", "Indian", "White", "Other"],
+                division: ["SOT", "Reaction", "Westmead (sector 1)", "Westmead (sector 2)"],
                 recoveryType: ["Vehicle", "Items"],
-                incidentType: ["Hijacked", "Stolen", "Missing person", "House breaking", "Snipr", "Fraud", "Theft"],
-                natureOfCrime: [
-                    "Damage to property (mi2p)", "Section 36 ( possession of stolen property )", "Theft of cellphone", "Theft", "Trespassing", "Attempted house breaking", "House robbery",
-                    "Armed robbery", "House breaking without theft", "Business robbery", "Theft of copper", "Theft of petrol", "Fraud/counterfeit money", "Murder", "Assault",
-                    "Damage to property", "Robbery", "Attempted murder", "Hijacking", "Rape", "House breaking", "In possession off illegal firearm and ammunition",
-                    "In possession off illegal firearm", "In possession off illegal ammunition", "Common robbery", "Business breakin and theft", "Attempted theft out of mv",
-                    "Theft out of mv", "Attempted theft from mv", "Theft from mv", "In possession of car breaking implements", "Fraud", "Facial reg app"
-                ],
+                incidentType: ["Hijacked", "Stolen", "Missing person", "House breaking"],
+                natureOfCrime: ["Armed robbery", "House breaking", "Theft of motor vehicle", "Common robbery", "Assault"],
                 sotPersonAssigned: ["Jono", "Jaco", "Michael", "Zandre", "Derek"],
                 department: ["SOT", "Reaction", "Control Room", "Sales", "Marketing", "I.T", "Customer Care"],
-                role: [
-                    "SOT Manager", "SOT Member", "Reaction Manager", "Reaction Supervisor", "Reaction Officer", 
-                    "Control Room Manager", "Control Room Supervisor", "Control Room Operator", "Sales Manager", 
-                    "Sales Admin", "Sales Field", "I.T", "Customer Care"
-                ]
+                role: ["SOT Manager", "SOT Member", "Reaction Manager", "Reaction Officer", "Control Room Operator", "Sales Field", "I.T", "Customer Care"]
             };
             
             // --- ELEMENT REFERENCES ---
             const sidebarNav = document.getElementById('sidebar-nav');
             const viewPanels = document.querySelectorAll('.view-panel');
-            const obNumberDisplay = document.getElementById('ob-number-display');
-            const obActionButtons = document.querySelectorAll('.ob-action-btn');
-            const saveRecordBtn = document.getElementById('save-record-btn');
-            const obTypeSelect = document.getElementById('ob-type-select');
-            const policeStationSelect = document.getElementById('police-station-select');
-            const followUpUserSelect = document.getElementById('follow-up-user-select');
-            const areaSelect = document.getElementById('area-select');
-            const categorySelector = document.getElementById('category-selector');
-            const editingCategoryName = document.getElementById('editing-category-name');
-            const categoryItemList = document.getElementById('category-item-list');
-            const newItemInput = document.getElementById('new-item-input');
-            const addItemBtn = document.getElementById('add-item-btn');
-            const createdDateEl = document.getElementById('created-date');
-            const statusButtonsContainer = document.getElementById('status-buttons');
-            const addVehicleBtn = document.getElementById('add-vehicle-btn');
-            const suspiciousVehiclesTbody = document.getElementById('suspicious-vehicles-tbody');
-            const addPersonBtn = document.getElementById('add-person-btn');
-            const personsOfInterestTbody = document.getElementById('persons-of-interest-tbody');
-            const recoveryVehicleBrandSelect = document.getElementById('recovery-vehicle-brand-select');
-            const recoveryPsFromSelect = document.getElementById('recovery-ps-from-select');
-            const recoveryPsRecoveredSelect = document.getElementById('recovery-ps-recovered-select');
-            const recoveryDivisionSelect = document.getElementById('recovery-division-select');
-            const recoveryTypeSelect = document.getElementById('recovery-type-select');
-            const recoveryIncidentTypeSelect = document.getElementById('recovery-incident-type-select');
-            const addSuspectBtn = document.getElementById('add-suspect-btn');
-            const suspectsTbody = document.getElementById('suspects-tbody');
+            const loginAsSelect = document.getElementById('login-as-select');
             
-            // User Management & Permissions
             const userForm = document.getElementById('manage-user-form');
             const userFormTitle = document.getElementById('user-form-title');
             const userIdInput = document.getElementById('user-id-input');
@@ -1144,13 +1102,11 @@
             const permissionsContainer = document.getElementById('permissions-container');
             const savePermissionsBtn = document.getElementById('save-permissions-btn');
 
-
-            // Modal References
+            // Modals
             const confirmModal = document.getElementById('confirmation-modal');
             const confirmModalMessage = document.getElementById('confirm-modal-message');
             const modalConfirmBtn = document.getElementById('modal-confirm-btn');
             const modalCancelBtn = document.getElementById('modal-cancel-btn');
-            
             const successModal = document.getElementById('success-modal');
             const successModalTitle = document.getElementById('success-modal-title');
             const successModalMessage = document.getElementById('success-modal-message');
@@ -1160,7 +1116,7 @@
 
             const showConfirmationModal = (message, onConfirmCallback) => {
                 confirmModalMessage.textContent = message;
-                confirmModal.style.display = 'flex'; // Use flex to center it
+                confirmModal.style.display = 'flex';
                 const newConfirmBtn = modalConfirmBtn.cloneNode(true);
                 modalConfirmBtn.parentNode.replaceChild(newConfirmBtn, modalConfirmBtn);
                 newConfirmBtn.addEventListener('click', () => {
@@ -1174,7 +1130,7 @@
             const showSuccessModal = (title, message) => {
                 successModalTitle.textContent = title;
                 successModalMessage.textContent = message;
-                successModal.style.display = 'flex'; // Use flex to center it
+                successModal.style.display = 'flex';
             };
 
             successModalOkBtn.addEventListener('click', () => successModal.style.display = 'none');
@@ -1186,230 +1142,149 @@
             };
             
             const loadData = () => {
-                // Load Dropdowns
                 const savedDropdowns = localStorage.getItem('dropdownData');
-                const savedOptions = savedDropdowns ? JSON.parse(savedDropdowns) : {};
-                let defaultCopy = JSON.parse(JSON.stringify(defaultDropdownOptions));
-                for (const key in defaultCopy) {
-                    if (Array.isArray(defaultCopy[key])) {
-                        defaultCopy[key] = defaultCopy[key].map(item => toSentenceCase(item));
-                    }
-                }
-                dropdownOptions = { ...defaultCopy, ...savedOptions };
-
-                // Load Users
+                dropdownOptions = savedDropdowns ? JSON.parse(savedDropdowns) : JSON.parse(JSON.stringify(defaultDropdownOptions));
                 const savedUsers = localStorage.getItem('usersData');
                 users = savedUsers ? JSON.parse(savedUsers) : [];
-
-                // Load Permissions
                 const savedPermissions = localStorage.getItem('userPermissionsData');
                 userPermissions = savedPermissions ? JSON.parse(savedPermissions) : {};
+            };
+
+            const renderCategoryEditor = (categoryKey) => {
+                const categoryData = dropdownOptions[categoryKey] || [];
+                const categorySelector = document.getElementById('category-selector');
+                const editingCategoryName = document.getElementById('editing-category-name');
+                const categoryItemList = document.getElementById('category-item-list');
+                
+                if (editingCategoryName) {
+                    editingCategoryName.textContent = `Editing: ${categorySelector.options[categorySelector.selectedIndex].text}`;
+                }
+                
+                if (categoryItemList) {
+                    categoryItemList.innerHTML = '';
+                    categoryData.forEach((item, index) => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'flex justify-between items-center p-2 bg-white rounded-md shadow-sm';
+                        itemDiv.innerHTML = `
+                            <span class="flex-grow">${item}</span>
+                            <button data-item="${item}" data-index="${index}" class="delete-item-btn text-red-500 hover:text-red-700 font-bold p-1">X</button>
+                        `;
+                        categoryItemList.appendChild(itemDiv);
+                    });
+                }
+            };
+            
+            const applyPermissions = () => {
+                const activeViewButton = sidebarNav.querySelector('.active-btn');
+                let activeViewId = activeViewButton ? activeViewButton.dataset.view : 'ob-entry-view';
+
+                sidebarNav.querySelectorAll('button[data-view]').forEach(btn => {
+                    const view = btn.dataset.view;
+                    const hasAccess = currentUser === 'admin' || (userPermissions[currentUser] && userPermissions[currentUser].tabs[view] && userPermissions[currentUser].tabs[view].access);
+                    
+                    btn.classList.toggle('hidden', !hasAccess);
+
+                    if (!hasAccess && activeViewId === view) {
+                        const firstVisibleButton = sidebarNav.querySelector('button[data-view]:not(.hidden)');
+                        activeViewId = firstVisibleButton ? firstVisibleButton.dataset.view : null;
+                    }
+                });
+                
+                if (!activeViewId) {
+                    viewPanels.forEach(panel => panel.classList.add('hidden'));
+                     sidebarNav.querySelectorAll('button').forEach(btn => {
+                        btn.classList.remove('active-btn', 'bg-blue-500', 'text-white');
+                        btn.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    return;
+                }
+
+                const newActiveButton = sidebarNav.querySelector(`button[data-view="${activeViewId}"]`);
+                sidebarNav.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('active-btn', 'bg-blue-500', 'text-white');
+                    btn.classList.add('bg-gray-200', 'text-gray-700');
+                });
+
+                if (newActiveButton) {
+                    newActiveButton.classList.add('active-btn', 'bg-blue-500', 'text-white');
+                    newActiveButton.classList.remove('bg-gray-200', 'text-gray-700');
+                }
+                showView(activeViewId);
+            };
+
+            const applyActionPermissions = (viewId) => {
+                const viewPanel = document.getElementById(viewId);
+                if (!viewPanel) return;
+
+                const actionsContainer = viewPanel.querySelector('.flex.justify-center.space-x-4.mb-6');
+                if (!actionsContainer) return;
+
+                const permissions = (currentUser !== 'admin' && userPermissions[currentUser]) ? userPermissions[currentUser].tabs[viewId] : { add: true, remove: true, update: true, view: true };
+
+                actionsContainer.querySelectorAll('.ob-action-btn').forEach(btn => {
+                    const action = btn.dataset.action;
+                    btn.style.display = (permissions && permissions[action]) ? '' : 'none';
+                });
             };
             
             const showView = (viewId) => {
                 viewPanels.forEach(panel => {
-                    panel.id === viewId ? panel.classList.remove('hidden') : panel.classList.add('hidden');
+                    panel.classList.toggle('hidden', panel.id !== viewId);
                 });
-                if (viewId === 'ob-entry-view') updateObNumberDisplay();
-                if (viewId === 'manage-users-view') renderUsersTable();
+                applyActionPermissions(viewId);
             };
 
-            const populateDropdown = (selectElement, options, placeholder) => {
-                if (!selectElement) return;
-                selectElement.innerHTML = '';
-                
-                // Add a disabled, selected placeholder option if a placeholder is provided
+            const populateDropdown = (select, options, placeholder) => {
+                if (!select) return;
+                select.innerHTML = '';
                 if (placeholder) {
-                    const placeholderOpt = document.createElement('option');
-                    placeholderOpt.value = "";
-                    placeholderOpt.textContent = placeholder;
-                    placeholderOpt.disabled = true;
-                    placeholderOpt.selected = true;
-                    selectElement.appendChild(placeholderOpt);
+                    select.innerHTML += `<option value="">${placeholder}</option>`;
                 }
-
-                options.forEach((optionText) => {
-                    const option = document.createElement('option');
-                    const value = typeof optionText === 'object' ? optionText.id : optionText;
-                    const text = typeof optionText === 'object' ? `${optionText.name} ${optionText.surname}` : optionText;
-                    option.value = value;
-                    option.textContent = text;
-                    selectElement.appendChild(option);
-                });
-            };
-            
-            const populateSapDropdowns = (monthSelect, yearSelect) => {
-                if (!monthSelect || !yearSelect) return;
-                const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-                monthSelect.innerHTML = '';
-                months.forEach(month => {
-                    const option = document.createElement('option');
-                    option.value = month;
-                    option.textContent = month;
-                    monthSelect.appendChild(option);
-                });
-                const currentYear = new Date().getFullYear();
-                yearSelect.innerHTML = '';
-                for (let i = 0; i < 10; i++) {
-                    const year = currentYear + i;
-                    const option = document.createElement('option');
-                    option.value = year;
-                    option.textContent = year;
-                    yearSelect.appendChild(option);
-                }
-            };
-            
-            const autosizeInput = (inputElement) => {
-                if (!inputElement) return;
-                const tempSpan = document.createElement('span');
-                tempSpan.style.visibility = 'hidden';
-                tempSpan.style.position = 'absolute';
-                tempSpan.style.whiteSpace = 'nowrap';
-                tempSpan.style.font = window.getComputedStyle(inputElement).font;
-                tempSpan.textContent = inputElement.value || inputElement.placeholder;
-                document.body.appendChild(tempSpan);
-                const width = tempSpan.offsetWidth;
-                document.body.removeChild(tempSpan);
-                inputElement.style.width = `${Math.max(60, width + 20)}px`;
-            };
-
-            const autosizeSelect = (selectElement) => {
-                if (!selectElement) return;
-                const tempSpan = document.createElement('span');
-                tempSpan.style.visibility = 'hidden';
-                tempSpan.style.position = 'absolute';
-                tempSpan.style.whiteSpace = 'nowrap';
-                tempSpan.style.font = window.getComputedStyle(selectElement).font;
-                let maxWidth = 0;
-                document.body.appendChild(tempSpan);
-                for (let i = 0; i < selectElement.options.length; i++) {
-                    tempSpan.textContent = selectElement.options[i].textContent;
-                    maxWidth = Math.max(maxWidth, tempSpan.offsetWidth);
-                }
-                document.body.removeChild(tempSpan);
-                selectElement.style.width = `${maxWidth + 40}px`;
-            };
-
-            const autosizeTextarea = (textarea) => {
-                if (!textarea) return;
-                textarea.style.height = 'auto'; 
-                textarea.style.height = textarea.scrollHeight + 'px';
-            }
-
-            const renderCategoryEditor = (categoryKey) => {
-                const categoryData = dropdownOptions[categoryKey] || [];
-                editingCategoryName.textContent = `Editing: ${categorySelector.options[categorySelector.selectedIndex].text}`;
-                categoryItemList.innerHTML = '';
-                categoryData.forEach((item, index) => {
-                    const itemDiv = document.createElement('div');
-                    itemDiv.className = 'flex justify-between items-center p-2 bg-white rounded-md shadow-sm';
-                    itemDiv.innerHTML = `
-                        <span class="flex-grow">${item}</span>
-                        <button data-item="${item}" data-index="${index}" class="text-red-500 hover:text-red-700 font-bold delete-item-btn p-1">X</button>
-                    `;
-                    categoryItemList.appendChild(itemDiv);
+                options.forEach(opt => {
+                    const value = typeof opt === 'object' ? opt.id : opt;
+                    const text = typeof opt === 'object' ? `${opt.name} ${opt.surname}` : opt;
+                    select.innerHTML += `<option value="${value}">${text}</option>`;
                 });
             };
 
-            const updateObNumberDisplay = () => {
-                if (obNumberDisplay) obNumberDisplay.textContent = obCounter;
-                if(createdDateEl) createdDateEl.textContent = 'October 9, 2025, 1:28 PM';
-            };
-
-            const handleAddItem = () => {
-                const selectedCategory = categorySelector.value;
-                const newItem = newItemInput.value.trim();
-                if (newItem && !dropdownOptions[selectedCategory].includes(newItem)) {
-                    showConfirmationModal(`Are you sure you want to add "${newItem}"?`, () => {
-                        dropdownOptions[selectedCategory].push(toSentenceCase(newItem));
-                        saveData();
-                        renderCategoryEditor(selectedCategory);
-                        updateAllDropdowns();
-                        newItemInput.value = '';
-                        showSuccessModal('Success', `Successfully added "${newItem}".`);
-                    });
-                } else if (newItem) {
-                    showSuccessModal('Error', `Item "${newItem}" already exists in this category.`);
-                }
-            };
-
-            const handleDeleteItem = (event) => {
-                const deleteButton = event.target.closest('.delete-item-btn');
-                if (deleteButton) {
-                    const selectedCategory = categorySelector.value;
-                    const itemIndex = parseInt(deleteButton.dataset.index, 10);
-                    const itemToDelete = deleteButton.dataset.item;
-                    showConfirmationModal(`Are you sure you want to delete "${itemToDelete}"?`, () => {
-                        dropdownOptions[selectedCategory].splice(itemIndex, 1);
-                        saveData();
-                        renderCategoryEditor(selectedCategory);
-                        updateAllDropdowns();
-                        showSuccessModal('Success', `Successfully deleted "${itemToDelete}".`);
-                    });
-                }
-            };
-            
             const updateAllDropdowns = () => {
-                // Main forms
-                populateDropdown(obTypeSelect, dropdownOptions.obType, 'No OB Type Selected');
-                populateDropdown(policeStationSelect, dropdownOptions.policeStation, 'No Police Station Selected');
-                populateDropdown(followUpUserSelect, users.map(u => `${u.name} ${u.surname}`), 'No User Selected');
-                populateDropdown(areaSelect, dropdownOptions.area, 'No Area Selected');
-                populateDropdown(recoveryVehicleBrandSelect, dropdownOptions.vehicleMake, 'No Vehicle Brand Selected');
-                populateDropdown(recoveryPsFromSelect, dropdownOptions.policeStation, 'No Police Station Selected');
-                populateDropdown(recoveryPsRecoveredSelect, dropdownOptions.policeStation, 'No Police Station Selected');
-                populateDropdown(recoveryDivisionSelect, dropdownOptions.division, 'No Division Selected');
-                populateDropdown(recoveryTypeSelect, dropdownOptions.recoveryType, 'No Recovery Type Selected');
-                populateDropdown(recoveryIncidentTypeSelect, dropdownOptions.incidentType, 'No Incident Type Selected');
+                populateDropdown(document.getElementById('ob-type-select'), dropdownOptions.obType, 'No OB Type Selected');
+                populateDropdown(document.getElementById('police-station-select'), dropdownOptions.policeStation, 'No Police Station Selected');
+                populateDropdown(document.getElementById('follow-up-user-select'), users, 'No User Selected');
+                populateDropdown(document.getElementById('area-select'), dropdownOptions.area, 'No Area Selected');
+                populateDropdown(document.getElementById('recovery-vehicle-brand-select'), dropdownOptions.vehicleMake, 'No Vehicle Brand Selected');
+                populateDropdown(document.getElementById('recovery-ps-from-select'), dropdownOptions.policeStation, 'No Police Station Selected');
+                populateDropdown(document.getElementById('recovery-ps-recovered-select'), dropdownOptions.policeStation, 'No Police Station Selected');
+                populateDropdown(document.getElementById('recovery-division-select'), dropdownOptions.division, 'No Division Selected');
+                populateDropdown(document.getElementById('recovery-type-select'), dropdownOptions.recoveryType, 'No Recovery Type Selected');
+                populateDropdown(document.getElementById('recovery-incident-type-select'), dropdownOptions.incidentType, 'No Incident Type Selected');
                 populateDropdown(document.getElementById('pa-division-select'), dropdownOptions.division, 'No Division Selected');
-                document.querySelectorAll('.pa-nature-crime-select').forEach(select => populateDropdown(select, dropdownOptions.natureOfCrime, 'No Crime Selected'));
-                document.querySelectorAll('.pa-police-station-select').forEach(select => populateDropdown(select, dropdownOptions.policeStation, 'No Police Station Selected'));
-                
-                // SOT View
+                document.querySelectorAll('.pa-nature-crime-select').forEach(s => populateDropdown(s, dropdownOptions.natureOfCrime, 'No Crime Selected'));
+                document.querySelectorAll('.pa-police-station-select').forEach(s => populateDropdown(s, dropdownOptions.policeStation, 'No Police Station Selected'));
                 populateDropdown(document.getElementById('sot-incident-type-select'), dropdownOptions.natureOfCrime, 'No Incident Type Selected');
                 populateDropdown(document.getElementById('sot-person-assigned-select'), dropdownOptions.sotPersonAssigned, 'No User Assigned');
-
-                // User Management
                 populateDropdown(userDepartmentSelect, dropdownOptions.department, 'Select Department');
                 populateDropdown(userRoleSelect, dropdownOptions.role, 'Select Role');
-
-                // User Permissions
                 populateDropdown(permissionsDeptSelect, dropdownOptions.department, 'All Departments');
                 populateDropdown(permissionsRoleSelect, dropdownOptions.role, 'All Roles');
-                filterPermissionUsers(); // Initial population of users
-
-                document.querySelectorAll('select').forEach(select => autosizeSelect(select));
-            };
-            
-            const handleSaveRecord = () => {
-                const obNumber = obNumberDisplay.textContent;
-                showConfirmationModal(`Are you sure you want to ${currentRecordAction} record OB-${obNumber}?`, () => {
-                    let successMessage = `Record OB-${obNumber} has been successfully ${currentRecordAction}d.`;
-                    if (currentRecordAction === 'add') {
-                        const savedNumber = obCounter;
-                        obCounter++;
-                        updateObNumberDisplay();
-                        successMessage = `Record OB-${savedNumber} has been successfully saved.`
-                    }
-                    showSuccessModal('Success', successMessage);
-                });
+                filterPermissionUsers();
             };
 
             const renderUsersTable = () => {
                 usersTbody.innerHTML = '';
                 users.forEach(user => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="py-2 px-4 border-b">${user.name} ${user.surname}</td>
-                        <td class="py-2 px-4 border-b">${user.email}</td>
-                        <td class="py-2 px-4 border-b">${user.department}</td>
-                        <td class="py-2 px-4 border-b">${user.role}</td>
-                        <td class="py-2 px-4 border-b space-x-2">
-                            <button data-id="${user.id}" class="edit-user-btn text-blue-500 hover:underline">Edit</button>
-                            <button data-id="${user.id}" class="delete-user-btn text-red-500 hover:underline">Delete</button>
-                        </td>
+                    usersTbody.innerHTML += `
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-2 px-4 border-b">${user.name} ${user.surname}</td>
+                            <td class="py-2 px-4 border-b">${user.email}</td>
+                            <td class="py-2 px-4 border-b">${user.department}</td>
+                            <td class="py-2 px-4 border-b">${user.role}</td>
+                            <td class="py-2 px-4 border-b space-x-2">
+                                <button data-id="${user.id}" class="edit-user-btn text-blue-500 hover:underline">Edit</button>
+                                <button data-id="${user.id}" class="delete-user-btn text-red-500 hover:underline">Delete</button>
+                            </td>
+                        </tr>
                     `;
-                    usersTbody.appendChild(row);
                 });
             };
 
@@ -1432,249 +1307,214 @@
                     role: userRoleSelect.value,
                     password: userPasswordInput.value
                 };
-
                 showConfirmationModal(`Are you sure you want to ${userId ? 'update' : 'add'} this user?`, () => {
-                    if (userId) { // Update existing user
+                    if (userId) {
                         const index = users.findIndex(u => u.id == userId);
                         users[index] = user;
-                    } else { // Add new user
+                    } else {
                         users.push(user);
                         initializePermissionsForUser(user.id);
                     }
                     saveData();
                     renderUsersTable();
                     updateAllDropdowns();
+                    populateLoginDropdown();
                     resetUserForm();
                     showSuccessModal('Success', `User has been successfully ${userId ? 'updated' : 'saved'}.`);
                 });
             };
-
-            const handleEditUserClick = (e) => {
-                if (!e.target.classList.contains('edit-user-btn')) return;
-                const userId = e.target.dataset.id;
-                const user = users.find(u => u.id == userId);
-                if (user) {
-                    userFormTitle.textContent = 'Edit User';
-                    userIdInput.value = user.id;
-                    userNameInput.value = user.name;
-                    userSurnameInput.value = user.surname;
-                    userEmailInput.value = user.email;
-                    userDepartmentSelect.value = user.department;
-                    userRoleSelect.value = user.role;
-                    userPasswordInput.value = user.password;
-                    cancelEditBtn.classList.remove('hidden');
+            
+            const handleUsersTableClick = (e) => {
+                if (e.target.classList.contains('edit-user-btn')) {
+                    const userId = e.target.dataset.id;
+                    const user = users.find(u => u.id == userId);
+                    if (user) {
+                        userFormTitle.textContent = 'Edit User';
+                        userIdInput.value = user.id;
+                        userNameInput.value = user.name;
+                        userSurnameInput.value = user.surname;
+                        userEmailInput.value = user.email;
+                        userDepartmentSelect.value = user.department;
+                        userRoleSelect.value = user.role;
+                        userPasswordInput.value = user.password;
+                        cancelEditBtn.classList.remove('hidden');
+                    }
+                } else if (e.target.classList.contains('delete-user-btn')) {
+                    const userId = e.target.dataset.id;
+                    const user = users.find(u => u.id == userId);
+                    showConfirmationModal(`Are you sure you want to delete user ${user.name} ${user.surname}?`, () => {
+                        users = users.filter(u => u.id != userId);
+                        delete userPermissions[userId];
+                        saveData();
+                        renderUsersTable();
+                        updateAllDropdowns();
+                        populateLoginDropdown();
+                        showSuccessModal('Success', 'User has been deleted.');
+                    });
                 }
             };
             
-            const handleDeleteUserClick = (e) => {
-                if (!e.target.classList.contains('delete-user-btn')) return;
-                const userId = e.target.dataset.id;
-                const user = users.find(u => u.id == userId);
-                showConfirmationModal(`Are you sure you want to delete user ${user.name} ${user.surname}?`, () => {
-                    users = users.filter(u => u.id != userId);
-                    delete userPermissions[userId];
-                    saveData();
-                    renderUsersTable();
-                    updateAllDropdowns();
-                    showSuccessModal('Success', 'User has been deleted.');
-                });
-            };
-
-
             const initializePermissionsForUser = (userId) => {
                 if (!userPermissions[userId]) {
                     userPermissions[userId] = { tabs: {} };
-                    permissionsContainer.querySelectorAll('.permission-row').forEach(row => {
+                    document.querySelectorAll('.permission-row').forEach(row => {
                         const view = row.dataset.viewName;
-                        userPermissions[userId].tabs[view] = { add: true, remove: true, update: true, view: true };
+                        userPermissions[userId].tabs[view] = { access: true, add: true, remove: true, update: true, view: true };
                     });
                 }
             };
 
             const renderPermissions = (userId) => {
                 const permissions = userPermissions[userId];
-                if (!permissions) {
-                    // Clear all checkboxes if no user is selected or found
-                    permissionsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-                    return;
-                };
-
-                permissionsContainer.querySelectorAll('.permission-row').forEach(row => {
+                document.querySelectorAll('.permission-row').forEach(row => {
                     const view = row.dataset.viewName;
-                    const tabPermissions = permissions.tabs[view] || {};
-                    row.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                        const action = checkbox.dataset.action;
-                        checkbox.checked = tabPermissions[action] || false;
+                    const tabPerms = (permissions && permissions.tabs && permissions.tabs[view]) ? permissions.tabs[view] : {};
+                    const accessCheckbox = row.querySelector('[data-action="access"]');
+                    accessCheckbox.checked = tabPerms.access || false;
+                    row.querySelectorAll('.action-cb').forEach(cb => {
+                        const action = cb.dataset.action;
+                        cb.checked = tabPerms[action] || false;
+                        cb.disabled = !accessCheckbox.checked || cb.hasAttribute('disabled');
                     });
                 });
             };
 
             const savePermissions = () => {
                 const selectedUserId = permissionsUserSelect.value;
-                if (!selectedUserId) {
-                    showSuccessModal('Error', 'Please select a user first.');
-                    return;
-                }
-
-                showConfirmationModal(`Are you sure you want to save permissions for this user?`, () => {
-                    const currentUserPermissions = userPermissions[selectedUserId] || { tabs: {} };
-                    
-                    permissionsContainer.querySelectorAll('.permission-row').forEach(row => {
+                if (!selectedUserId) return showSuccessModal('Error', 'Please select a user first.');
+                showConfirmationModal('Are you sure you want to save these permissions?', () => {
+                    const userPerms = userPermissions[selectedUserId] || { tabs: {} };
+                    document.querySelectorAll('.permission-row').forEach(row => {
                         const view = row.dataset.viewName;
-                        if (!currentUserPermissions.tabs[view]) currentUserPermissions.tabs[view] = {};
-                        
-                        row.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                            const action = checkbox.dataset.action;
-                            currentUserPermissions.tabs[view][action] = checkbox.checked;
+                        if (!userPerms.tabs[view]) userPerms.tabs[view] = {};
+                        userPerms.tabs[view].access = row.querySelector('[data-action="access"]').checked;
+                        row.querySelectorAll('.action-cb').forEach(cb => {
+                            userPerms.tabs[view][cb.dataset.action] = cb.checked;
                         });
                     });
-                    
-                    userPermissions[selectedUserId] = currentUserPermissions;
+                    userPermissions[selectedUserId] = userPerms;
                     saveData();
-                    showSuccessModal('Success', `Permissions have been updated.`);
+                    showSuccessModal('Success', 'Permissions updated.');
+                    if (currentUser === selectedUserId) {
+                        applyPermissions();
+                    }
                 });
             };
 
             const filterPermissionUsers = () => {
                 const dept = permissionsDeptSelect.value;
                 const role = permissionsRoleSelect.value;
+                let filtered = users.filter(u => (!dept || u.department === dept) && (!role || u.role === role));
+                populateDropdown(permissionsUserSelect, filtered, 'Select User');
+                renderPermissions(null);
+            };
 
-                let filteredUsers = users;
-                if (dept) {
-                    filteredUsers = filteredUsers.filter(u => u.department === dept);
+            const populateLoginDropdown = () => {
+                loginAsSelect.innerHTML = '<option value="admin">Admin</option>';
+                users.forEach(user => {
+                    loginAsSelect.innerHTML += `<option value="${user.id}">${user.name} ${user.surname}</option>`;
+                });
+                loginAsSelect.value = currentUser;
+            };
+
+            const handleAddItem = () => {
+                const categorySelector = document.getElementById('category-selector');
+                const newItemInput = document.getElementById('new-item-input');
+                const selectedCategory = categorySelector.value;
+                const newItem = newItemInput.value.trim();
+                if (newItem && !dropdownOptions[selectedCategory].includes(newItem)) {
+                    showConfirmationModal(`Are you sure you want to add "${newItem}"?`, () => {
+                        dropdownOptions[selectedCategory].push(toSentenceCase(newItem));
+                        saveData();
+                        renderCategoryEditor(selectedCategory);
+                        updateAllDropdowns();
+                        newItemInput.value = '';
+                        showSuccessModal('Success', `Successfully added "${newItem}".`);
+                    });
+                } else if (newItem) {
+                    showSuccessModal('Error', `Item "${newItem}" already exists in this category.`);
                 }
-                if (role) {
-                    filteredUsers = filteredUsers.filter(u => u.role === role);
+            };
+
+            const handleDeleteItem = (event) => {
+                const deleteButton = event.target.closest('.delete-item-btn');
+                const categorySelector = document.getElementById('category-selector');
+                if (deleteButton) {
+                    const selectedCategory = categorySelector.value;
+                    const itemIndex = parseInt(deleteButton.dataset.index, 10);
+                    const itemToDelete = deleteButton.dataset.item;
+                    showConfirmationModal(`Are you sure you want to delete "${itemToDelete}"?`, () => {
+                        dropdownOptions[selectedCategory].splice(itemIndex, 1);
+                        saveData();
+                        renderCategoryEditor(selectedCategory);
+                        updateAllDropdowns();
+                        showSuccessModal('Success', `Successfully deleted "${itemToDelete}".`);
+                    });
                 }
-                populateDropdown(permissionsUserSelect, filteredUsers, 'Select User');
-                // After filtering, clear the displayed permissions until a user is re-selected
-                renderPermissions(null); 
             };
 
 
             // --- EVENT LISTENERS ---
-            sidebarNav.addEventListener('click', (event) => {
-                const clickedButton = event.target.closest('button');
-                if (!clickedButton || !clickedButton.dataset.view) return;
+            loginAsSelect.addEventListener('change', (e) => {
+                currentUser = e.target.value;
+                applyPermissions();
+            });
 
-                sidebarNav.querySelectorAll('button').forEach(btn => {
-                    btn.classList.remove('active-btn', 'bg-blue-500', 'text-white');
-                    btn.classList.add('bg-gray-200', 'text-gray-700');
-                });
-                clickedButton.classList.add('active-btn', 'bg-blue-500', 'text-white');
-                clickedButton.classList.remove('bg-gray-200', 'text-gray-700');
-
-                showView(clickedButton.dataset.view);
+            sidebarNav.addEventListener('click', (e) => {
+                const btn = e.target.closest('button[data-view]');
+                if (btn && !btn.classList.contains('hidden')) {
+                    sidebarNav.querySelectorAll('button').forEach(b => {
+                        b.classList.remove('active-btn', 'bg-blue-500', 'text-white');
+                        b.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    btn.classList.add('active-btn', 'bg-blue-500', 'text-white');
+                    btn.classList.remove('bg-gray-200', 'text-gray-700');
+                    showView(btn.dataset.view);
+                }
             });
             
-            obActionButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    currentRecordAction = btn.dataset.action;
-                    obActionButtons.forEach(b => b.classList.remove('action-btn-active', 'bg-blue-500', 'text-white'));
-                    btn.classList.add('action-btn-active', 'bg-blue-500', 'text-white');
-                });
-            });
+            userForm.addEventListener('submit', handleUserFormSubmit);
+            usersTbody.addEventListener('click', handleUsersTableClick);
+            cancelEditBtn.addEventListener('click', resetUserForm);
 
-            document.body.addEventListener('click', (event) => {
-                const clickedButton = event.target.closest('.status-btn');
-                if (clickedButton) {
-                    const container = clickedButton.parentElement;
-                    if (container) {
-                        container.querySelectorAll('.status-btn').forEach(btn => {
-                            btn.classList.remove('status-btn-active');
-                            btn.classList.add('bg-gray-200', 'text-gray-700');
+            permissionsDeptSelect.addEventListener('change', filterPermissionUsers);
+            permissionsRoleSelect.addEventListener('change', filterPermissionUsers);
+            permissionsUserSelect.addEventListener('change', e => renderPermissions(e.target.value));
+            savePermissionsBtn.addEventListener('click', savePermissions);
+
+            if (permissionsContainer) {
+                permissionsContainer.addEventListener('change', (e) => {
+                    if (e.target.classList.contains('tab-access-cb')) {
+                        const row = e.target.closest('.permission-row');
+                        row.querySelectorAll('.action-cb:not([disabled])').forEach(cb => {
+                            cb.disabled = !e.target.checked;
+                            if (!e.target.checked) cb.checked = false;
                         });
-                        clickedButton.classList.add('status-btn-active');
-                        clickedButton.classList.remove('bg-gray-200', 'text-gray-700');
                     }
-                }
-            });
-
-
-            document.body.addEventListener('input', (event) => {
-                const target = event.target;
-                if (target.classList.contains('numeric-only')) {
-                    target.value = target.value.replace(/[^0-9]/g, '');
-                }
-                else if (target.classList.contains('currency-rand')) {
-                    let numericValue = target.value.replace(/[^0-9]/g, '');
-                    if (numericValue) {
-                        target.value = 'R ' + parseInt(numericValue, 10).toLocaleString('en-ZA');
-                    } else {
-                        target.value = '';
-                    }
-                }
-                else if (target.classList.contains('decimal-only')) {
-                    let sanitizedValue = target.value.replace(/[^0-9.-]/g, '');
-                    if (sanitizedValue.indexOf('-', 1) > -1) {
-                         sanitizedValue = '-' + sanitizedValue.replace(/-/g, '');
-                    }
-                    const parts = sanitizedValue.split('.');
-                    if (parts.length > 2) {
-                        sanitizedValue = parts[0] + '.' + parts.slice(1).join('');
-                    }
-                    target.value = sanitizedValue;
-                }
-                if (target.classList.contains('autosize-input')) autosizeInput(target);
-                if (target.matches('.autosize-person-textarea')) autosizeTextarea(target);
-            });
-
-            document.body.addEventListener('change', (event) => {
-                if (event.target.tagName === 'SELECT') autosizeSelect(event.target);
-                if (event.target.classList.contains('sot-comment-toggle')) {
-                    const checkbox = event.target;
-                    const commentBox = document.getElementById(checkbox.dataset.target);
-                    if (commentBox) commentBox.classList.toggle('hidden', !checkbox.checked);
-                }
-            });
-
-            if(saveRecordBtn) saveRecordBtn.addEventListener('click', handleSaveRecord);
-            
-            // Category Editor event listeners
-            const categorySelectorElem = document.getElementById('category-selector');
-            if (categorySelectorElem) categorySelectorElem.addEventListener('change', () => renderCategoryEditor(categorySelectorElem.value));
-            if (addItemBtn) addItemBtn.addEventListener('click', handleAddItem);
-            if (newItemInput) newItemInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddItem(); });
-            if (categoryItemList) categoryItemList.addEventListener('click', handleDeleteItem);
-
-            // User Management Listeners
-            if (userForm) userForm.addEventListener('submit', handleUserFormSubmit);
-            if (usersTbody) usersTbody.addEventListener('click', handleEditUserClick);
-            if (usersTbody) usersTbody.addEventListener('click', handleDeleteUserClick);
-            if (cancelEditBtn) cancelEditBtn.addEventListener('click', resetUserForm);
-
-            // User Permissions Listeners
-            if (permissionsDeptSelect) permissionsDeptSelect.addEventListener('change', filterPermissionUsers);
-            if (permissionsRoleSelect) permissionsRoleSelect.addEventListener('change', filterPermissionUsers);
-            if (permissionsUserSelect) permissionsUserSelect.addEventListener('change', (e) => renderPermissions(e.target.value));
-            if (savePermissionsBtn) savePermissionsBtn.addEventListener('click', savePermissions);
+                });
+            }
 
             // --- INITIALIZATION ---
             const initializeApp = () => {
                 loadData();
                 users.forEach(user => initializePermissionsForUser(user.id));
-                
-                document.querySelectorAll('.sap-container').forEach(container => {
-                    const monthSelect = container.querySelector('.sap-month');
-                    const yearSelect = container.querySelector('.sap-year');
-                    populateSapDropdowns(monthSelect, yearSelect);
-                });
-                
+                populateLoginDropdown();
                 updateAllDropdowns();
-                updateObNumberDisplay();
-                document.querySelectorAll('.autosize-input').forEach(input => autosizeInput(input));
-                if(categorySelectorElem) renderCategoryEditor(categorySelectorElem.value);
-
-                // Initial render for permissions
-                renderPermissions(permissionsUserSelect.value);
-
-                // Pre-fill time and location
-                const timeOfIncidentFrom = document.querySelector('#ob-form input[type="datetime-local"]');
-                if (timeOfIncidentFrom) timeOfIncidentFrom.value = '2025-10-09T13:28';
-                if (areaSelect) {
-                    areaSelect.value = 'Durban North';
-                    autosizeSelect(areaSelect);
+                applyPermissions(); // Apply permissions on load
+                document.getElementById('created-date').textContent = new Date().toLocaleString();
+                
+                const categorySelectorElem = document.getElementById('category-selector');
+                if (categorySelectorElem) {
+                    renderCategoryEditor(categorySelectorElem.value);
+                    categorySelectorElem.addEventListener('change', () => renderCategoryEditor(categorySelectorElem.value));
                 }
+                const addItemBtn = document.getElementById('add-item-btn');
+                if(addItemBtn) addItemBtn.addEventListener('click', handleAddItem);
+                const newItemInput = document.getElementById('new-item-input');
+                if(newItemInput) newItemInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddItem(); });
+                const categoryItemList = document.getElementById('category-item-list');
+                if(categoryItemList) categoryItemList.addEventListener('click', handleDeleteItem);
+
             };
 
             initializeApp();

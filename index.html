@@ -318,7 +318,8 @@
                                 <option value="incidentType">Incident Type</option>
                                 <option value="natureOfCrime">Nature of Crime</option>
                                 <option value="sotPersonAssigned">SOT Person Assigned</option>
-                                <option value="users">Users</option>
+                                <option value="department">Department</option>
+                                <option value="role">Role</option>
                             </select>
                         </div>
                         <div id="editor-panel">
@@ -870,49 +871,133 @@
                     </div>
                 </div>
 
-                <div id="manage-users-view" class="view-panel hidden flex items-center justify-center h-full border-2 border-dashed border-gray-300 rounded-xl">
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-500">Manage Users</h1>
+                <!-- Manage Users View -->
+                <div id="manage-users-view" class="view-panel hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Manage Users</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Add/Edit User Form -->
+                        <div class="lg:col-span-1">
+                             <div class="border rounded-lg p-6 bg-gray-50">
+                                <h3 id="user-form-title" class="text-xl font-semibold mb-4">Add New User</h3>
+                                <form id="manage-user-form" class="space-y-4">
+                                    <input type="hidden" id="user-id-input">
+                                    <div>
+                                        <label for="user-name" class="block text-sm font-medium text-gray-700">Name</label>
+                                        <input type="text" id="user-name" class="mt-1 p-2 border rounded-md w-full" required>
+                                    </div>
+                                    <div>
+                                        <label for="user-surname" class="block text-sm font-medium text-gray-700">Surname</label>
+                                        <input type="text" id="user-surname" class="mt-1 p-2 border rounded-md w-full" required>
+                                    </div>
+                                    <div>
+                                        <label for="user-email" class="block text-sm font-medium text-gray-700">Email</label>
+                                        <input type="email" id="user-email" class="mt-1 p-2 border rounded-md w-full" required>
+                                    </div>
+                                    <div>
+                                        <label for="user-department" class="block text-sm font-medium text-gray-700">Department</label>
+                                        <select id="user-department" class="mt-1 p-2 border rounded-md w-full" required></select>
+                                    </div>
+                                    <div>
+                                        <label for="user-role" class="block text-sm font-medium text-gray-700">Role</label>
+                                        <select id="user-role" class="mt-1 p-2 border rounded-md w-full" required></select>
+                                    </div>
+                                    <div>
+                                        <label for="user-password" class="block text-sm font-medium text-gray-700">Password</label>
+                                        <input type="password" id="user-password" class="mt-1 p-2 border rounded-md w-full" required>
+                                    </div>
+                                    <div class="flex justify-end space-x-3 pt-4">
+                                         <button type="button" id="cancel-edit-btn" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg btn-hover-effect hidden">Cancel</button>
+                                        <button type="submit" class="px-6 py-2 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save User</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- User List -->
+                        <div class="lg:col-span-2">
+                            <div class="border rounded-lg p-6 bg-gray-50">
+                                <h3 class="text-xl font-semibold mb-4">Existing Users</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full bg-white border">
+                                        <thead class="bg-gray-200">
+                                            <tr>
+                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Name</th>
+                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Email</th>
+                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Department</th>
+                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Role</th>
+                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="users-tbody">
+                                            <!-- User rows will be dynamically inserted here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
 
                 <!-- User Permissions View -->
                 <div id="user-permissions-view" class="view-panel hidden">
                     <h2 class="text-2xl font-bold text-gray-800 mb-6">User Permissions</h2>
                     <div class="border rounded-lg p-6 bg-gray-50">
-                        <div class="mb-6">
-                            <label for="user-select" class="block text-sm font-medium text-gray-700 mb-2">Select User to Edit Permissions:</label>
-                            <select id="user-select" class="p-2 border rounded-md w-full max-w-xs"></select>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                             <div>
+                                <label for="permissions-department-select" class="block text-sm font-medium text-gray-700 mb-1">Filter by Department:</label>
+                                <select id="permissions-department-select" class="p-2 border rounded-md w-full"></select>
+                            </div>
+                             <div>
+                                <label for="permissions-role-select" class="block text-sm font-medium text-gray-700 mb-1">Filter by Role:</label>
+                                <select id="permissions-role-select" class="p-2 border rounded-md w-full"></select>
+                            </div>
+                            <div>
+                                <label for="permissions-user-select" class="block text-sm font-medium text-gray-700 mb-1">Select User:</label>
+                                <select id="permissions-user-select" class="p-2 border rounded-md w-full"></select>
+                            </div>
                         </div>
 
-                        <div id="permissions-container" class="space-y-4">
-                            <!-- Permissions Checkboxes -->
-                            <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
-                                <input type="checkbox" data-permission-type="tab" data-target-view="ob-entry-view" class="h-5 w-5">
-                                <span>OB Entry Tab</span>
-                            </label>
-                            <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
-                                <input type="checkbox" data-permission-type="tab" data-target-view="category-edit-view" class="h-5 w-5">
-                                <span>Category Edit Tab</span>
-                            </label>
-                            <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
-                                <input type="checkbox" data-permission-type="tab" data-target-view="recoveries-view" class="h-5 w-5">
-                                <span>Recoveries Tab</span>
-                            </label>
-                            <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
-                                <input type="checkbox" data-permission-type="tab" data-target-view="complaints-view" class="h-5 w-5">
-                                <span>Complaints Tab</span>
-                            </label>
-                            <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
-                                <input type="checkbox" data-permission-type="tab" data-target-view="positive-arrests-view" class="h-5 w-5">
-                                <span>Positive Arrests Tab</span>
-                            </label>
-                             <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
-                                <input type="checkbox" data-permission-type="tab" data-target-view="sot-view" class="h-5 w-5">
-                                <span>SOT Positives Tab</span>
-                            </label>
-                             <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
-                                <input type="checkbox" data-permission-type="tab" data-target-view="manage-users-view" class="h-5 w-5">
-                                <span>Manage Users Tab</span>
-                            </label>
+                        <div id="permissions-container" class="space-y-4 pt-4 border-t">
+                             <!-- Headers -->
+                            <div class="grid grid-cols-5 items-center font-semibold text-gray-600 px-4">
+                                <div class="col-span-1">Tab</div>
+                                <div class="col-span-1 text-center">Add Record</div>
+                                <div class="col-span-1 text-center">Remove Record</div>
+                                <div class="col-span-1 text-center">Update Record</div>
+                                <div class="col-span-1 text-center">View Record</div>
+                            </div>
+                            
+                            <!-- Permissions Rows -->
+                            <div data-view-name="ob-entry-view" class="permission-row grid grid-cols-5 items-center border-b py-3">
+                                <div class="col-span-1 font-semibold text-gray-700">OB Entry</div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5"></div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5"></div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5"></div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5"></div>
+                            </div>
+                            <div data-view-name="recoveries-view" class="permission-row grid grid-cols-5 items-center border-b py-3">
+                                <div class="col-span-1 font-semibold text-gray-700">Recoveries</div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5"></div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5"></div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5"></div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5"></div>
+                            </div>
+                            <div data-view-name="positive-arrests-view" class="permission-row grid grid-cols-5 items-center border-b py-3">
+                                <div class="col-span-1 font-semibold text-gray-700">Positive Arrests</div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5"></div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5"></div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5"></div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5"></div>
+                            </div>
+                            <div data-view-name="sot-view" class="permission-row grid grid-cols-5 items-center border-b py-3">
+                                <div class="col-span-1 font-semibold text-gray-700">SOT Positives</div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="add" class="h-5 w-5"></div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="remove" class="h-5 w-5"></div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="update" class="h-5 w-5"></div>
+                                <div class="col-span-1 text-center"><input type="checkbox" data-action="view" class="h-5 w-5"></div>
+                            </div>
+
                         </div>
                          <!-- Save Button -->
                         <div class="flex justify-end pt-6 mt-6 border-t">
@@ -936,7 +1021,7 @@
             let obCounter = 1;
             let currentRecordAction = 'add'; // Default action
             let dropdownOptions; // Will be loaded from localStorage or defaults
-            let personRowCounter = 0;
+            let users = []; // Array of user objects
             let userPermissions = {};
 
             const toSentenceCase = (str) => {
@@ -1002,7 +1087,12 @@
                     "Theft out of mv", "Attempted theft from mv", "Theft from mv", "In possession of car breaking implements", "Fraud", "Facial reg app"
                 ],
                 sotPersonAssigned: ["Jono", "Jaco", "Michael", "Zandre", "Derek"],
-                users: ["User A", "User B", "User C"]
+                department: ["SOT", "Reaction", "Control Room", "Sales", "Marketing", "I.T", "Customer Care"],
+                role: [
+                    "SOT Manager", "SOT Member", "Reaction Manager", "Reaction Supervisor", "Reaction Officer", 
+                    "Control Room Manager", "Control Room Supervisor", "Control Room Operator", "Sales Manager", 
+                    "Sales Admin", "Sales Field", "I.T", "Customer Care"
+                ]
             };
             
             // --- ELEMENT REFERENCES ---
@@ -1034,7 +1124,23 @@
             const recoveryIncidentTypeSelect = document.getElementById('recovery-incident-type-select');
             const addSuspectBtn = document.getElementById('add-suspect-btn');
             const suspectsTbody = document.getElementById('suspects-tbody');
-            const userSelect = document.getElementById('user-select');
+            
+            // User Management & Permissions
+            const userForm = document.getElementById('manage-user-form');
+            const userFormTitle = document.getElementById('user-form-title');
+            const userIdInput = document.getElementById('user-id-input');
+            const userNameInput = document.getElementById('user-name');
+            const userSurnameInput = document.getElementById('user-surname');
+            const userEmailInput = document.getElementById('user-email');
+            const userDepartmentSelect = document.getElementById('user-department');
+            const userRoleSelect = document.getElementById('user-role');
+            const userPasswordInput = document.getElementById('user-password');
+            const usersTbody = document.getElementById('users-tbody');
+            const cancelEditBtn = document.getElementById('cancel-edit-btn');
+            
+            const permissionsDeptSelect = document.getElementById('permissions-department-select');
+            const permissionsRoleSelect = document.getElementById('permissions-role-select');
+            const permissionsUserSelect = document.getElementById('permissions-user-select');
             const permissionsContainer = document.getElementById('permissions-container');
             const savePermissionsBtn = document.getElementById('save-permissions-btn');
 
@@ -1073,32 +1179,31 @@
 
             successModalOkBtn.addEventListener('click', () => successModal.style.display = 'none');
 
-            const saveDropdownOptions = () => localStorage.setItem('dropdownData', JSON.stringify(dropdownOptions));
+            const saveData = () => {
+                localStorage.setItem('dropdownData', JSON.stringify(dropdownOptions));
+                localStorage.setItem('usersData', JSON.stringify(users));
+                localStorage.setItem('userPermissionsData', JSON.stringify(userPermissions));
+            };
             
-            const loadDropdownOptions = () => {
-                const savedData = localStorage.getItem('dropdownData');
-                const savedOptions = savedData ? JSON.parse(savedData) : {};
-                
-                let tempOptions = {};
-
-                // Start with a deep copy of defaults
+            const loadData = () => {
+                // Load Dropdowns
+                const savedDropdowns = localStorage.getItem('dropdownData');
+                const savedOptions = savedDropdowns ? JSON.parse(savedDropdowns) : {};
                 let defaultCopy = JSON.parse(JSON.stringify(defaultDropdownOptions));
-
-                // Format all default category items
                 for (const key in defaultCopy) {
                     if (Array.isArray(defaultCopy[key])) {
                         defaultCopy[key] = defaultCopy[key].map(item => toSentenceCase(item));
                     }
                 }
-                
                 dropdownOptions = { ...defaultCopy, ...savedOptions };
 
-                 // Ensure saved data is also formatted
-                for (const key in dropdownOptions) {
-                    if (Array.isArray(dropdownOptions[key])) {
-                        dropdownOptions[key] = dropdownOptions[key].map(item => toSentenceCase(item));
-                    }
-                }
+                // Load Users
+                const savedUsers = localStorage.getItem('usersData');
+                users = savedUsers ? JSON.parse(savedUsers) : [];
+
+                // Load Permissions
+                const savedPermissions = localStorage.getItem('userPermissionsData');
+                userPermissions = savedPermissions ? JSON.parse(savedPermissions) : {};
             };
             
             const showView = (viewId) => {
@@ -1106,6 +1211,7 @@
                     panel.id === viewId ? panel.classList.remove('hidden') : panel.classList.add('hidden');
                 });
                 if (viewId === 'ob-entry-view') updateObNumberDisplay();
+                if (viewId === 'manage-users-view') renderUsersTable();
             };
 
             const populateDropdown = (selectElement, options, placeholder) => {
@@ -1124,15 +1230,16 @@
 
                 options.forEach((optionText) => {
                     const option = document.createElement('option');
-                    option.value = optionText;
-                    option.textContent = optionText;
+                    const value = typeof optionText === 'object' ? optionText.id : optionText;
+                    const text = typeof optionText === 'object' ? `${optionText.name} ${optionText.surname}` : optionText;
+                    option.value = value;
+                    option.textContent = text;
                     selectElement.appendChild(option);
                 });
             };
             
             const populateSapDropdowns = (monthSelect, yearSelect) => {
                 if (!monthSelect || !yearSelect) return;
-                // Populate months
                 const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
                 monthSelect.innerHTML = '';
                 months.forEach(month => {
@@ -1141,8 +1248,6 @@
                     option.textContent = month;
                     monthSelect.appendChild(option);
                 });
-
-                // Populate years
                 const currentYear = new Date().getFullYear();
                 yearSelect.innerHTML = '';
                 for (let i = 0; i < 10; i++) {
@@ -1161,26 +1266,20 @@
                 tempSpan.style.position = 'absolute';
                 tempSpan.style.whiteSpace = 'nowrap';
                 tempSpan.style.font = window.getComputedStyle(inputElement).font;
-                
                 tempSpan.textContent = inputElement.value || inputElement.placeholder;
-                
                 document.body.appendChild(tempSpan);
                 const width = tempSpan.offsetWidth;
                 document.body.removeChild(tempSpan);
-
-                // Set a minimum width and add padding
                 inputElement.style.width = `${Math.max(60, width + 20)}px`;
             };
 
             const autosizeSelect = (selectElement) => {
                 if (!selectElement) return;
-                // Create a hidden span to measure text width
                 const tempSpan = document.createElement('span');
                 tempSpan.style.visibility = 'hidden';
                 tempSpan.style.position = 'absolute';
                 tempSpan.style.whiteSpace = 'nowrap';
                 tempSpan.style.font = window.getComputedStyle(selectElement).font;
-                
                 let maxWidth = 0;
                 document.body.appendChild(tempSpan);
                 for (let i = 0; i < selectElement.options.length; i++) {
@@ -1188,15 +1287,13 @@
                     maxWidth = Math.max(maxWidth, tempSpan.offsetWidth);
                 }
                 document.body.removeChild(tempSpan);
-
-                // Add some padding for the dropdown arrow and to prevent text clipping
                 selectElement.style.width = `${maxWidth + 40}px`;
             };
 
             const autosizeTextarea = (textarea) => {
                 if (!textarea) return;
-                textarea.style.height = 'auto'; // Reset height
-                textarea.style.height = textarea.scrollHeight + 'px'; // Set to scroll height
+                textarea.style.height = 'auto'; 
+                textarea.style.height = textarea.scrollHeight + 'px';
             }
 
             const renderCategoryEditor = (categoryKey) => {
@@ -1215,12 +1312,8 @@
             };
 
             const updateObNumberDisplay = () => {
-                if (obNumberDisplay) {
-                    obNumberDisplay.textContent = obCounter;
-                }
-                if(createdDateEl){
-                    createdDateEl.textContent = 'October 9, 2025, 1:28 PM';
-                }
+                if (obNumberDisplay) obNumberDisplay.textContent = obCounter;
+                if(createdDateEl) createdDateEl.textContent = 'October 9, 2025, 1:28 PM';
             };
 
             const handleAddItem = () => {
@@ -1229,7 +1322,7 @@
                 if (newItem && !dropdownOptions[selectedCategory].includes(newItem)) {
                     showConfirmationModal(`Are you sure you want to add "${newItem}"?`, () => {
                         dropdownOptions[selectedCategory].push(toSentenceCase(newItem));
-                        saveDropdownOptions();
+                        saveData();
                         renderCategoryEditor(selectedCategory);
                         updateAllDropdowns();
                         newItemInput.value = '';
@@ -1248,7 +1341,7 @@
                     const itemToDelete = deleteButton.dataset.item;
                     showConfirmationModal(`Are you sure you want to delete "${itemToDelete}"?`, () => {
                         dropdownOptions[selectedCategory].splice(itemIndex, 1);
-                        saveDropdownOptions();
+                        saveData();
                         renderCategoryEditor(selectedCategory);
                         updateAllDropdowns();
                         showSuccessModal('Success', `Successfully deleted "${itemToDelete}".`);
@@ -1257,9 +1350,10 @@
             };
             
             const updateAllDropdowns = () => {
+                // Main forms
                 populateDropdown(obTypeSelect, dropdownOptions.obType, 'No OB Type Selected');
                 populateDropdown(policeStationSelect, dropdownOptions.policeStation, 'No Police Station Selected');
-                populateDropdown(followUpUserSelect, dropdownOptions.followUpUser, 'No User Selected');
+                populateDropdown(followUpUserSelect, users.map(u => `${u.name} ${u.surname}`), 'No User Selected');
                 populateDropdown(areaSelect, dropdownOptions.area, 'No Area Selected');
                 populateDropdown(recoveryVehicleBrandSelect, dropdownOptions.vehicleMake, 'No Vehicle Brand Selected');
                 populateDropdown(recoveryPsFromSelect, dropdownOptions.policeStation, 'No Police Station Selected');
@@ -1271,22 +1365,25 @@
                 document.querySelectorAll('.pa-nature-crime-select').forEach(select => populateDropdown(select, dropdownOptions.natureOfCrime, 'No Crime Selected'));
                 document.querySelectorAll('.pa-police-station-select').forEach(select => populateDropdown(select, dropdownOptions.policeStation, 'No Police Station Selected'));
                 
-                // SOT View Dropdowns
+                // SOT View
                 populateDropdown(document.getElementById('sot-incident-type-select'), dropdownOptions.natureOfCrime, 'No Incident Type Selected');
                 populateDropdown(document.getElementById('sot-person-assigned-select'), dropdownOptions.sotPersonAssigned, 'No User Assigned');
 
-                // User Permissions Dropdown
-                populateDropdown(userSelect, dropdownOptions.users);
+                // User Management
+                populateDropdown(userDepartmentSelect, dropdownOptions.department, 'Select Department');
+                populateDropdown(userRoleSelect, dropdownOptions.role, 'Select Role');
+
+                // User Permissions
+                populateDropdown(permissionsDeptSelect, dropdownOptions.department, 'All Departments');
+                populateDropdown(permissionsRoleSelect, dropdownOptions.role, 'All Roles');
+                filterPermissionUsers(); // Initial population of users
 
                 document.querySelectorAll('select').forEach(select => autosizeSelect(select));
             };
             
             const handleSaveRecord = () => {
-                const actionText = currentRecordAction.charAt(0).toUpperCase() + currentRecordAction.slice(1);
                 const obNumber = obNumberDisplay.textContent;
-                
                 showConfirmationModal(`Are you sure you want to ${currentRecordAction} record OB-${obNumber}?`, () => {
-                    // Simulate saving logic
                     let successMessage = `Record OB-${obNumber} has been successfully ${currentRecordAction}d.`;
                     if (currentRecordAction === 'add') {
                         const savedNumber = obCounter;
@@ -1294,58 +1391,164 @@
                         updateObNumberDisplay();
                         successMessage = `Record OB-${savedNumber} has been successfully saved.`
                     }
-                    
                     showSuccessModal('Success', successMessage);
                 });
             };
 
-            const initializePermissions = () => {
-                const users = dropdownOptions.users || [];
+            const renderUsersTable = () => {
+                usersTbody.innerHTML = '';
                 users.forEach(user => {
-                    if (!userPermissions[user]) {
-                        // Default all permissions to true for new users
-                        userPermissions[user] = {
-                            tabs: {
-                                "ob-entry-view": true,
-                                "category-edit-view": true,
-                                "recoveries-view": true,
-                                "complaints-view": true,
-                                "positive-arrests-view": true,
-                                "sot-view": true,
-                                "manage-users-view": true
-                            }
-                        };
-                    }
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="py-2 px-4 border-b">${user.name} ${user.surname}</td>
+                        <td class="py-2 px-4 border-b">${user.email}</td>
+                        <td class="py-2 px-4 border-b">${user.department}</td>
+                        <td class="py-2 px-4 border-b">${user.role}</td>
+                        <td class="py-2 px-4 border-b space-x-2">
+                            <button data-id="${user.id}" class="edit-user-btn text-blue-500 hover:underline">Edit</button>
+                            <button data-id="${user.id}" class="delete-user-btn text-red-500 hover:underline">Delete</button>
+                        </td>
+                    `;
+                    usersTbody.appendChild(row);
                 });
             };
 
-            const renderPermissions = (userName) => {
-                const permissions = userPermissions[userName];
-                if (!permissions || !permissionsContainer) return;
+            const resetUserForm = () => {
+                userForm.reset();
+                userIdInput.value = '';
+                userFormTitle.textContent = 'Add New User';
+                cancelEditBtn.classList.add('hidden');
+            };
 
-                permissionsContainer.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                    const view = checkbox.dataset.targetView;
-                    checkbox.checked = (permissions.tabs && permissions.tabs[view]) || false;
+            const handleUserFormSubmit = (e) => {
+                e.preventDefault();
+                const userId = userIdInput.value;
+                const user = {
+                    id: userId ? parseInt(userId) : Date.now(),
+                    name: userNameInput.value,
+                    surname: userSurnameInput.value,
+                    email: userEmailInput.value,
+                    department: userDepartmentSelect.value,
+                    role: userRoleSelect.value,
+                    password: userPasswordInput.value
+                };
+
+                showConfirmationModal(`Are you sure you want to ${userId ? 'update' : 'add'} this user?`, () => {
+                    if (userId) { // Update existing user
+                        const index = users.findIndex(u => u.id == userId);
+                        users[index] = user;
+                    } else { // Add new user
+                        users.push(user);
+                        initializePermissionsForUser(user.id);
+                    }
+                    saveData();
+                    renderUsersTable();
+                    updateAllDropdowns();
+                    resetUserForm();
+                    showSuccessModal('Success', `User has been successfully ${userId ? 'updated' : 'saved'}.`);
+                });
+            };
+
+            const handleEditUserClick = (e) => {
+                if (!e.target.classList.contains('edit-user-btn')) return;
+                const userId = e.target.dataset.id;
+                const user = users.find(u => u.id == userId);
+                if (user) {
+                    userFormTitle.textContent = 'Edit User';
+                    userIdInput.value = user.id;
+                    userNameInput.value = user.name;
+                    userSurnameInput.value = user.surname;
+                    userEmailInput.value = user.email;
+                    userDepartmentSelect.value = user.department;
+                    userRoleSelect.value = user.role;
+                    userPasswordInput.value = user.password;
+                    cancelEditBtn.classList.remove('hidden');
+                }
+            };
+            
+            const handleDeleteUserClick = (e) => {
+                if (!e.target.classList.contains('delete-user-btn')) return;
+                const userId = e.target.dataset.id;
+                const user = users.find(u => u.id == userId);
+                showConfirmationModal(`Are you sure you want to delete user ${user.name} ${user.surname}?`, () => {
+                    users = users.filter(u => u.id != userId);
+                    delete userPermissions[userId];
+                    saveData();
+                    renderUsersTable();
+                    updateAllDropdowns();
+                    showSuccessModal('Success', 'User has been deleted.');
+                });
+            };
+
+
+            const initializePermissionsForUser = (userId) => {
+                if (!userPermissions[userId]) {
+                    userPermissions[userId] = { tabs: {} };
+                    permissionsContainer.querySelectorAll('.permission-row').forEach(row => {
+                        const view = row.dataset.viewName;
+                        userPermissions[userId].tabs[view] = { add: true, remove: true, update: true, view: true };
+                    });
+                }
+            };
+
+            const renderPermissions = (userId) => {
+                const permissions = userPermissions[userId];
+                if (!permissions) {
+                    // Clear all checkboxes if no user is selected or found
+                    permissionsContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                    return;
+                };
+
+                permissionsContainer.querySelectorAll('.permission-row').forEach(row => {
+                    const view = row.dataset.viewName;
+                    const tabPermissions = permissions.tabs[view] || {};
+                    row.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                        const action = checkbox.dataset.action;
+                        checkbox.checked = tabPermissions[action] || false;
+                    });
                 });
             };
 
             const savePermissions = () => {
-                const selectedUser = userSelect.value;
-                if (!selectedUser || !userPermissions[selectedUser]) return;
+                const selectedUserId = permissionsUserSelect.value;
+                if (!selectedUserId) {
+                    showSuccessModal('Error', 'Please select a user first.');
+                    return;
+                }
 
-                showConfirmationModal(`Are you sure you want to save permissions for ${selectedUser}?`, () => {
-                    const currentPermissions = userPermissions[selectedUser];
-                    currentPermissions.tabs = {}; // Reset tabs
-
-                    permissionsContainer.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                        const view = checkbox.dataset.targetView;
-                        currentPermissions.tabs[view] = checkbox.checked;
+                showConfirmationModal(`Are you sure you want to save permissions for this user?`, () => {
+                    const currentUserPermissions = userPermissions[selectedUserId] || { tabs: {} };
+                    
+                    permissionsContainer.querySelectorAll('.permission-row').forEach(row => {
+                        const view = row.dataset.viewName;
+                        if (!currentUserPermissions.tabs[view]) currentUserPermissions.tabs[view] = {};
+                        
+                        row.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                            const action = checkbox.dataset.action;
+                            currentUserPermissions.tabs[view][action] = checkbox.checked;
+                        });
                     });
-
-                    // In a real app, you would save this `userPermissions` object to a server/database.
-                    console.log('Saving permissions:', userPermissions);
-                    showSuccessModal('Success', `Permissions for ${selectedUser} have been updated.`);
+                    
+                    userPermissions[selectedUserId] = currentUserPermissions;
+                    saveData();
+                    showSuccessModal('Success', `Permissions have been updated.`);
                 });
+            };
+
+            const filterPermissionUsers = () => {
+                const dept = permissionsDeptSelect.value;
+                const role = permissionsRoleSelect.value;
+
+                let filteredUsers = users;
+                if (dept) {
+                    filteredUsers = filteredUsers.filter(u => u.department === dept);
+                }
+                if (role) {
+                    filteredUsers = filteredUsers.filter(u => u.role === role);
+                }
+                populateDropdown(permissionsUserSelect, filteredUsers, 'Select User');
+                // After filtering, clear the displayed permissions until a user is re-selected
+                renderPermissions(null); 
             };
 
 
@@ -1372,7 +1575,6 @@
                 });
             });
 
-            // Generic handler for all status button groups
             document.body.addEventListener('click', (event) => {
                 const clickedButton = event.target.closest('.status-btn');
                 if (clickedButton) {
@@ -1391,228 +1593,68 @@
 
             document.body.addEventListener('input', (event) => {
                 const target = event.target;
-
-                // Handle numeric-only fields
                 if (target.classList.contains('numeric-only')) {
-                    const originalValue = target.value;
-                    const numericValue = originalValue.replace(/[^0-9]/g, '');
-
-                    if (originalValue !== numericValue) {
-                        target.value = numericValue;
-                    }
+                    target.value = target.value.replace(/[^0-9]/g, '');
                 }
-                // Handle currency formatting
                 else if (target.classList.contains('currency-rand')) {
-                    const originalValue = target.value;
-                    let numericValue = originalValue.replace(/[^0-9]/g, '');
-
+                    let numericValue = target.value.replace(/[^0-9]/g, '');
                     if (numericValue) {
-                        const number = parseInt(numericValue, 10);
-                        const formattedValue = 'R ' + number.toLocaleString('en-ZA');
-                        
-                        if (target.value !== formattedValue) {
-                            target.value = formattedValue;
-                        }
+                        target.value = 'R ' + parseInt(numericValue, 10).toLocaleString('en-ZA');
                     } else {
-                        target.value = ''; // Clear if no numbers
+                        target.value = '';
                     }
                 }
-                 // Handle decimal-only fields for coordinates
                 else if (target.classList.contains('decimal-only')) {
-                    const originalValue = target.value;
-                    let sanitizedValue = originalValue.replace(/[^0-9.-]/g, ''); // Remove invalid chars
-
-                    // Ensure hyphen is only at the beginning
+                    let sanitizedValue = target.value.replace(/[^0-9.-]/g, '');
                     if (sanitizedValue.indexOf('-', 1) > -1) {
                          sanitizedValue = '-' + sanitizedValue.replace(/-/g, '');
                     }
-
-                    // Ensure only one decimal point
                     const parts = sanitizedValue.split('.');
                     if (parts.length > 2) {
                         sanitizedValue = parts[0] + '.' + parts.slice(1).join('');
                     }
-                    
-                    if (sanitizedValue !== originalValue) {
-                         target.value = sanitizedValue;
-                    }
+                    target.value = sanitizedValue;
                 }
-
-
-                // Handle autosizing for various text inputs
-                if (target.classList.contains('autosize-input')) {
-                    autosizeInput(target);
-                }
-
-                // Handle autosizing for textareas
-                if (target.matches('.autosize-person-textarea')) {
-                    autosizeTextarea(target);
-                }
+                if (target.classList.contains('autosize-input')) autosizeInput(target);
+                if (target.matches('.autosize-person-textarea')) autosizeTextarea(target);
             });
 
             document.body.addEventListener('change', (event) => {
-                // Autosize select dropdowns on change
-                if (event.target.tagName === 'SELECT') {
-                    autosizeSelect(event.target);
-                }
-
-                // Toggle SOT comment boxes
+                if (event.target.tagName === 'SELECT') autosizeSelect(event.target);
                 if (event.target.classList.contains('sot-comment-toggle')) {
                     const checkbox = event.target;
-                    const targetId = checkbox.dataset.target;
-                    const commentBox = document.getElementById(targetId);
-
-                    if (commentBox) {
-                        if (checkbox.checked) {
-                            commentBox.classList.remove('hidden');
-                        } else {
-                            commentBox.classList.add('hidden');
-                        }
-                    }
+                    const commentBox = document.getElementById(checkbox.dataset.target);
+                    if (commentBox) commentBox.classList.toggle('hidden', !checkbox.checked);
                 }
             });
-
-
-            if (addVehicleBtn) {
-                addVehicleBtn.addEventListener('click', () => {
-                    const newRow = document.createElement('tr');
-                    newRow.innerHTML = `
-                        <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Registration"></td>
-                        <td class="border-b p-2"><select class="vehicle-make-select p-1 border rounded-md"></select></td>
-                        <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Model"></td>
-                        <td class="border-b p-2"><input type="text" class="p-1 border rounded-md w-full" placeholder="Colour"></td>
-                        <td class="border-b p-2 text-center"><button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button></td>
-                    `;
-                    suspiciousVehiclesTbody.appendChild(newRow);
-                    
-                    const newSelect = newRow.querySelector('.vehicle-make-select');
-                    populateDropdown(newSelect, dropdownOptions.vehicleMake, 'No vehicle selected');
-                    autosizeSelect(newSelect);
-                    
-                    const newInputs = newRow.querySelectorAll('.autosize-input');
-                    newInputs.forEach(input => autosizeInput(input));
-                });
-            }
-
-            if (suspiciousVehiclesTbody) {
-                suspiciousVehiclesTbody.addEventListener('click', (event) => {
-                    if (event.target.classList.contains('remove-row-btn')) {
-                        event.target.closest('tr').remove();
-                    }
-                });
-            }
-
-            if (addPersonBtn) {
-                addPersonBtn.addEventListener('click', () => {
-                    personRowCounter++; // Increment for a unique name
-                    const genderName = `gender-${personRowCounter}`;
-                    const newRow = document.createElement('tr');
-                    newRow.innerHTML = `
-                        <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Firstname"></td>
-                        <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Lastname"></td>
-                        <td class="border-b p-2"><input type="text" class="autosize-input numeric-only p-1 border rounded-md" placeholder="Age"></td>
-                        <td class="border-b p-2"><select class="person-ethnicity-select p-1 border rounded-md"></select></td>
-                        <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Hair"></td>
-                        <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Eye"></td>
-                        <td class="border-b p-2">
-                            <div class="flex items-center gap-x-3 p-1">
-                                <label class="flex items-center gap-1 text-sm whitespace-nowrap"><input type="radio" name="${genderName}" value="Male">Male</label>
-                                <label class="flex items-center gap-1 text-sm whitespace-nowrap"><input type="radio" name="${genderName}" value="Female">Female</label>
-                            </div>
-                        </td>
-                        <td class="border-b p-2"><input type="text" class="autosize-input numeric-only p-1 border rounded-md" placeholder="Id"></td>
-                        <td class="border-b p-2"><textarea class="autosize-person-textarea p-1 border rounded-md w-full" rows="1" placeholder="Description"></textarea></td>
-                        <td class="border-b p-2 text-center"><button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button></td>
-                    `;
-                    personsOfInterestTbody.appendChild(newRow);
-
-                    // Initialize autosizing for new elements
-                    const newEthnicitySelect = newRow.querySelector('.person-ethnicity-select');
-                    populateDropdown(newEthnicitySelect, dropdownOptions.ethnicity, 'No Ethnicity Selected');
-                    autosizeSelect(newEthnicitySelect);
-
-                    const newInputs = newRow.querySelectorAll('.autosize-input');
-                    newInputs.forEach(input => autosizeInput(input));
-
-                    const newDescriptionTextarea = newRow.querySelector('.autosize-person-textarea');
-                    autosizeTextarea(newDescriptionTextarea);
-                });
-            }
-
-            if (personsOfInterestTbody) {
-                personsOfInterestTbody.addEventListener('click', (event) => {
-                    if (event.target.classList.contains('remove-row-btn')) {
-                        event.target.closest('tr').remove();
-                    }
-                });
-            }
 
             if(saveRecordBtn) saveRecordBtn.addEventListener('click', handleSaveRecord);
             
             // Category Editor event listeners
             const categorySelectorElem = document.getElementById('category-selector');
-            const newItemInputElem = document.getElementById('new-item-input');
-            const addItemBtnElem = document.getElementById('add-item-btn');
-            const categoryItemListElem = document.getElementById('category-item-list');
-            
-            if (categorySelectorElem) {
-                 categorySelectorElem.addEventListener('change', () => renderCategoryEditor(categorySelectorElem.value));
-            }
-            if(addItemBtnElem) {
-                addItemBtnElem.addEventListener('click', handleAddItem);
-            }
-            if(newItemInputElem){
-                 newItemInputElem.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddItem(); });
-            }
-            if(categoryItemListElem) {
-                 categoryItemListElem.addEventListener('click', handleDeleteItem);
-            }
+            if (categorySelectorElem) categorySelectorElem.addEventListener('change', () => renderCategoryEditor(categorySelectorElem.value));
+            if (addItemBtn) addItemBtn.addEventListener('click', handleAddItem);
+            if (newItemInput) newItemInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddItem(); });
+            if (categoryItemList) categoryItemList.addEventListener('click', handleDeleteItem);
 
-            if(addSuspectBtn){
-                addSuspectBtn.addEventListener('click', () => {
-                    const rowCount = suspectsTbody.rows.length + 1;
-                    const newRow = document.createElement('tr');
-                    newRow.innerHTML = `
-                        <td class="border-b p-2">
-                            <input type="text" placeholder="Name" class="p-1 border rounded-md w-full">
-                        </td>
-                         <td class="border-b p-2">
-                            <input type="text" placeholder="ID Number" class="p-1 border rounded-md w-full numeric-only">
-                        </td>
-                        <td class="border-b p-2">
-                             <input type="file" class="p-1 border rounded-md w-full">
-                        </td>
-                        <td class="border-b p-2 text-center align-middle">
-                            <button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button>
-                        </td>
-                    `;
-                    suspectsTbody.appendChild(newRow);
-                });
-            }
+            // User Management Listeners
+            if (userForm) userForm.addEventListener('submit', handleUserFormSubmit);
+            if (usersTbody) usersTbody.addEventListener('click', handleEditUserClick);
+            if (usersTbody) usersTbody.addEventListener('click', handleDeleteUserClick);
+            if (cancelEditBtn) cancelEditBtn.addEventListener('click', resetUserForm);
 
-            if(suspectsTbody){
-                suspectsTbody.addEventListener('click', (event) => {
-                    if (event.target.classList.contains('remove-row-btn')) {
-                        event.target.closest('tr').remove();
-                    }
-                });
-            }
-
-            if (userSelect) {
-                userSelect.addEventListener('change', (e) => renderPermissions(e.target.value));
-            }
-            if(savePermissionsBtn){
-                savePermissionsBtn.addEventListener('click', savePermissions);
-            }
+            // User Permissions Listeners
+            if (permissionsDeptSelect) permissionsDeptSelect.addEventListener('change', filterPermissionUsers);
+            if (permissionsRoleSelect) permissionsRoleSelect.addEventListener('change', filterPermissionUsers);
+            if (permissionsUserSelect) permissionsUserSelect.addEventListener('change', (e) => renderPermissions(e.target.value));
+            if (savePermissionsBtn) savePermissionsBtn.addEventListener('click', savePermissions);
 
             // --- INITIALIZATION ---
             const initializeApp = () => {
-                loadDropdownOptions();
-                initializePermissions();
+                loadData();
+                users.forEach(user => initializePermissionsForUser(user.id));
                 
-                // Populate all SAPS 13 number fields
-                const sapContainers = document.querySelectorAll('.sap-container');
-                sapContainers.forEach(container => {
+                document.querySelectorAll('.sap-container').forEach(container => {
                     const monthSelect = container.querySelector('.sap-month');
                     const yearSelect = container.querySelector('.sap-year');
                     populateSapDropdowns(monthSelect, yearSelect);
@@ -1621,24 +1663,17 @@
                 updateAllDropdowns();
                 updateObNumberDisplay();
                 document.querySelectorAll('.autosize-input').forEach(input => autosizeInput(input));
-                if(categorySelectorElem) {
-                    renderCategoryEditor(categorySelectorElem.value);
-                }
+                if(categorySelectorElem) renderCategoryEditor(categorySelectorElem.value);
 
                 // Initial render for permissions
-                if(userSelect.options.length > 0){
-                    renderPermissions(userSelect.value);
-                }
+                renderPermissions(permissionsUserSelect.value);
 
-
-                // Pre-fill time and location based on user prompt
+                // Pre-fill time and location
                 const timeOfIncidentFrom = document.querySelector('#ob-form input[type="datetime-local"]');
-                if (timeOfIncidentFrom) {
-                    timeOfIncidentFrom.value = '2025-10-09T13:28';
-                }
+                if (timeOfIncidentFrom) timeOfIncidentFrom.value = '2025-10-09T13:28';
                 if (areaSelect) {
                     areaSelect.value = 'Durban North';
-                    autosizeSelect(areaSelect); // Re-autosize after setting value
+                    autosizeSelect(areaSelect);
                 }
             };
 

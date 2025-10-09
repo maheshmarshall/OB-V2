@@ -586,7 +586,7 @@
                                          <div class="flex items-center">
                                              <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
                                              <div class="flex items-center w-2/3 space-x-2 flex-wrap">
-                                                 <input type="text" class="p-2 border rounded-md numeric-only pa-sap-number autosize-input" placeholder="Number">
+                                                 <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
                                                  <span class="text-gray-500">/</span>
                                                  <select class="p-2 border rounded-md pa-sap-month"></select>
                                                  <span class="text-gray-500">/</span>
@@ -614,7 +614,7 @@
                                          <div class="flex items-center">
                                              <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
                                              <div class="flex items-center w-2/3 space-x-2 flex-wrap">
-                                                 <input type="text" class="p-2 border rounded-md numeric-only pa-sap-number autosize-input" placeholder="Number">
+                                                 <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
                                                  <span class="text-gray-500">/</span>
                                                  <select class="p-2 border rounded-md pa-sap-month"></select>
                                                  <span class="text-gray-500">/</span>
@@ -642,7 +642,7 @@
                                          <div class="flex items-center">
                                              <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
                                              <div class="flex items-center w-2/3 space-x-2 flex-wrap">
-                                                 <input type="text" class="p-2 border rounded-md numeric-only pa-sap-number autosize-input" placeholder="Number">
+                                                 <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
                                                  <span class="text-gray-500">/</span>
                                                  <select class="p-2 border rounded-md pa-sap-month"></select>
                                                  <span class="text-gray-500">/</span>
@@ -670,7 +670,7 @@
                                          <div class="flex items-center">
                                              <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
                                              <div class="flex items-center w-2/3 space-x-2 flex-wrap">
-                                                 <input type="text" class="p-2 border rounded-md numeric-only pa-sap-number autosize-input" placeholder="Number">
+                                                 <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
                                                  <span class="text-gray-500">/</span>
                                                  <select class="p-2 border rounded-md pa-sap-month"></select>
                                                  <span class="text-gray-500">/</span>
@@ -994,15 +994,16 @@
                 tempSpan.style.whiteSpace = 'nowrap';
                 tempSpan.style.font = window.getComputedStyle(selectElement).font;
                 
-                const selectedOption = selectElement.options[selectElement.selectedIndex];
-                tempSpan.textContent = selectedOption ? selectedOption.textContent : '';
-                
+                let maxWidth = 0;
                 document.body.appendChild(tempSpan);
-                const width = tempSpan.offsetWidth;
+                for (let i = 0; i < selectElement.options.length; i++) {
+                    tempSpan.textContent = selectElement.options[i].textContent;
+                    maxWidth = Math.max(maxWidth, tempSpan.offsetWidth);
+                }
                 document.body.removeChild(tempSpan);
 
                 // Add some padding for the dropdown arrow and to prevent text clipping
-                selectElement.style.width = `${width + 30}px`;
+                selectElement.style.width = `${maxWidth + 30}px`;
             };
 
             const autosizeTextarea = (textarea) => {
@@ -1078,6 +1079,8 @@
                 populateDropdown(document.getElementById('pa-division-select'), dropdownOptions.division, 'No Division Selected');
                 document.querySelectorAll('.pa-nature-crime-select').forEach(select => populateDropdown(select, dropdownOptions.natureOfCrime, 'No Crime Selected'));
                 document.querySelectorAll('.pa-police-station-select').forEach(select => populateDropdown(select, dropdownOptions.policeStation, 'No Police Station Selected'));
+                
+                document.querySelectorAll('select').forEach(select => autosizeSelect(select));
             };
             
             const handleSaveRecord = () => {
@@ -1327,7 +1330,6 @@
 
                 updateObNumberDisplay();
                 document.querySelectorAll('.autosize-input').forEach(input => autosizeInput(input));
-                document.querySelectorAll('select').forEach(select => autosizeSelect(select));
                 renderCategoryEditor(categorySelectorElem.value);
             };
 

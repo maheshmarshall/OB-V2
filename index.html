@@ -120,7 +120,8 @@
                     <button data-view="complaints-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Complaints</button>
                     <button data-view="positive-arrests-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Positive Arrests</button>
                     <button data-view="sot-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">SOT Positives</button>
-                    <button data-view="add-remove-users-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Add/Remove Users</button>
+                    <button data-view="manage-users-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Manage Users</button>
+                    <button data-view="user-permissions-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">User Permissions</button>
                 </nav>
             </aside>
 
@@ -220,7 +221,7 @@
                             </div>
                             
                             <!-- Location Information Section -->
-                            <div class="border-t pt-6 mt-6">
+                            <div id="ob-location-info-section" class="border-t pt-6 mt-6">
                                 <h3 class="text-lg font-semibold text-gray-700 mb-4">Location Information</h3>
                                 <div class="space-y-4">
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -317,6 +318,7 @@
                                 <option value="incidentType">Incident Type</option>
                                 <option value="natureOfCrime">Nature of Crime</option>
                                 <option value="sotPersonAssigned">SOT Person Assigned</option>
+                                <option value="users">Users</option>
                             </select>
                         </div>
                         <div id="editor-panel">
@@ -504,7 +506,7 @@
                             </div>
 
                             <!-- Crime Details Sections -->
-                            <div id="crime-details-container" class="space-y-4">
+                            <div id="pa-crime-details-section" class="space-y-4">
                                 <!-- Crime 1 -->
                                 <div class="border-t pt-4 mt-4">
                                      <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 1</h3>
@@ -624,7 +626,7 @@
                             </div>
 
                              <!-- Pictures Section -->
-                            <div class="border-t pt-4 mt-4">
+                            <div id="pa-evidence-section" class="border-t pt-4 mt-4">
                                 <h3 class="text-lg font-semibold text-gray-700 mb-4">Evidence Pictures</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="flex items-center">
@@ -651,7 +653,7 @@
                             </div>
                             
                             <!-- Suspects Section -->
-                            <div class="border-t pt-4 mt-4">
+                            <div id="pa-suspects-section" class="border-t pt-4 mt-4">
                                 <h3 class="text-lg font-semibold text-gray-700 mb-4">Suspect Details</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                                      <div class="flex items-center">
@@ -793,7 +795,7 @@
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 border-t pt-4 mt-4">
+                            <div id="sot-comments-section" class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 border-t pt-4 mt-4">
                                 <!-- CCTV -->
                                 <div class="space-y-2">
                                     <label class="flex items-center gap-3 text-gray-600 font-medium">
@@ -868,9 +870,96 @@
                     </div>
                 </div>
 
-                <div id="add-remove-users-view" class="view-panel hidden flex items-center justify-center h-full border-2 border-dashed border-gray-300 rounded-xl">
-                    <h1 class="text-2xl md:text-3xl font-bold text-gray-500">Add/Remove Users</h1>
+                <div id="manage-users-view" class="view-panel hidden flex items-center justify-center h-full border-2 border-dashed border-gray-300 rounded-xl">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-500">Manage Users</h1>
                 </div>
+
+                <!-- User Permissions View -->
+                <div id="user-permissions-view" class="view-panel hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">User Permissions</h2>
+                    <div class="border rounded-lg p-6 bg-gray-50">
+                        <div class="mb-6">
+                            <label for="user-select" class="block text-sm font-medium text-gray-700 mb-2">Select User to Edit Permissions:</label>
+                            <select id="user-select" class="p-2 border rounded-md w-full max-w-xs"></select>
+                        </div>
+
+                        <div id="permissions-container" class="space-y-6">
+                            <!-- OB Entry Permissions -->
+                            <div class="space-y-2 border-b pb-4">
+                                <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
+                                    <input type="checkbox" data-permission-type="tab" data-target-view="ob-entry-view" class="h-5 w-5">
+                                    <span>OB Entry Tab</span>
+                                </label>
+                                <div class="pl-8 space-y-1">
+                                    <label class="flex items-center gap-3 text-sm text-gray-600">
+                                        <input type="checkbox" data-permission-type="section" data-target-section="ob-location-info-section" class="h-4 w-4">
+                                        <span>Location Information Section</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Positive Arrests Permissions -->
+                             <div class="space-y-2 border-b pb-4">
+                                <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
+                                    <input type="checkbox" data-permission-type="tab" data-target-view="positive-arrests-view" class="h-5 w-5">
+                                    <span>Positive Arrests Tab</span>
+                                </label>
+                                <div class="pl-8 space-y-1">
+                                    <label class="flex items-center gap-3 text-sm text-gray-600">
+                                        <input type="checkbox" data-permission-type="section" data-target-section="pa-crime-details-section" class="h-4 w-4">
+                                        <span>Crime Details Section</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 text-sm text-gray-600">
+                                        <input type="checkbox" data-permission-type="section" data-target-section="pa-evidence-section" class="h-4 w-4">
+                                        <span>Evidence Pictures Section</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 text-sm text-gray-600">
+                                        <input type="checkbox" data-permission-type="section" data-target-section="pa-suspects-section" class="h-4 w-4">
+                                        <span>Suspect Details Section</span>
+                                    </label>
+                                </div>
+                            </div>
+                             <!-- SOT Positives Permissions -->
+                             <div class="space-y-2 border-b pb-4">
+                                <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
+                                    <input type="checkbox" data-permission-type="tab" data-target-view="sot-view" class="h-5 w-5">
+                                    <span>SOT Positives Tab</span>
+                                </label>
+                                <div class="pl-8 space-y-1">
+                                    <label class="flex items-center gap-3 text-sm text-gray-600">
+                                        <input type="checkbox" data-permission-type="section" data-target-section="sot-comments-section" class="h-4 w-4">
+                                        <span>Comments Section</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Other Tabs (no sub-sections) -->
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
+                                    <input type="checkbox" data-permission-type="tab" data-target-view="category-edit-view" class="h-5 w-5">
+                                    <span>Category Edit Tab</span>
+                                </label>
+                                 <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
+                                    <input type="checkbox" data-permission-type="tab" data-target-view="recoveries-view" class="h-5 w-5">
+                                    <span>Recoveries Tab</span>
+                                </label>
+                                 <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
+                                    <input type="checkbox" data-permission-type="tab" data-target-view="complaints-view" class="h-5 w-5">
+                                    <span>Complaints Tab</span>
+                                </label>
+                                 <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
+                                    <input type="checkbox" data-permission-type="tab" data-target-view="manage-users-view" class="h-5 w-5">
+                                    <span>Manage Users Tab</span>
+                                </label>
+                            </div>
+
+                        </div>
+                         <!-- Save Button -->
+                        <div class="flex justify-end pt-6 mt-6 border-t">
+                            <button id="save-permissions-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Permissions</button>
+                        </div>
+                    </div>
+                </div>
+
+
             </main>
         </div>
     </div>
@@ -886,6 +975,7 @@
             let currentRecordAction = 'add'; // Default action
             let dropdownOptions; // Will be loaded from localStorage or defaults
             let personRowCounter = 0;
+            let userPermissions = {};
 
             const toSentenceCase = (str) => {
                 if (typeof str !== 'string' || str.length === 0) return str;
@@ -949,7 +1039,8 @@
                     "In possession off illegal firearm", "In possession off illegal ammunition", "Common robbery", "Business breakin and theft", "Attempted theft out of mv",
                     "Theft out of mv", "Attempted theft from mv", "Theft from mv", "In possession of car breaking implements", "Fraud", "Facial reg app"
                 ],
-                sotPersonAssigned: ["Jono", "Jaco", "Michael", "Zandre", "Derek"]
+                sotPersonAssigned: ["Jono", "Jaco", "Michael", "Zandre", "Derek"],
+                users: ["User A", "User B", "User C"]
             };
             
             // --- ELEMENT REFERENCES ---
@@ -981,6 +1072,9 @@
             const recoveryIncidentTypeSelect = document.getElementById('recovery-incident-type-select');
             const addSuspectBtn = document.getElementById('add-suspect-btn');
             const suspectsTbody = document.getElementById('suspects-tbody');
+            const userSelect = document.getElementById('user-select');
+            const permissionsContainer = document.getElementById('permissions-container');
+            const savePermissionsBtn = document.getElementById('save-permissions-btn');
 
 
             // Modal References
@@ -1056,13 +1150,15 @@
                 if (!selectElement) return;
                 selectElement.innerHTML = '';
                 
-                // Add a disabled, selected placeholder option
-                const placeholderOpt = document.createElement('option');
-                placeholderOpt.value = "";
-                placeholderOpt.textContent = placeholder || "No Selection";
-                placeholderOpt.disabled = true;
-                placeholderOpt.selected = true;
-                selectElement.appendChild(placeholderOpt);
+                // Add a disabled, selected placeholder option if a placeholder is provided
+                if (placeholder) {
+                    const placeholderOpt = document.createElement('option');
+                    placeholderOpt.value = "";
+                    placeholderOpt.textContent = placeholder;
+                    placeholderOpt.disabled = true;
+                    placeholderOpt.selected = true;
+                    selectElement.appendChild(placeholderOpt);
+                }
 
                 options.forEach((optionText) => {
                     const option = document.createElement('option');
@@ -1217,6 +1313,9 @@
                 populateDropdown(document.getElementById('sot-incident-type-select'), dropdownOptions.natureOfCrime, 'No Incident Type Selected');
                 populateDropdown(document.getElementById('sot-person-assigned-select'), dropdownOptions.sotPersonAssigned, 'No User Assigned');
 
+                // User Permissions Dropdown
+                populateDropdown(userSelect, dropdownOptions.users);
+
                 document.querySelectorAll('select').forEach(select => autosizeSelect(select));
             };
             
@@ -1237,6 +1336,74 @@
                     showSuccessModal('Success', successMessage);
                 });
             };
+
+            const initializePermissions = () => {
+                const users = dropdownOptions.users || [];
+                users.forEach(user => {
+                    if (!userPermissions[user]) {
+                        // Default all permissions to true for new users
+                        userPermissions[user] = {
+                            tabs: {
+                                "ob-entry-view": true,
+                                "category-edit-view": true,
+                                "recoveries-view": true,
+                                "complaints-view": true,
+                                "positive-arrests-view": true,
+                                "sot-view": true,
+                                "manage-users-view": true
+                            },
+                            sections: {
+                                "ob-location-info-section": true,
+                                "pa-crime-details-section": true,
+                                "pa-evidence-section": true,
+                                "pa-suspects-section": true,
+                                "sot-comments-section": true
+                            }
+                        };
+                    }
+                });
+            };
+
+            const renderPermissions = (userName) => {
+                const permissions = userPermissions[userName];
+                if (!permissions || !permissionsContainer) return;
+
+                permissionsContainer.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    const type = checkbox.dataset.permissionType;
+                    if (type === 'tab') {
+                        const view = checkbox.dataset.targetView;
+                        checkbox.checked = permissions.tabs[view] || false;
+                    } else if (type === 'section') {
+                        const section = checkbox.dataset.targetSection;
+                        checkbox.checked = permissions.sections[section] || false;
+                    }
+                });
+            };
+
+            const savePermissions = () => {
+                const selectedUser = userSelect.value;
+                if (!selectedUser || !userPermissions[selectedUser]) return;
+
+                showConfirmationModal(`Are you sure you want to save permissions for ${selectedUser}?`, () => {
+                    const currentPermissions = userPermissions[selectedUser];
+
+                    permissionsContainer.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                        const type = checkbox.dataset.permissionType;
+                        if (type === 'tab') {
+                            const view = checkbox.dataset.targetView;
+                            currentPermissions.tabs[view] = checkbox.checked;
+                        } else if (type === 'section') {
+                            const section = checkbox.dataset.targetSection;
+                            currentPermissions.sections[section] = checkbox.checked;
+                        }
+                    });
+
+                    // In a real app, you would save this `userPermissions` object to a server/database.
+                    console.log('Saving permissions:', userPermissions);
+                    showSuccessModal('Success', `Permissions for ${selectedUser} have been updated.`);
+                });
+            };
+
 
             // --- EVENT LISTENERS ---
             sidebarNav.addEventListener('click', (event) => {
@@ -1487,9 +1654,17 @@
                 });
             }
 
+            if (userSelect) {
+                userSelect.addEventListener('change', (e) => renderPermissions(e.target.value));
+            }
+            if(savePermissionsBtn){
+                savePermissionsBtn.addEventListener('click', savePermissions);
+            }
+
             // --- INITIALIZATION ---
             const initializeApp = () => {
                 loadDropdownOptions();
+                initializePermissions();
                 
                 // Populate all SAPS 13 number fields
                 const sapContainers = document.querySelectorAll('.sap-container');
@@ -1505,6 +1680,12 @@
                 if(categorySelectorElem) {
                     renderCategoryEditor(categorySelectorElem.value);
                 }
+
+                // Initial render for permissions
+                if(userSelect.options.length > 0){
+                    renderPermissions(userSelect.value);
+                }
+
 
                 // Pre-fill time and location based on user prompt
                 const timeOfIncidentFrom = document.querySelector('#ob-form input[type="datetime-local"]');

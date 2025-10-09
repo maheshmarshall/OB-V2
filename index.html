@@ -479,11 +479,11 @@
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
                                     <div class="flex items-center w-2/3 space-x-2 flex-wrap">
-                                        <input type="text" id="recovery-sap-number-input" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
+                                        <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
                                         <span class="text-gray-500">/</span>
-                                        <select id="recovery-sap-month-select" class="p-2 border rounded-md"></select>
+                                        <select class="p-2 border rounded-md"></select>
                                         <span class="text-gray-500">/</span>
-                                        <select id="recovery-sap-year-select" class="p-2 border rounded-md"></select>
+                                        <select class="p-2 border rounded-md"></select>
                                     </div>
                                 </div>
                                 <div class="flex items-center">
@@ -588,9 +588,9 @@
                                              <div class="flex items-center w-2/3 space-x-2 flex-wrap">
                                                  <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
                                                  <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md pa-sap-month"></select>
+                                                 <select class="p-2 border rounded-md"></select>
                                                  <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md pa-sap-year"></select>
+                                                 <select class="p-2 border rounded-md"></select>
                                              </div>
                                          </div>
                                      </div>
@@ -616,9 +616,9 @@
                                              <div class="flex items-center w-2/3 space-x-2 flex-wrap">
                                                  <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
                                                  <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md pa-sap-month"></select>
+                                                 <select class="p-2 border rounded-md"></select>
                                                  <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md pa-sap-year"></select>
+                                                 <select class="p-2 border rounded-md"></select>
                                              </div>
                                          </div>
                                      </div>
@@ -644,9 +644,9 @@
                                              <div class="flex items-center w-2/3 space-x-2 flex-wrap">
                                                  <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
                                                  <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md pa-sap-month"></select>
+                                                 <select class="p-2 border rounded-md"></select>
                                                  <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md pa-sap-year"></select>
+                                                 <select class="p-2 border rounded-md"></select>
                                              </div>
                                          </div>
                                      </div>
@@ -672,9 +672,9 @@
                                              <div class="flex items-center w-2/3 space-x-2 flex-wrap">
                                                  <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
                                                  <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md pa-sap-month"></select>
+                                                 <select class="p-2 border rounded-md"></select>
                                                  <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md pa-sap-year"></select>
+                                                 <select class="p-2 border rounded-md"></select>
                                              </div>
                                          </div>
                                      </div>
@@ -768,9 +768,12 @@
             let personRowCounter = 0;
 
             const toSentenceCase = (str) => {
-                 if (typeof str !== 'string' || str.length === 0) return str;
-                 let lowerCaseStr = str.toLowerCase();
-                 return lowerCaseStr.charAt(0).toUpperCase() + lowerCaseStr.slice(1);
+                if (typeof str !== 'string' || str.length === 0) return str;
+                let lowerCaseStr = str.toLowerCase();
+                // Capitalize the first letter and handle specific cases like acronyms in parentheses
+                return lowerCaseStr.replace(/(^\w|\s\w)/g, m => m.toUpperCase())
+                                  .replace(/\(Mi2p\)/i, '(mi2p)')
+                                  .replace(/\( Possession Of Stolen Property \)/i, '( possession of stolen property )');
             };
 
             // Default data structure in case localStorage is empty
@@ -847,9 +850,6 @@
             const newItemInput = document.getElementById('new-item-input');
             const addItemBtn = document.getElementById('add-item-btn');
             const createdDateEl = document.getElementById('created-date');
-            const sapMonthSelect = document.getElementById('sap-month-select');
-            const sapYearSelect = document.getElementById('sap-year-select');
-            const sapNumberInput = document.getElementById('sap-number-input');
             const statusButtonsContainer = document.getElementById('status-buttons');
             const addVehicleBtn = document.getElementById('add-vehicle-btn');
             const suspiciousVehiclesTbody = document.getElementById('suspicious-vehicles-tbody');
@@ -907,11 +907,25 @@
             const loadDropdownOptions = () => {
                 const savedData = localStorage.getItem('dropdownData');
                 const savedOptions = savedData ? JSON.parse(savedData) : {};
-                // Robustly merge defaults with saved data.
-                dropdownOptions = { ...defaultDropdownOptions };
-                for (const key in savedOptions) {
-                    if (Object.hasOwnProperty.call(savedOptions, key) && Array.isArray(savedOptions[key])) {
-                        dropdownOptions[key] = savedOptions[key];
+                
+                let tempOptions = {};
+
+                // Start with a deep copy of defaults
+                let defaultCopy = JSON.parse(JSON.stringify(defaultDropdownOptions));
+
+                // Format all default category items
+                for (const key in defaultCopy) {
+                    if (Array.isArray(defaultCopy[key])) {
+                        defaultCopy[key] = defaultCopy[key].map(item => toSentenceCase(item));
+                    }
+                }
+                
+                dropdownOptions = { ...defaultCopy, ...savedOptions };
+
+                 // Ensure saved data is also formatted
+                for (const key in dropdownOptions) {
+                    if (Array.isArray(dropdownOptions[key])) {
+                        dropdownOptions[key] = dropdownOptions[key].map(item => toSentenceCase(item));
                     }
                 }
             };
@@ -1003,7 +1017,7 @@
                 document.body.removeChild(tempSpan);
 
                 // Add some padding for the dropdown arrow and to prevent text clipping
-                selectElement.style.width = `${maxWidth + 30}px`;
+                selectElement.style.width = `${maxWidth + 40}px`;
             };
 
             const autosizeTextarea = (textarea) => {
@@ -1037,7 +1051,7 @@
                 const newItem = newItemInput.value.trim();
                 if (newItem && !dropdownOptions[selectedCategory].includes(newItem)) {
                     showConfirmationModal(`Are you sure you want to add "${newItem}"?`, () => {
-                        dropdownOptions[selectedCategory].push(newItem);
+                        dropdownOptions[selectedCategory].push(toSentenceCase(newItem));
                         saveDropdownOptions();
                         renderCategoryEditor(selectedCategory);
                         updateAllDropdowns();
@@ -1318,16 +1332,18 @@
             // --- INITIALIZATION ---
             const initializeApp = () => {
                 loadDropdownOptions();
-                updateAllDropdowns();
-                populateSapDropdowns(sapMonthSelect, sapYearSelect);
-                populateSapDropdowns(recoverySapMonthSelect, recoverySapYearSelect);
                 
-                document.querySelectorAll('.pa-sap-month').forEach((elem, index) => {
-                    const yearElem = document.querySelectorAll('.pa-sap-year')[index];
-                    populateSapDropdowns(elem, yearElem);
+                // Populate all SAPS 13 number fields
+                const sapContainers = document.querySelectorAll('.flex-wrap'); // A bit generic, might need refinement
+                sapContainers.forEach(container => {
+                    if (container.querySelector('input[placeholder="Number"]')) {
+                        const monthSelect = container.querySelector('select:nth-of-type(1)');
+                        const yearSelect = container.querySelector('select:nth-of-type(2)');
+                        populateSapDropdowns(monthSelect, yearSelect);
+                    }
                 });
-
-
+                
+                updateAllDropdowns();
                 updateObNumberDisplay();
                 document.querySelectorAll('.autosize-input').forEach(input => autosizeInput(input));
                 renderCategoryEditor(categorySelectorElem.value);

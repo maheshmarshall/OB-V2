@@ -1499,6 +1499,36 @@
                 loadData();
                 users.forEach(user => initializePermissionsForUser(user.id));
                 populateLoginDropdown();
+                
+                // Populate all SAPS 13 number fields
+                const sapContainers = document.querySelectorAll('.sap-container');
+                sapContainers.forEach(container => {
+                    const monthSelect = container.querySelector('.sap-month');
+                    const yearSelect = container.querySelector('.sap-year');
+                    
+                    const populateSapDropdowns = (monthSelect, yearSelect) => {
+                        if (!monthSelect || !yearSelect) return;
+                        const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+                        monthSelect.innerHTML = '';
+                        months.forEach(month => {
+                            const option = document.createElement('option');
+                            option.value = month;
+                            option.textContent = month;
+                            monthSelect.appendChild(option);
+                        });
+                        const currentYear = new Date().getFullYear();
+                        yearSelect.innerHTML = '';
+                        for (let i = 0; i < 10; i++) {
+                            const year = currentYear + i;
+                            const option = document.createElement('option');
+                            option.value = year;
+                            option.textContent = year;
+                            yearSelect.appendChild(option);
+                        }
+                    };
+                    populateSapDropdowns(monthSelect, yearSelect);
+                });
+
                 updateAllDropdowns();
                 applyPermissions(); // Apply permissions on load
                 document.getElementById('created-date').textContent = new Date().toLocaleString();

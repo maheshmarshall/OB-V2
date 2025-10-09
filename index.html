@@ -195,12 +195,13 @@
                              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">SAP 13 Number:</label>
-                                    <div class="flex items-center w-2/3 space-x-2 flex-wrap">
-                                        <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
-                                        <span class="text-gray-500">/</span>
-                                        <select class="p-2 border rounded-md"></select>
-                                        <span class="text-gray-500">/</span>
-                                        <select class="p-2 border rounded-md"></select>
+                                    <div class="w-2/3 sap-container">
+                                        <input type="text" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
+                                        <div class="flex items-center space-x-2">
+                                            <select class="p-2 border rounded-md sap-month"></select>
+                                            <span class="text-gray-500">/</span>
+                                            <select class="p-2 border rounded-md sap-year"></select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -289,76 +290,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Suspicious Vehicles Section -->
-                            <div class="border-t pt-6 mt-6">
-                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Suspicious Vehicles</h3>
-                                <div class="space-y-4">
-                                    <div class="flex justify-end mb-2">
-                                        <button type="button" id="add-vehicle-btn" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect">Add Vehicle</button>
-                                    </div>
-                                    <div class="overflow-x-auto">
-                                        <table class="min-w-full bg-white border">
-                                            <thead class="bg-gray-200">
-                                                <tr>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Registration</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Make</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Model</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Colour</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="suspicious-vehicles-tbody">
-                                                <!-- Dynamic rows will be inserted here -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                                        <div class="flex items-center">
-                                            <input id="bolo-checkbox" type="checkbox" class="h-5 w-5 mr-2">
-                                            <label for="bolo-checkbox" class="text-gray-600 font-medium">BOLO (Be on the Lookout)</label>
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-1 gap-6">
-                                         <div class="flex">
-                                            <label class="w-1/6 text-gray-600 font-medium">Comments:</label>
-                                            <textarea class="p-2 border rounded-md w-5/6 h-24"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Persons of Interest Section -->
-                            <div class="border-t pt-6 mt-6">
-                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Persons of Interest</h3>
-                                <div class="space-y-4">
-                                    <div class="flex justify-end mb-2">
-                                        <button type="button" id="add-person-btn" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect">Add Person</button>
-                                    </div>
-                                    <div class="overflow-x-auto">
-                                        <table class="min-w-full bg-white border">
-                                            <thead class="bg-gray-200">
-                                                <tr>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Firstname</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Lastname</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Age</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Ethnicity</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Hair</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Eye</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Gender</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Id</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Description</th>
-                                                    <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Actions</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="persons-of-interest-tbody">
-                                                <!-- Dynamic rows will be inserted here -->
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-
                             <!-- Save Button -->
                             <div class="flex justify-end pt-4">
                                 <button type="button" id="save-record-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Record</button>
@@ -478,12 +409,13 @@
                                 </div>
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
-                                    <div class="flex items-center w-2/3 space-x-2 flex-wrap">
-                                        <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
-                                        <span class="text-gray-500">/</span>
-                                        <select class="p-2 border rounded-md"></select>
-                                        <span class="text-gray-500">/</span>
-                                        <select class="p-2 border rounded-md"></select>
+                                    <div class="w-2/3 sap-container">
+                                        <input type="text" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
+                                        <div class="flex items-center space-x-2">
+                                            <select class="p-2 border rounded-md sap-month"></select>
+                                            <span class="text-gray-500">/</span>
+                                            <select class="p-2 border rounded-md sap-year"></select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="flex items-center">
@@ -585,12 +517,13 @@
                                          </div>
                                          <div class="flex items-center">
                                              <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
-                                             <div class="flex items-center w-2/3 space-x-2 flex-wrap">
-                                                 <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
-                                                 <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md"></select>
-                                                 <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md"></select>
+                                             <div class="w-2/3 sap-container">
+                                                 <input type="text" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
+                                                 <div class="flex items-center space-x-2">
+                                                     <select class="p-2 border rounded-md sap-month"></select>
+                                                     <span class="text-gray-500">/</span>
+                                                     <select class="p-2 border rounded-md sap-year"></select>
+                                                 </div>
                                              </div>
                                          </div>
                                      </div>
@@ -613,12 +546,13 @@
                                          </div>
                                          <div class="flex items-center">
                                              <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
-                                             <div class="flex items-center w-2/3 space-x-2 flex-wrap">
-                                                 <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
-                                                 <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md"></select>
-                                                 <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md"></select>
+                                             <div class="w-2/3 sap-container">
+                                                 <input type="text" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
+                                                 <div class="flex items-center space-x-2">
+                                                     <select class="p-2 border rounded-md sap-month"></select>
+                                                     <span class="text-gray-500">/</span>
+                                                     <select class="p-2 border rounded-md sap-year"></select>
+                                                 </div>
                                              </div>
                                          </div>
                                      </div>
@@ -641,12 +575,13 @@
                                          </div>
                                          <div class="flex items-center">
                                              <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
-                                             <div class="flex items-center w-2/3 space-x-2 flex-wrap">
-                                                 <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
-                                                 <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md"></select>
-                                                 <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md"></select>
+                                             <div class="w-2/3 sap-container">
+                                                 <input type="text" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
+                                                 <div class="flex items-center space-x-2">
+                                                     <select class="p-2 border rounded-md sap-month"></select>
+                                                     <span class="text-gray-500">/</span>
+                                                     <select class="p-2 border rounded-md sap-year"></select>
+                                                 </div>
                                              </div>
                                          </div>
                                      </div>
@@ -669,12 +604,13 @@
                                          </div>
                                          <div class="flex items-center">
                                              <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
-                                             <div class="flex items-center w-2/3 space-x-2 flex-wrap">
-                                                 <input type="text" class="p-2 border rounded-md numeric-only autosize-input" placeholder="Number">
-                                                 <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md"></select>
-                                                 <span class="text-gray-500">/</span>
-                                                 <select class="p-2 border rounded-md"></select>
+                                             <div class="w-2/3 sap-container">
+                                                 <input type="text" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
+                                                 <div class="flex items-center space-x-2">
+                                                     <select class="p-2 border rounded-md sap-month"></select>
+                                                     <span class="text-gray-500">/</span>
+                                                     <select class="p-2 border rounded-md sap-year"></select>
+                                                 </div>
                                              </div>
                                          </div>
                                      </div>
@@ -770,10 +706,7 @@
             const toSentenceCase = (str) => {
                 if (typeof str !== 'string' || str.length === 0) return str;
                 let lowerCaseStr = str.toLowerCase();
-                // Capitalize the first letter and handle specific cases like acronyms in parentheses
-                return lowerCaseStr.replace(/(^\w|\s\w)/g, m => m.toUpperCase())
-                                  .replace(/\(Mi2p\)/i, '(mi2p)')
-                                  .replace(/\( Possession Of Stolen Property \)/i, '( possession of stolen property )');
+                return lowerCaseStr.charAt(0).toUpperCase() + lowerCaseStr.slice(1);
             };
 
             // Default data structure in case localStorage is empty
@@ -861,9 +794,6 @@
             const recoveryDivisionSelect = document.getElementById('recovery-division-select');
             const recoveryTypeSelect = document.getElementById('recovery-type-select');
             const recoveryIncidentTypeSelect = document.getElementById('recovery-incident-type-select');
-            const recoverySapNumberInput = document.getElementById('recovery-sap-number-input');
-            const recoverySapMonthSelect = document.getElementById('recovery-sap-month-select');
-            const recoverySapYearSelect = document.getElementById('recovery-sap-year-select');
             const addSuspectBtn = document.getElementById('add-suspect-btn');
             const suspectsTbody = document.getElementById('suspects-tbody');
 
@@ -1042,8 +972,12 @@
             };
 
             const updateObNumberDisplay = () => {
-                obNumberDisplay.textContent = obCounter;
-                createdDateEl.textContent = new Date().toLocaleString();
+                if (obNumberDisplay) {
+                    obNumberDisplay.textContent = obCounter;
+                }
+                if(createdDateEl){
+                    createdDateEl.textContent = new Date().toLocaleString();
+                }
             };
 
             const handleAddItem = () => {
@@ -1138,17 +1072,19 @@
                 });
             });
 
-            statusButtonsContainer.addEventListener('click', (event) => {
-                const clickedButton = event.target.closest('.status-btn');
-                if (clickedButton) {
-                    statusButtonsContainer.querySelectorAll('.status-btn').forEach(btn => {
-                        btn.classList.remove('status-btn-active');
-                        btn.classList.add('bg-gray-200', 'text-gray-700');
-                    });
-                    clickedButton.classList.add('status-btn-active');
-                    clickedButton.classList.remove('bg-gray-200', 'text-gray-700');
-                }
-            });
+            if (statusButtonsContainer) {
+                statusButtonsContainer.addEventListener('click', (event) => {
+                    const clickedButton = event.target.closest('.status-btn');
+                    if (clickedButton) {
+                        statusButtonsContainer.querySelectorAll('.status-btn').forEach(btn => {
+                            btn.classList.remove('status-btn-active');
+                            btn.classList.add('bg-gray-200', 'text-gray-700');
+                        });
+                        clickedButton.classList.add('status-btn-active');
+                        clickedButton.classList.remove('bg-gray-200', 'text-gray-700');
+                    }
+                });
+            }
 
             document.body.addEventListener('input', (event) => {
                 const target = event.target;
@@ -1160,7 +1096,7 @@
 
                     if (originalValue !== numericValue) {
                         target.value = numericValue;
-                        showSuccessModal('Invalid Input', 'Only numbers are allowed in this field.');
+                        // showSuccessModal('Invalid Input', 'Only numbers are allowed in this field.');
                     }
                 }
                 // Handle currency formatting
@@ -1197,7 +1133,7 @@
                     
                     if (sanitizedValue !== originalValue) {
                          target.value = sanitizedValue;
-                         showSuccessModal('Invalid Input', 'Only decimal numbers are allowed.');
+                         // showSuccessModal('Invalid Input', 'Only decimal numbers are allowed.');
                     }
                 }
 
@@ -1220,133 +1156,149 @@
             });
 
 
-            addVehicleBtn.addEventListener('click', () => {
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Registration"></td>
-                    <td class="border-b p-2"><select class="vehicle-make-select p-1 border rounded-md"></select></td>
-                    <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Model"></td>
-                    <td class="border-b p-2"><input type="text" class="p-1 border rounded-md w-full" placeholder="Colour"></td>
-                    <td class="border-b p-2 text-center"><button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button></td>
-                `;
-                suspiciousVehiclesTbody.appendChild(newRow);
-                
-                const newSelect = newRow.querySelector('.vehicle-make-select');
-                populateDropdown(newSelect, dropdownOptions.vehicleMake, 'No vehicle selected');
-                autosizeSelect(newSelect);
-                
-                const newInputs = newRow.querySelectorAll('.autosize-input');
-                newInputs.forEach(input => autosizeInput(input));
-            });
+            if (addVehicleBtn) {
+                addVehicleBtn.addEventListener('click', () => {
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Registration"></td>
+                        <td class="border-b p-2"><select class="vehicle-make-select p-1 border rounded-md"></select></td>
+                        <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Model"></td>
+                        <td class="border-b p-2"><input type="text" class="p-1 border rounded-md w-full" placeholder="Colour"></td>
+                        <td class="border-b p-2 text-center"><button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button></td>
+                    `;
+                    suspiciousVehiclesTbody.appendChild(newRow);
+                    
+                    const newSelect = newRow.querySelector('.vehicle-make-select');
+                    populateDropdown(newSelect, dropdownOptions.vehicleMake, 'No vehicle selected');
+                    autosizeSelect(newSelect);
+                    
+                    const newInputs = newRow.querySelectorAll('.autosize-input');
+                    newInputs.forEach(input => autosizeInput(input));
+                });
+            }
 
-            suspiciousVehiclesTbody.addEventListener('click', (event) => {
-                if (event.target.classList.contains('remove-row-btn')) {
-                    event.target.closest('tr').remove();
-                }
-            });
+            if (suspiciousVehiclesTbody) {
+                suspiciousVehiclesTbody.addEventListener('click', (event) => {
+                    if (event.target.classList.contains('remove-row-btn')) {
+                        event.target.closest('tr').remove();
+                    }
+                });
+            }
 
-            addPersonBtn.addEventListener('click', () => {
-                personRowCounter++; // Increment for a unique name
-                const genderName = `gender-${personRowCounter}`;
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Firstname"></td>
-                    <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Lastname"></td>
-                    <td class="border-b p-2"><input type="text" class="autosize-input numeric-only p-1 border rounded-md" placeholder="Age"></td>
-                    <td class="border-b p-2"><select class="person-ethnicity-select p-1 border rounded-md"></select></td>
-                    <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Hair"></td>
-                    <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Eye"></td>
-                    <td class="border-b p-2">
-                        <div class="flex items-center gap-x-3 p-1">
-                            <label class="flex items-center gap-1 text-sm whitespace-nowrap"><input type="radio" name="${genderName}" value="Male">Male</label>
-                            <label class="flex items-center gap-1 text-sm whitespace-nowrap"><input type="radio" name="${genderName}" value="Female">Female</label>
-                        </div>
-                    </td>
-                    <td class="border-b p-2"><input type="text" class="autosize-input numeric-only p-1 border rounded-md" placeholder="Id"></td>
-                    <td class="border-b p-2"><textarea class="autosize-person-textarea p-1 border rounded-md w-full" rows="1" placeholder="Description"></textarea></td>
-                    <td class="border-b p-2 text-center"><button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button></td>
-                `;
-                personsOfInterestTbody.appendChild(newRow);
+            if (addPersonBtn) {
+                addPersonBtn.addEventListener('click', () => {
+                    personRowCounter++; // Increment for a unique name
+                    const genderName = `gender-${personRowCounter}`;
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Firstname"></td>
+                        <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Lastname"></td>
+                        <td class="border-b p-2"><input type="text" class="autosize-input numeric-only p-1 border rounded-md" placeholder="Age"></td>
+                        <td class="border-b p-2"><select class="person-ethnicity-select p-1 border rounded-md"></select></td>
+                        <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Hair"></td>
+                        <td class="border-b p-2"><input type="text" class="autosize-input p-1 border rounded-md" placeholder="Eye"></td>
+                        <td class="border-b p-2">
+                            <div class="flex items-center gap-x-3 p-1">
+                                <label class="flex items-center gap-1 text-sm whitespace-nowrap"><input type="radio" name="${genderName}" value="Male">Male</label>
+                                <label class="flex items-center gap-1 text-sm whitespace-nowrap"><input type="radio" name="${genderName}" value="Female">Female</label>
+                            </div>
+                        </td>
+                        <td class="border-b p-2"><input type="text" class="autosize-input numeric-only p-1 border rounded-md" placeholder="Id"></td>
+                        <td class="border-b p-2"><textarea class="autosize-person-textarea p-1 border rounded-md w-full" rows="1" placeholder="Description"></textarea></td>
+                        <td class="border-b p-2 text-center"><button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button></td>
+                    `;
+                    personsOfInterestTbody.appendChild(newRow);
 
-                // Initialize autosizing for new elements
-                const newEthnicitySelect = newRow.querySelector('.person-ethnicity-select');
-                populateDropdown(newEthnicitySelect, dropdownOptions.ethnicity, 'No Ethnicity Selected');
-                autosizeSelect(newEthnicitySelect);
+                    // Initialize autosizing for new elements
+                    const newEthnicitySelect = newRow.querySelector('.person-ethnicity-select');
+                    populateDropdown(newEthnicitySelect, dropdownOptions.ethnicity, 'No Ethnicity Selected');
+                    autosizeSelect(newEthnicitySelect);
 
-                const newInputs = newRow.querySelectorAll('.autosize-input');
-                newInputs.forEach(input => autosizeInput(input));
+                    const newInputs = newRow.querySelectorAll('.autosize-input');
+                    newInputs.forEach(input => autosizeInput(input));
 
-                const newDescriptionTextarea = newRow.querySelector('.autosize-person-textarea');
-                autosizeTextarea(newDescriptionTextarea);
-            });
+                    const newDescriptionTextarea = newRow.querySelector('.autosize-person-textarea');
+                    autosizeTextarea(newDescriptionTextarea);
+                });
+            }
 
-            personsOfInterestTbody.addEventListener('click', (event) => {
-                if (event.target.classList.contains('remove-row-btn')) {
-                    event.target.closest('tr').remove();
-                }
-            });
+            if (personsOfInterestTbody) {
+                personsOfInterestTbody.addEventListener('click', (event) => {
+                    if (event.target.classList.contains('remove-row-btn')) {
+                        event.target.closest('tr').remove();
+                    }
+                });
+            }
 
-            saveRecordBtn.addEventListener('click', handleSaveRecord);
+            if(saveRecordBtn) saveRecordBtn.addEventListener('click', handleSaveRecord);
             
             // Category Editor event listeners
-            const categoryEditBtn = document.querySelector('[data-view="category-edit-view"]');
-            const categoryEditorView = document.getElementById('category-edit-view');
             const categorySelectorElem = document.getElementById('category-selector');
-            const editorPanel = document.getElementById('editor-panel');
-            const editingCategoryNameElem = document.getElementById('editing-category-name');
-            const categoryItemListElem = document.getElementById('category-item-list');
             const newItemInputElem = document.getElementById('new-item-input');
             const addItemBtnElem = document.getElementById('add-item-btn');
+            const categoryItemListElem = document.getElementById('category-item-list');
             
-            categorySelectorElem.addEventListener('change', () => renderCategoryEditor(categorySelectorElem.value));
-            addItemBtnElem.addEventListener('click', handleAddItem);
-            newItemInputElem.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddItem(); });
-            categoryItemListElem.addEventListener('click', handleDeleteItem);
+            if (categorySelectorElem) {
+                 categorySelectorElem.addEventListener('change', () => renderCategoryEditor(categorySelectorElem.value));
+            }
+            if(addItemBtnElem) {
+                addItemBtnElem.addEventListener('click', handleAddItem);
+            }
+            if(newItemInputElem){
+                 newItemInputElem.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleAddItem(); });
+            }
+            if(categoryItemListElem) {
+                 categoryItemListElem.addEventListener('click', handleDeleteItem);
+            }
 
-            addSuspectBtn.addEventListener('click', () => {
-                const rowCount = suspectsTbody.rows.length + 1;
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td class="border-b p-2">
-                        <input type="text" placeholder="Name" class="p-1 border rounded-md w-full">
-                    </td>
-                     <td class="border-b p-2">
-                        <input type="text" placeholder="ID Number" class="p-1 border rounded-md w-full numeric-only">
-                    </td>
-                    <td class="border-b p-2">
-                         <input type="file" class="p-1 border rounded-md w-full">
-                    </td>
-                    <td class="border-b p-2 text-center align-middle">
-                        <button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button>
-                    </td>
-                `;
-                suspectsTbody.appendChild(newRow);
-            });
+            if(addSuspectBtn){
+                addSuspectBtn.addEventListener('click', () => {
+                    const rowCount = suspectsTbody.rows.length + 1;
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td class="border-b p-2">
+                            <input type="text" placeholder="Name" class="p-1 border rounded-md w-full">
+                        </td>
+                         <td class="border-b p-2">
+                            <input type="text" placeholder="ID Number" class="p-1 border rounded-md w-full numeric-only">
+                        </td>
+                        <td class="border-b p-2">
+                             <input type="file" class="p-1 border rounded-md w-full">
+                        </td>
+                        <td class="border-b p-2 text-center align-middle">
+                            <button type="button" class="remove-row-btn text-red-500 font-bold px-2">X</button>
+                        </td>
+                    `;
+                    suspectsTbody.appendChild(newRow);
+                });
+            }
 
-            suspectsTbody.addEventListener('click', (event) => {
-                if (event.target.classList.contains('remove-row-btn')) {
-                    event.target.closest('tr').remove();
-                }
-            });
+            if(suspectsTbody){
+                suspectsTbody.addEventListener('click', (event) => {
+                    if (event.target.classList.contains('remove-row-btn')) {
+                        event.target.closest('tr').remove();
+                    }
+                });
+            }
 
             // --- INITIALIZATION ---
             const initializeApp = () => {
                 loadDropdownOptions();
                 
                 // Populate all SAPS 13 number fields
-                const sapContainers = document.querySelectorAll('.flex-wrap'); // A bit generic, might need refinement
+                const sapContainers = document.querySelectorAll('.sap-container');
                 sapContainers.forEach(container => {
-                    if (container.querySelector('input[placeholder="Number"]')) {
-                        const monthSelect = container.querySelector('select:nth-of-type(1)');
-                        const yearSelect = container.querySelector('select:nth-of-type(2)');
-                        populateSapDropdowns(monthSelect, yearSelect);
-                    }
+                    const monthSelect = container.querySelector('.sap-month');
+                    const yearSelect = container.querySelector('.sap-year');
+                    populateSapDropdowns(monthSelect, yearSelect);
                 });
                 
                 updateAllDropdowns();
                 updateObNumberDisplay();
                 document.querySelectorAll('.autosize-input').forEach(input => autosizeInput(input));
-                renderCategoryEditor(categorySelectorElem.value);
+                if(categorySelectorElem) {
+                    renderCategoryEditor(categorySelectorElem.value);
+                }
             };
 
             initializeApp();

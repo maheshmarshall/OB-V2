@@ -883,74 +883,36 @@
                             <select id="user-select" class="p-2 border rounded-md w-full max-w-xs"></select>
                         </div>
 
-                        <div id="permissions-container" class="space-y-6">
-                            <!-- OB Entry Permissions -->
-                            <div class="space-y-2 border-b pb-4">
-                                <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
-                                    <input type="checkbox" data-permission-type="tab" data-target-view="ob-entry-view" class="h-5 w-5">
-                                    <span>OB Entry Tab</span>
-                                </label>
-                                <div class="pl-8 space-y-1">
-                                    <label class="flex items-center gap-3 text-sm text-gray-600">
-                                        <input type="checkbox" data-permission-type="section" data-target-section="ob-location-info-section" class="h-4 w-4">
-                                        <span>Location Information Section</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <!-- Positive Arrests Permissions -->
-                             <div class="space-y-2 border-b pb-4">
-                                <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
-                                    <input type="checkbox" data-permission-type="tab" data-target-view="positive-arrests-view" class="h-5 w-5">
-                                    <span>Positive Arrests Tab</span>
-                                </label>
-                                <div class="pl-8 space-y-1">
-                                    <label class="flex items-center gap-3 text-sm text-gray-600">
-                                        <input type="checkbox" data-permission-type="section" data-target-section="pa-crime-details-section" class="h-4 w-4">
-                                        <span>Crime Details Section</span>
-                                    </label>
-                                    <label class="flex items-center gap-3 text-sm text-gray-600">
-                                        <input type="checkbox" data-permission-type="section" data-target-section="pa-evidence-section" class="h-4 w-4">
-                                        <span>Evidence Pictures Section</span>
-                                    </label>
-                                    <label class="flex items-center gap-3 text-sm text-gray-600">
-                                        <input type="checkbox" data-permission-type="section" data-target-section="pa-suspects-section" class="h-4 w-4">
-                                        <span>Suspect Details Section</span>
-                                    </label>
-                                </div>
-                            </div>
-                             <!-- SOT Positives Permissions -->
-                             <div class="space-y-2 border-b pb-4">
-                                <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
-                                    <input type="checkbox" data-permission-type="tab" data-target-view="sot-view" class="h-5 w-5">
-                                    <span>SOT Positives Tab</span>
-                                </label>
-                                <div class="pl-8 space-y-1">
-                                    <label class="flex items-center gap-3 text-sm text-gray-600">
-                                        <input type="checkbox" data-permission-type="section" data-target-section="sot-comments-section" class="h-4 w-4">
-                                        <span>Comments Section</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <!-- Other Tabs (no sub-sections) -->
-                            <div class="space-y-2">
-                                <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
-                                    <input type="checkbox" data-permission-type="tab" data-target-view="category-edit-view" class="h-5 w-5">
-                                    <span>Category Edit Tab</span>
-                                </label>
-                                 <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
-                                    <input type="checkbox" data-permission-type="tab" data-target-view="recoveries-view" class="h-5 w-5">
-                                    <span>Recoveries Tab</span>
-                                </label>
-                                 <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
-                                    <input type="checkbox" data-permission-type="tab" data-target-view="complaints-view" class="h-5 w-5">
-                                    <span>Complaints Tab</span>
-                                </label>
-                                 <label class="flex items-center gap-3 text-lg font-semibold text-gray-700">
-                                    <input type="checkbox" data-permission-type="tab" data-target-view="manage-users-view" class="h-5 w-5">
-                                    <span>Manage Users Tab</span>
-                                </label>
-                            </div>
-
+                        <div id="permissions-container" class="space-y-4">
+                            <!-- Permissions Checkboxes -->
+                            <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
+                                <input type="checkbox" data-permission-type="tab" data-target-view="ob-entry-view" class="h-5 w-5">
+                                <span>OB Entry Tab</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
+                                <input type="checkbox" data-permission-type="tab" data-target-view="category-edit-view" class="h-5 w-5">
+                                <span>Category Edit Tab</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
+                                <input type="checkbox" data-permission-type="tab" data-target-view="recoveries-view" class="h-5 w-5">
+                                <span>Recoveries Tab</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
+                                <input type="checkbox" data-permission-type="tab" data-target-view="complaints-view" class="h-5 w-5">
+                                <span>Complaints Tab</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
+                                <input type="checkbox" data-permission-type="tab" data-target-view="positive-arrests-view" class="h-5 w-5">
+                                <span>Positive Arrests Tab</span>
+                            </label>
+                             <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
+                                <input type="checkbox" data-permission-type="tab" data-target-view="sot-view" class="h-5 w-5">
+                                <span>SOT Positives Tab</span>
+                            </label>
+                             <label class="flex items-center gap-3 text-lg font-semibold text-gray-700 border-b pb-3">
+                                <input type="checkbox" data-permission-type="tab" data-target-view="manage-users-view" class="h-5 w-5">
+                                <span>Manage Users Tab</span>
+                            </label>
                         </div>
                          <!-- Save Button -->
                         <div class="flex justify-end pt-6 mt-6 border-t">
@@ -1351,13 +1313,6 @@
                                 "positive-arrests-view": true,
                                 "sot-view": true,
                                 "manage-users-view": true
-                            },
-                            sections: {
-                                "ob-location-info-section": true,
-                                "pa-crime-details-section": true,
-                                "pa-evidence-section": true,
-                                "pa-suspects-section": true,
-                                "sot-comments-section": true
                             }
                         };
                     }
@@ -1369,14 +1324,8 @@
                 if (!permissions || !permissionsContainer) return;
 
                 permissionsContainer.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                    const type = checkbox.dataset.permissionType;
-                    if (type === 'tab') {
-                        const view = checkbox.dataset.targetView;
-                        checkbox.checked = permissions.tabs[view] || false;
-                    } else if (type === 'section') {
-                        const section = checkbox.dataset.targetSection;
-                        checkbox.checked = permissions.sections[section] || false;
-                    }
+                    const view = checkbox.dataset.targetView;
+                    checkbox.checked = (permissions.tabs && permissions.tabs[view]) || false;
                 });
             };
 
@@ -1386,16 +1335,11 @@
 
                 showConfirmationModal(`Are you sure you want to save permissions for ${selectedUser}?`, () => {
                     const currentPermissions = userPermissions[selectedUser];
+                    currentPermissions.tabs = {}; // Reset tabs
 
                     permissionsContainer.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                        const type = checkbox.dataset.permissionType;
-                        if (type === 'tab') {
-                            const view = checkbox.dataset.targetView;
-                            currentPermissions.tabs[view] = checkbox.checked;
-                        } else if (type === 'section') {
-                            const section = checkbox.dataset.targetSection;
-                            currentPermissions.sections[section] = checkbox.checked;
-                        }
+                        const view = checkbox.dataset.targetView;
+                        currentPermissions.tabs[view] = checkbox.checked;
                     });
 
                     // In a real app, you would save this `userPermissions` object to a server/database.

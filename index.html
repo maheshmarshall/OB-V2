@@ -126,6 +126,7 @@
                     <button data-view="positive-arrests-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Positive Arrests</button>
                     <button data-view="sot-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">SOT Positives</button>
                     <button data-view="manage-users-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Manage Users</button>
+                    <button data-view="department-roles-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">Departments & Roles</button>
                     <button data-view="user-permissions-view" class="w-full text-left p-3 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">User Permissions</button>
                 </nav>
             </aside>
@@ -1035,6 +1036,61 @@
                     </div>
                 </div>
 
+                <!-- Department & Roles View -->
+                <div id="department-roles-view" class="view-panel hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Manage Departments & Roles</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        
+                        <!-- Management Column -->
+                        <div class="space-y-8">
+                             <!-- Manage Departments -->
+                            <div>
+                                <h3 class="text-xl font-semibold mb-4 text-gray-700">Departments</h3>
+                                <div class="border rounded-lg p-4 bg-gray-50 space-y-4">
+                                    <form id="add-department-form" class="flex gap-2">
+                                        <input type="text" id="new-department-input" class="flex-grow p-2 border rounded-md" placeholder="New department name" required>
+                                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect">Add</button>
+                                    </form>
+                                    <div id="department-list" class="category-list max-h-48 overflow-y-auto space-y-2">
+                                        <!-- Departments will be listed here -->
+                                    </div>
+                                </div>
+                            </div>
+
+                             <!-- Manage Roles -->
+                             <div>
+                                <h3 class="text-xl font-semibold mb-4 text-gray-700">Roles</h3>
+                                <div class="border rounded-lg p-4 bg-gray-50 space-y-4">
+                                    <form id="add-role-form" class="flex gap-2">
+                                        <input type="text" id="new-role-input" class="flex-grow p-2 border rounded-md" placeholder="New role name" required>
+                                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect">Add</button>
+                                    </form>
+                                    <div id="role-list" class="category-list max-h-48 overflow-y-auto space-y-2">
+                                        <!-- Roles will be listed here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Assignment Column -->
+                        <div>
+                             <h3 class="text-xl font-semibold mb-4 text-gray-700">Assign Roles to Department</h3>
+                             <div class="border rounded-lg p-4 bg-gray-50 space-y-4">
+                                <div>
+                                    <label for="assign-dept-select" class="block text-sm font-medium text-gray-700 mb-2">Select Department:</label>
+                                    <select id="assign-dept-select" class="w-full p-2 border rounded-md"></select>
+                                </div>
+                                <div id="role-assignment-list" class="category-list max-h-96 overflow-y-auto space-y-2 border-t pt-4">
+                                    <!-- Role checkboxes will appear here -->
+                                </div>
+                                <div class="flex justify-end pt-4">
+                                    <button id="save-assignment-btn" class="px-6 py-2 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Assignments</button>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
 
             </main>
         </div>
@@ -1078,7 +1134,7 @@
             natureOfCrime: ["Armed robbery", "House breaking", "Theft of motor vehicle", "Common robbery", "Assault"],
             sotPersonAssigned: ["Jono", "Jaco", "Michael", "Zandre", "Derek"],
             department: Object.keys(departmentRoles),
-            role: Object.values(departmentRoles).flat() // Keep a flat list for initial population if needed
+            role: [...new Set(Object.values(departmentRoles).flat())]
         };
 
         // --- NEW: ROLE-BASED PERMISSION MAPPING ---
@@ -1092,6 +1148,7 @@
                     'positive-arrests-view': { access: true, add: true, remove: true, update: true, view: true },
                     'sot-view': { access: true, add: true, remove: true, update: true, view: true },
                     'manage-users-view': { access: true },
+                    'department-roles-view': { access: true },
                     'user-permissions-view': { access: true },
                 }
             },
@@ -1144,6 +1201,18 @@
         const permissionsContainer = document.getElementById('permissions-container');
         const savePermissionsBtn = document.getElementById('save-permissions-btn');
         const createdByUserSpan = document.getElementById('created-by-user');
+
+        // Department & Role Management Elements
+        const addDepartmentForm = document.getElementById('add-department-form');
+        const newDepartmentInput = document.getElementById('new-department-input');
+        const departmentList = document.getElementById('department-list');
+        const addRoleForm = document.getElementById('add-role-form');
+        const newRoleInput = document.getElementById('new-role-input');
+        const roleList = document.getElementById('role-list');
+        const assignDeptSelect = document.getElementById('assign-dept-select');
+        const roleAssignmentList = document.getElementById('role-assignment-list');
+        const saveAssignmentBtn = document.getElementById('save-assignment-btn');
+
 
         // Modals
         const confirmModal = document.getElementById('confirmation-modal');
@@ -1210,6 +1279,7 @@
 
         const populateDropdown = (select, options, placeholder) => {
             if (!select) return;
+            const currentValue = select.value;
             select.innerHTML = '';
             if (placeholder) {
                 select.innerHTML += `<option value="">${placeholder}</option>`;
@@ -1219,6 +1289,9 @@
                 const text = typeof opt === 'object' ? `${opt.name} ${opt.surname}` : opt;
                 select.innerHTML += `<option value="${value}">${text}</option>`;
             });
+            if(options.includes(currentValue)){
+                select.value = currentValue;
+            }
         };
         
         const updateAllDropdowns = () => {
@@ -1239,10 +1312,15 @@
             populateDropdown(document.getElementById('sot-person-assigned-select'), dropdownOptions.sotPersonAssigned || [], 'No User Assigned');
             populateDropdown(userDepartmentSelect, dropdownOptions.department || [], 'Select Department');
             populateDropdown(permissionsDeptSelect, dropdownOptions.department || [], 'All Departments');
+            populateDropdown(assignDeptSelect, dropdownOptions.department || [], 'Select a Department');
             
-            // Initially populate role dropdowns with a placeholder
-            populateDropdown(userRoleSelect, [], 'Select a department first');
-            populateDropdown(permissionsRoleSelect, [], 'Select a department first');
+            // Initially populate role dropdowns with a placeholder or based on selection
+            const selectedUserDept = userDepartmentSelect.value;
+            populateDropdown(userRoleSelect, selectedUserDept ? departmentRoles[selectedUserDept] : [], 'Select a department first');
+
+            const selectedPermDept = permissionsDeptSelect.value;
+            populateDropdown(permissionsRoleSelect, selectedPermDept ? departmentRoles[selectedPermDept] : [], 'All Roles');
+
 
             filterPermissionUsers();
         };
@@ -1267,8 +1345,7 @@
         
         const renderPermissions = (userId) => {
             const allCheckboxes = permissionsContainer.querySelectorAll('input[type="checkbox"]');
-            const isAdmin = currentUser === 'admin';
-
+            
             if (!userId) {
                 allCheckboxes.forEach(cb => {
                     cb.checked = false;
@@ -1491,8 +1568,14 @@
                     userNameInput.value = user.name;
                     userSurnameInput.value = user.surname;
                     userEmailInput.value = user.email;
+                    
+                    // Set department and then trigger change to populate roles
                     userDepartmentSelect.value = user.department;
+                    userDepartmentSelect.dispatchEvent(new Event('change'));
+                    
+                    // Set role
                     userRoleSelect.value = user.role;
+                    
                     userPasswordInput.value = ''; // Clear password field for security
                     userPasswordInput.placeholder = "Unchanged";
                     cancelEditBtn.classList.remove('hidden');
@@ -1524,6 +1607,131 @@
                 }
             });
         };
+
+        // --- DEPARTMENT & ROLE MANAGEMENT ---
+
+        const renderDepartments = () => {
+            departmentList.innerHTML = '';
+            dropdownOptions.department.forEach(dept => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'flex justify-between items-center p-2 bg-white rounded-md shadow-sm';
+                itemDiv.innerHTML = `
+                    <span class="flex-grow">${dept}</span>
+                    <button data-dept="${dept}" class="delete-dept-btn text-red-500 hover:text-red-700 font-bold p-1">X</button>
+                `;
+                departmentList.appendChild(itemDiv);
+            });
+            updateAllDropdowns(); // Update dropdowns across the app
+        };
+
+        const renderRoles = () => {
+            roleList.innerHTML = '';
+            dropdownOptions.role.forEach(role => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'flex justify-between items-center p-2 bg-white rounded-md shadow-sm';
+                itemDiv.innerHTML = `
+                    <span class="flex-grow">${role}</span>
+                    <button data-role="${role}" class="delete-role-btn text-red-500 hover:text-red-700 font-bold p-1">X</button>
+                `;
+                roleList.appendChild(itemDiv);
+            });
+            renderRoleAssignments();
+        };
+
+        const renderRoleAssignments = () => {
+            const selectedDept = assignDeptSelect.value;
+            roleAssignmentList.innerHTML = '';
+            if (!selectedDept) {
+                roleAssignmentList.innerHTML = `<p class="text-gray-500">Please select a department to see roles.</p>`;
+                return;
+            }
+
+            const assignedRoles = departmentRoles[selectedDept] || [];
+            dropdownOptions.role.forEach(role => {
+                const isChecked = assignedRoles.includes(role);
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'flex items-center p-2';
+                itemDiv.innerHTML = `
+                    <input type="checkbox" id="role-assign-${role.replace(/\s+/g, '-')}" data-role="${role}" class="h-4 w-4" ${isChecked ? 'checked' : ''}>
+                    <label for="role-assign-${role.replace(/\s+/g, '-')}" class="ml-3 text-sm text-gray-700">${role}</label>
+                `;
+                roleAssignmentList.appendChild(itemDiv);
+            });
+        };
+        
+        addDepartmentForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const newDept = toSentenceCase(newDepartmentInput.value.trim());
+            if (newDept && !departmentRoles[newDept]) {
+                departmentRoles[newDept] = [];
+                dropdownOptions.department = Object.keys(departmentRoles);
+                renderDepartments();
+                newDepartmentInput.value = '';
+                showSuccessModal('Success', `Department "${newDept}" added.`);
+            } else {
+                 showSuccessModal('Error', `Department "${newDept}" already exists or is invalid.`);
+            }
+        });
+
+        addRoleForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const newRole = toSentenceCase(newRoleInput.value.trim());
+            if (newRole && !dropdownOptions.role.includes(newRole)) {
+                dropdownOptions.role.push(newRole);
+                renderRoles();
+                newRoleInput.value = '';
+                showSuccessModal('Success', `Role "${newRole}" added.`);
+            } else {
+                showSuccessModal('Error', `Role "${newRole}" already exists or is invalid.`);
+            }
+        });
+
+        saveAssignmentBtn.addEventListener('click', () => {
+            const selectedDept = assignDeptSelect.value;
+            if (!selectedDept) {
+                showSuccessModal('Error', 'Please select a department first.');
+                return;
+            }
+            showConfirmationModal(`Are you sure you want to save role assignments for ${selectedDept}?`, () => {
+                const newAssignedRoles = [];
+                roleAssignmentList.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                    newAssignedRoles.push(cb.dataset.role);
+                });
+                departmentRoles[selectedDept] = newAssignedRoles;
+                showSuccessModal('Success', `Assignments for ${selectedDept} saved.`);
+            });
+        });
+
+        departmentList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('delete-dept-btn')) {
+                const deptToDelete = e.target.dataset.dept;
+                showConfirmationModal(`Are you sure you want to delete the "${deptToDelete}" department? This cannot be undone.`, () => {
+                    delete departmentRoles[deptToDelete];
+                    dropdownOptions.department = Object.keys(departmentRoles);
+                    renderDepartments();
+                    renderRoleAssignments();
+                    showSuccessModal('Success', `Department "${deptToDelete}" deleted.`);
+                });
+            }
+        });
+        
+        roleList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('delete-role-btn')) {
+                const roleToDelete = e.target.dataset.role;
+                 showConfirmationModal(`Are you sure you want to delete the "${roleToDelete}" role? This will remove it from all departments.`, () => {
+                    // Remove from flat list
+                    dropdownOptions.role = dropdownOptions.role.filter(r => r !== roleToDelete);
+                    // Remove from all department assignments
+                    for (const dept in departmentRoles) {
+                        departmentRoles[dept] = departmentRoles[dept].filter(r => r !== roleToDelete);
+                    }
+                    renderRoles();
+                    showSuccessModal('Success', `Role "${roleToDelete}" deleted.`);
+                });
+            }
+        });
+
+        assignDeptSelect.addEventListener('change', renderRoleAssignments);
 
         // --- EVENT LISTENERS ---
         const addEventListeners = () => {
@@ -1618,6 +1826,8 @@
             renderUsersTable();
             populateLoginDropdown();
             updateAllDropdowns();
+            renderDepartments();
+            renderRoles();
             applyPermissions(); 
             renderCategoryEditor(document.getElementById('category-selector').value);
             
@@ -1634,5 +1844,4 @@
     </script>
 </body>
 </html>
-
 

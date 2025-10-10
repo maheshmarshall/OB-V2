@@ -1055,6 +1055,17 @@
             { id: 2, name: 'Jane', surname: 'Smith', email: 'jane.s@example.com', department: 'Reaction', role: 'Reaction Manager' }
         ];
 
+        const departmentRoles = {
+            'SOT': ['SOT Manager', 'SOT Member'],
+            'Reaction': ['Reaction Officer', 'Reaction Supervisor', 'Reaction Manager'],
+            'Control Room': ['Control Room Operator', 'Control Room Supervisor', 'Control Room Manager'],
+            'Camera Room': ['Camera Room Admin', 'Camera Room Supervisor'],
+            'Sales': ['Sales Field', 'Sales Admin', 'SalesManager'],
+            'Marketing': ['Marketing Manager', 'Marketing Staff'],
+            'I.T': ['I.T'],
+            'Customer Care': ['Customer Care Manager', 'Customer Care Admin']
+        };
+
         let dropdownOptions = {
             obType: ["Abduction", "Accident", "Armed robbery", "Assault", "Business breaking", "Business robbery", "Common robbery", "House breaking", "House robbery", "Theft"],
             policeStation: ["Durban North", "Berea", "Durban Central", "Mayville", "Westville", "Pinetown"],
@@ -1066,8 +1077,8 @@
             incidentType: ["Hijacked", "Stolen", "Missing person", "House breaking"],
             natureOfCrime: ["Armed robbery", "House breaking", "Theft of motor vehicle", "Common robbery", "Assault"],
             sotPersonAssigned: ["Jono", "Jaco", "Michael", "Zandre", "Derek"],
-            department: ["SOT", "Reaction", "Control Room", "Camera Room", "Sales", "Marketing", "I.T", "Customer Care"],
-            role: ["SOT Manager", "SOT Member", "Reaction Officer", "Reaction Supervisor", "Reaction Manager", "Control Room Operator", "Control Room Supervisor", "Control Room Manager", "Camera Room Admin", "Camera Room Supervisor", "Sales Field", "Sales Admin", "SalesManager", "Marketing Manager", "Marketing Staff", "I.T", "Customer Care Manager", "Customer Care Admin"]
+            department: Object.keys(departmentRoles),
+            role: Object.values(departmentRoles).flat() // Keep a flat list for initial population if needed
         };
 
         // --- NEW: ROLE-BASED PERMISSION MAPPING ---
@@ -1227,9 +1238,12 @@
             populateDropdown(document.getElementById('sot-incident-type-select'), dropdownOptions.incidentType || [], 'No Incident Type Selected');
             populateDropdown(document.getElementById('sot-person-assigned-select'), dropdownOptions.sotPersonAssigned || [], 'No User Assigned');
             populateDropdown(userDepartmentSelect, dropdownOptions.department || [], 'Select Department');
-            populateDropdown(userRoleSelect, dropdownOptions.role || [], 'Select Role');
             populateDropdown(permissionsDeptSelect, dropdownOptions.department || [], 'All Departments');
-            populateDropdown(permissionsRoleSelect, dropdownOptions.role || [], 'All Roles');
+            
+            // Initially populate role dropdowns with a placeholder
+            populateDropdown(userRoleSelect, [], 'Select a department first');
+            populateDropdown(permissionsRoleSelect, [], 'Select a department first');
+
             filterPermissionUsers();
         };
 
@@ -1545,7 +1559,21 @@
             usersTbody.addEventListener('click', handleUsersTableClick);
             cancelEditBtn.addEventListener('click', resetUserForm);
 
-            permissionsDeptSelect.addEventListener('change', filterPermissionUsers);
+            // --- LINKED DROPDOWNS LOGIC ---
+            userDepartmentSelect.addEventListener('change', (e) => {
+                const selectedDept = e.target.value;
+                const rolesForDept = selectedDept ? departmentRoles[selectedDept] : [];
+                populateDropdown(userRoleSelect, rolesForDept, 'Select Role');
+            });
+
+            permissionsDeptSelect.addEventListener('change', () => {
+                const selectedDept = permissionsDeptSelect.value;
+                const rolesForDept = selectedDept ? departmentRoles[selectedDept] : [];
+                populateDropdown(permissionsRoleSelect, rolesForDept, 'All Roles');
+                // When department changes, filter users immediately
+                filterPermissionUsers(); 
+            });
+
             permissionsRoleSelect.addEventListener('change', filterPermissionUsers);
             permissionsUserSelect.addEventListener('change', e => renderPermissions(e.target.value));
             savePermissionsBtn.addEventListener('click', savePermissions);
@@ -1606,4 +1634,5 @@
     </script>
 </body>
 </html>
+
 

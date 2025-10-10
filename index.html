@@ -1292,13 +1292,22 @@
         };
         
         // --- PERMISSIONS LOGIC ---
+        // NOTE: The 'admin' user is a super user by default.
+        // The logic below explicitly grants full access if the currentUser is 'admin'.
         const applyPermissions = () => {
             const isAdmin = currentUser === 'admin';
             const userPerms = userPermissions[currentUser] || { tabs: {} };
 
             sidebarNav.querySelectorAll('button[data-view]').forEach(btn => {
                 const view = btn.dataset.view;
-                const hasAccess = isAdmin || (userPerms.tabs && userPerms.tabs[view] && userPerms.tabs[view].access);
+                let hasAccess;
+
+                // Admin is a super user and has access to all tabs.
+                if (isAdmin) {
+                    hasAccess = true;
+                } else {
+                    hasAccess = userPerms.tabs && userPerms.tabs[view] && userPerms.tabs[view].access;
+                }
                 btn.classList.toggle('hidden', !hasAccess);
             });
 
@@ -1323,7 +1332,14 @@
 
             actionsContainer.querySelectorAll('.ob-action-btn').forEach(btn => {
                 const action = btn.dataset.action;
-                const hasPermission = isAdmin || (permissions && permissions[action]);
+                let hasPermission;
+                
+                // Admin is a super user and has all action permissions.
+                if (isAdmin) {
+                    hasPermission = true;
+                } else {
+                    hasPermission = permissions && permissions[action];
+                }
                 btn.style.display = hasPermission ? '' : 'none';
             });
         };

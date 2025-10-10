@@ -1118,7 +1118,6 @@
             confirmModalMessage.textContent = message;
             confirmModal.style.display = 'flex';
             
-            // This ensures event listeners don't stack up on the buttons
             const newButtons = document.getElementById('modal-buttons').cloneNode(true);
             document.getElementById('modal-buttons').parentNode.replaceChild(newButtons, document.getElementById('modal-buttons'));
 
@@ -1219,8 +1218,10 @@
         };
         
         const renderPermissions = (userId) => {
+            const allCheckboxes = document.querySelectorAll('.permission-row input[type="checkbox"]');
+
             if (!userId) {
-                document.querySelectorAll('.permission-row input[type="checkbox"]').forEach(cb => {
+                allCheckboxes.forEach(cb => {
                     cb.checked = false;
                     cb.disabled = true;
                 });
@@ -1228,22 +1229,33 @@
             }
 
             const permissions = userPermissions[userId] || { tabs: {} };
+
             document.querySelectorAll('.permission-row').forEach(row => {
                 const view = row.dataset.viewName;
                 const tabPerms = permissions.tabs[view] || {};
                 
-                const accessCheckbox = row.querySelector('[data-action="access"]');
-                accessCheckbox.checked = tabPerms.access || false;
-                accessCheckbox.disabled = false;
-
-                row.querySelectorAll('.action-cb').forEach(cb => {
-                    const action = cb.dataset.action;
-                    cb.checked = tabPerms[action] || false;
-                    // A checkbox is only disabled if it has the 'disabled' attribute in the HTML.
+                row.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.checked = tabPerms[cb.dataset.action] || false;
                     cb.disabled = cb.hasAttribute('disabled');
                 });
             });
         };
+
+        const handlePermissionChange = (event) => {
+            const selectedUserId = permissionsUserSelect.value;
+            if (!selectedUserId) return;
+
+            const checkbox = event.target;
+            const action = checkbox.dataset.action;
+            const row = checkbox.closest('.permission-row');
+            const view = row.dataset.viewName;
+
+            if (!userPermissions[selectedUserId]) userPermissions[selectedUserId] = { tabs: {} };
+            if (!userPermissions[selectedUserId].tabs[view]) userPermissions[selectedUserId].tabs[view] = {};
+
+            userPermissions[selectedUserId].tabs[view][action] = checkbox.checked;
+        };
+
 
         const populateLoginDropdown = () => {
             const currentVal = loginAsSelect.value || currentUser;
@@ -1421,18 +1433,8 @@
             if (!selectedUserId) return showSuccessModal('Error', 'Please select a user first.');
             
             showConfirmationModal('Are you sure you want to save these permissions?', () => {
-                const permsToSave = { tabs: {} };
-                document.querySelectorAll('.permission-row').forEach(row => {
-                    const view = row.dataset.viewName;
-                    permsToSave.tabs[view] = {
-                        access: row.querySelector('[data-action="access"]').checked,
-                        add: row.querySelector('[data-action="add"]').checked,
-                        remove: row.querySelector('[data-action="remove"]').checked,
-                        update: row.querySelector('[data-action="update"]').checked,
-                        view: row.querySelector('[data-action="view"]').checked
-                    };
-                });
-                userPermissions[selectedUserId] = permsToSave;
+                // The userPermissions object is already up-to-date from the 'change' event listener.
+                // In a real app, this is where you would send the userPermissions[selectedUserId] object to your backend.
                 showSuccessModal('Success', 'Permissions updated.');
                 if (currentUser == selectedUserId) {
                     applyPermissions(); // Re-apply if the current user's permissions changed
@@ -1479,33 +1481,7 @@
             permissionsUserSelect.addEventListener('change', e => renderPermissions(e.target.value));
             savePermissionsBtn.addEventListener('click', savePermissions);
 
-            permissionsContainer.addEventListener('change', (e) => {
-                const selectedUserId = permissionsUserSelect.value;
-                if (!selectedUserId) return;
-
-                const target = e.target;
-                const row = target.closest('.permission-row');
-                if (!row) return;
-
-                const view = row.dataset.viewName;
-                const action = target.dataset.action;
-
-                if (!userPermissions[selectedUserId]) userPermissions[selectedUserId] = { tabs: {} };
-                if (!userPermissions[selectedUserId].tabs[view]) userPermissions[selectedUserId].tabs[view] = {};
-
-                userPermissions[selectedUserId].tabs[view][action] = target.checked;
-
-                if (action === 'access' && !target.checked) {
-                    // When access is unchecked, uncheck the sub-permissions in the data model
-                    userPermissions[selectedUserId].tabs[view].add = false;
-                    userPermissions[selectedUserId].tabs[view].remove = false;
-                    userPermissions[selectedUserId].tabs[view].update = false;
-                    userPermissions[selectedUserId].tabs[view].view = false;
-                }
-                
-                // Re-render the permissions to reflect the data change
-                renderPermissions(selectedUserId);
-            });
+            permissionsContainer.addEventListener('change', handlePermissionChange);
         };
         
         // --- INITIALIZATION ---

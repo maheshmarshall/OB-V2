@@ -71,7 +71,7 @@
                 <div class="mt-2 px-7 py-3">
                     <p id="confirm-modal-message" class="text-sm text-gray-500"></p>
                 </div>
-                <div class="items-center px-4 py-3">
+                <div id="modal-buttons" class="items-center px-4 py-3">
                     <button id="modal-confirm-btn" class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-auto shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
                         Confirm
                     </button>
@@ -312,19 +312,7 @@
                         <div>
                             <label for="category-selector" class="block text-sm font-medium text-gray-700 mb-2">Select a category to edit:</label>
                             <select id="category-selector" class="w-full p-2 border rounded-md">
-                                <option value="obType">OB Type</option>
-                                <option value="policeStation">Police Station</option>
-                                <option value="followUpUser">Follow up User</option>
-                                <option value="area">Area</option>
-                                <option value="vehicleMake">Vehicle Make</option>
-                                <option value="ethnicity">Ethnicity</option>
-                                <option value="division">Division</option>
-                                <option value="recoveryType">Recovery Type</option>
-                                <option value="incidentType">Incident Type</option>
-                                <option value="natureOfCrime">Nature of Crime</option>
-                                <option value="sotPersonAssigned">SOT Person Assigned</option>
-                                <option value="department">Department</option>
-                                <option value="role">Role</option>
+                                <!-- Options will be dynamically populated by JavaScript -->
                             </select>
                         </div>
                         <div id="editor-panel">
@@ -1045,53 +1033,49 @@
     </div>
     
     <script type="module">
-        // Firebase Imports
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, query, addDoc, serverTimestamp, arrayUnion, arrayRemove, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // --- FIREBASE CONFIG & INITIALIZATION ---
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "DEMO", authDomain: "DEMO", projectId: "DEMO" };
-
-        let app, db, auth;
-        try {
-            app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
-        } catch (e) {
-            console.error("Firebase initialization error:", e);
-            alert("Could not initialize Firebase. Please check your configuration.");
-        }
-        
-        // --- Firestore Collection References ---
-        const getCollectionPath = (coll) => `/artifacts/${appId}/public/data/${coll}`;
-        const usersCol = collection(db, getCollectionPath('users'));
-        const categoriesCol = collection(db, getCollectionPath('categories'));
-        const permissionsCol = collection(db, getCollectionPath('permissions'));
+        // This script uses MOCK DATA for frontend development.
+        // It does NOT connect to a backend server.
         
         // --- STATE MANAGEMENT ---
         let obCounter = 1;
         let currentRecordAction = 'add';
-        let dropdownOptions = {};
-        let users = [];
-        let userPermissions = {};
         let currentUser = 'admin'; // 'admin' or a user ID
-        let unsubscribeUsers, unsubscribeCategories, unsubscribePermissions;
         
-        const defaultCategories = {
-            obType: { options: ["Abduction", "Accident", "Armed robbery", "Assault", "Business breaking", "Business robbery", "Common robbery", "House breaking", "House robbery", "Theft"] },
-            policeStation: { options: ["Durban North", "Berea", "Durban Central", "Mayville", "Westville", "Pinetown"] },
-            area: { options: ["Durban North", "Umhlanga", "La Lucia", "Glenwood", "Morningside"] },
-            vehicleMake: { options: ["Toyota", "Volkswagen", "Ford", "Hyundai", "BMW", "Mercedes-Benz"] },
-            ethnicity: { options: ["Asian", "Black", "Coloured", "Indian", "White", "Other"] },
-            division: { options: ["SOT", "Reaction", "Westmead (sector 1)", "Westmead (sector 2)"] },
-            recoveryType: { options: ["Vehicle", "Items"] },
-            incidentType: { options: ["Hijacked", "Stolen", "Missing person", "House breaking"] },
-            natureOfCrime: { options: ["Armed robbery", "House breaking", "Theft of motor vehicle", "Common robbery", "Assault"] },
-            sotPersonAssigned: { options: ["Jono", "Jaco", "Michael", "Zandre", "Derek"] },
-            department: { options: ["SOT", "Reaction", "Control Room", "Sales", "Marketing", "I.T", "Customer Care"] },
-            role: { options: ["SOT Manager", "SOT Member", "Reaction Manager", "Reaction Officer", "Control Room Operator", "Sales Field", "I.T", "Customer Care"] }
+        // --- MOCK DATA (Replaces the backend) ---
+        let users = [
+            { id: 1, name: 'John', surname: 'Doe', email: 'john.d@example.com', department: 'SOT', role: 'SOT Manager' },
+            { id: 2, name: 'Jane', surname: 'Smith', email: 'jane.s@example.com', department: 'Reaction', role: 'Reaction Manager' }
+        ];
+
+        let dropdownOptions = {
+            obType: ["Abduction", "Accident", "Armed robbery", "Assault", "Business breaking", "Business robbery", "Common robbery", "House breaking", "House robbery", "Theft"],
+            policeStation: ["Durban North", "Berea", "Durban Central", "Mayville", "Westville", "Pinetown"],
+            area: ["Durban North", "Umhlanga", "La Lucia", "Glenwood", "Morningside"],
+            vehicleMake: ["Toyota", "Volkswagen", "Ford", "Hyundai", "BMW", "Mercedes-Benz"],
+            ethnicity: ["Asian", "Black", "Coloured", "Indian", "White", "Other"],
+            division: ["SOT", "Reaction", "Westmead (sector 1)", "Westmead (sector 2)"],
+            recoveryType: ["Vehicle", "Items"],
+            incidentType: ["Hijacked", "Stolen", "Missing person", "House breaking"],
+            natureOfCrime: ["Armed robbery", "House breaking", "Theft of motor vehicle", "Common robbery", "Assault"],
+            sotPersonAssigned: ["Jono", "Jaco", "Michael", "Zandre", "Derek"],
+            department: ["SOT", "Reaction", "Control Room", "Sales", "Marketing", "I.T", "Customer Care"],
+            role: ["SOT Manager", "SOT Member", "Reaction Manager", "Reaction Officer", "Control Room Operator", "Sales Field", "I.T", "Customer Care"]
+        };
+
+        let userPermissions = {
+            '1': { // Permissions for John Doe
+                tabs: {
+                    'ob-entry-view': { access: true, add: true, remove: false, update: true, view: true },
+                    'manage-users-view': { access: true }
+                }
+            },
+            '2': { // Permissions for Jane Smith
+                 tabs: {
+                    'ob-entry-view': { access: true, add: true, remove: true, update: true, view: true },
+                    'recoveries-view': { access: true, add: true, remove: false, update: true, view: true },
+                    'manage-users-view': { access: false }
+                }
+            }
         };
 
         // --- ELEMENT REFERENCES ---
@@ -1119,8 +1103,6 @@
         // Modals
         const confirmModal = document.getElementById('confirmation-modal');
         const confirmModalMessage = document.getElementById('confirm-modal-message');
-        const modalConfirmBtn = document.getElementById('modal-confirm-btn');
-        const modalCancelBtn = document.getElementById('modal-cancel-btn');
         const successModal = document.getElementById('success-modal');
         const successModalTitle = document.getElementById('success-modal-title');
         const successModalMessage = document.getElementById('success-modal-message');
@@ -1135,11 +1117,17 @@
         const showConfirmationModal = (message, onConfirmCallback) => {
             confirmModalMessage.textContent = message;
             confirmModal.style.display = 'flex';
-            const newConfirmBtn = modalConfirmBtn.cloneNode(true);
-            modalConfirmBtn.parentNode.replaceChild(newConfirmBtn, modalConfirmBtn);
-            newConfirmBtn.addEventListener('click', () => {
+            
+            // This ensures event listeners don't stack up on the buttons
+            const newButtons = document.getElementById('modal-buttons').cloneNode(true);
+            document.getElementById('modal-buttons').parentNode.replaceChild(newButtons, document.getElementById('modal-buttons'));
+
+            newButtons.querySelector('#modal-confirm-btn').addEventListener('click', () => {
                 confirmModal.style.display = 'none';
                 onConfirmCallback();
+            });
+            newButtons.querySelector('#modal-cancel-btn').addEventListener('click', () => {
+                confirmModal.style.display = 'none';
             });
         };
 
@@ -1157,7 +1145,9 @@
             const categoryItemList = document.getElementById('category-item-list');
             
             if (editingCategoryName) {
-                editingCategoryName.textContent = `Editing: ${categorySelector.options[categorySelector.selectedIndex].text}`;
+                if(categorySelector.options.length > 0) {
+                   editingCategoryName.textContent = `Editing: ${categorySelector.options[categorySelector.selectedIndex].text}`;
+                }
             }
             
             if (categoryItemList) {
@@ -1230,25 +1220,27 @@
         
         const renderPermissions = (userId) => {
             if (!userId) {
-                 document.querySelectorAll('.permission-row input[type="checkbox"]').forEach(cb => {
+                document.querySelectorAll('.permission-row input[type="checkbox"]').forEach(cb => {
                     cb.checked = false;
                     cb.disabled = true;
                 });
                 return;
             }
 
-            const permissions = userPermissions[userId];
+            const permissions = userPermissions[userId] || { tabs: {} };
             document.querySelectorAll('.permission-row').forEach(row => {
                 const view = row.dataset.viewName;
-                const tabPerms = (permissions && permissions.tabs && permissions.tabs[view]) ? permissions.tabs[view] : {};
+                const tabPerms = permissions.tabs[view] || {};
+                
                 const accessCheckbox = row.querySelector('[data-action="access"]');
                 accessCheckbox.checked = tabPerms.access || false;
                 accessCheckbox.disabled = false;
+
                 row.querySelectorAll('.action-cb').forEach(cb => {
                     const action = cb.dataset.action;
                     cb.checked = tabPerms[action] || false;
-                    const isHardDisabled = cb.hasAttribute('disabled');
-                    cb.disabled = isHardDisabled ? true : !accessCheckbox.checked;
+                    // A checkbox is only disabled if it has the 'disabled' attribute in the HTML.
+                    cb.disabled = cb.hasAttribute('disabled');
                 });
             });
         };
@@ -1267,7 +1259,7 @@
             if (currentUser === 'admin') {
                 createdByUserSpan.textContent = 'Admin';
             } else {
-                const user = users.find(u => u.id === currentUser);
+                const user = users.find(u => u.id == currentUser);
                 createdByUserSpan.textContent = user ? `${user.name} ${user.surname}` : 'Unknown User';
             }
         };
@@ -1289,41 +1281,22 @@
         
         // --- PERMISSIONS LOGIC ---
         const applyPermissions = () => {
-            const activeViewButton = sidebarNav.querySelector('.active-btn');
-            let activeViewId = activeViewButton ? activeViewButton.dataset.view : 'ob-entry-view';
+            const isAdmin = currentUser === 'admin';
+            const userPerms = userPermissions[currentUser] || { tabs: {} };
 
             sidebarNav.querySelectorAll('button[data-view]').forEach(btn => {
                 const view = btn.dataset.view;
-                const hasAccess = currentUser === 'admin' || (userPermissions[currentUser] && userPermissions[currentUser].tabs[view] && userPermissions[currentUser].tabs[view].access);
-                
+                const hasAccess = isAdmin || (userPerms.tabs && userPerms.tabs[view] && userPerms.tabs[view].access);
                 btn.classList.toggle('hidden', !hasAccess);
+            });
 
-                if (!hasAccess && activeViewId === view) {
-                    const firstVisibleButton = sidebarNav.querySelector('button[data-view]:not(.hidden)');
-                    activeViewId = firstVisibleButton ? firstVisibleButton.dataset.view : null;
+            const activeViewButton = sidebarNav.querySelector('.active-btn');
+            if(activeViewButton && activeViewButton.classList.contains('hidden')) {
+                const firstVisibleButton = sidebarNav.querySelector('button[data-view]:not(.hidden)');
+                if (firstVisibleButton) {
+                   firstVisibleButton.click();
                 }
-            });
-            
-            if (!activeViewId) {
-                viewPanels.forEach(panel => panel.classList.add('hidden'));
-                 sidebarNav.querySelectorAll('button').forEach(btn => {
-                    btn.classList.remove('active-btn', 'bg-blue-500', 'text-white');
-                    btn.classList.add('bg-gray-200', 'text-gray-700');
-                });
-                return;
             }
-
-            const newActiveButton = sidebarNav.querySelector(`button[data-view="${activeViewId}"]`);
-            sidebarNav.querySelectorAll('button').forEach(btn => {
-                btn.classList.remove('active-btn', 'bg-blue-500', 'text-white');
-                btn.classList.add('bg-gray-200', 'text-gray-700');
-            });
-
-            if (newActiveButton) {
-                newActiveButton.classList.add('active-btn', 'bg-blue-500', 'text-white');
-                newActiveButton.classList.remove('bg-gray-200', 'text-gray-700');
-            }
-            showView(activeViewId);
         };
 
         const applyActionPermissions = (viewId) => {
@@ -1332,12 +1305,14 @@
 
             const actionsContainer = viewPanel.querySelector('.flex.justify-center.space-x-4.mb-6');
             if (!actionsContainer) return;
-
-            const permissions = (currentUser !== 'admin' && userPermissions[currentUser]) ? userPermissions[currentUser].tabs[viewId] : { add: true, remove: true, update: true, view: true };
+            
+            const isAdmin = currentUser === 'admin';
+            const permissions = (userPermissions[currentUser]) ? userPermissions[currentUser].tabs[viewId] : {};
 
             actionsContainer.querySelectorAll('.ob-action-btn').forEach(btn => {
                 const action = btn.dataset.action;
-                btn.style.display = (permissions && permissions[action]) ? '' : 'none';
+                const hasPermission = isAdmin || (permissions && permissions[action]);
+                btn.style.display = hasPermission ? '' : 'none';
             });
         };
         
@@ -1348,92 +1323,66 @@
             populateDropdown(permissionsUserSelect, filtered, 'Select User');
             renderPermissions(null);
         };
+
+        // --- HANDLERS (Manipulate local mock data) ---
         
-        // --- FIRESTORE CRUD OPERATIONS ---
-        async function initializeDefaultCategories() {
-            const batch = writeBatch(db);
-            let needsCommit = false;
-            for (const key in defaultCategories) {
-                const docRef = doc(categoriesCol, key);
-                const docSnap = await getDoc(docRef);
-                if (!docSnap.exists()) {
-                    batch.set(docRef, defaultCategories[key]);
-                    needsCommit = true;
-                }
-            }
-            if (needsCommit) {
-                await batch.commit();
-                console.log("Default categories initialized.");
-            }
-        }
-        
-        const handleAddItem = async () => {
+        const handleAddItem = () => {
             const categoryKey = document.getElementById('category-selector').value;
             const newItemInput = document.getElementById('new-item-input');
             const newItem = newItemInput.value.trim();
             if (newItem && !(dropdownOptions[categoryKey] || []).includes(newItem)) {
-                showConfirmationModal(`Are you sure you want to add "${newItem}"?`, async () => {
-                    try {
-                        const docRef = doc(categoriesCol, categoryKey);
-                        await updateDoc(docRef, { options: arrayUnion(toSentenceCase(newItem)) });
-                        newItemInput.value = '';
-                        showSuccessModal('Success', `Successfully added "${newItem}".`);
-                    } catch (e) {
-                        console.error("Error adding item:", e);
-                        showSuccessModal('Error', 'Could not add item.');
-                    }
+                showConfirmationModal(`Are you sure you want to add "${newItem}"?`, () => {
+                    dropdownOptions[categoryKey].push(toSentenceCase(newItem));
+                    renderCategoryEditor(categoryKey);
+                    updateAllDropdowns();
+                    newItemInput.value = '';
+                    showSuccessModal('Success', `Successfully added "${newItem}".`);
                 });
-            } else if (newItem) {
-                showSuccessModal('Error', `Item "${newItem}" already exists in this category.`);
             }
         };
 
-        const handleDeleteItem = async (event) => {
+        const handleDeleteItem = (event) => {
             const deleteButton = event.target.closest('.delete-item-btn');
             if (deleteButton) {
                 const categoryKey = document.getElementById('category-selector').value;
                 const itemToDelete = deleteButton.dataset.item;
-                showConfirmationModal(`Are you sure you want to delete "${itemToDelete}"?`, async () => {
-                    try {
-                        const docRef = doc(categoriesCol, categoryKey);
-                        await updateDoc(docRef, { options: arrayRemove(itemToDelete) });
-                        showSuccessModal('Success', `Successfully deleted "${itemToDelete}".`);
-                    } catch(e) {
-                        console.error("Error deleting item:", e);
-                        showSuccessModal('Error', 'Could not delete item.');
-                    }
+                const itemIndex = parseInt(deleteButton.dataset.index, 10);
+                showConfirmationModal(`Are you sure you want to delete "${itemToDelete}"?`, () => {
+                    dropdownOptions[categoryKey].splice(itemIndex, 1);
+                    renderCategoryEditor(categoryKey);
+                    updateAllDropdowns();
+                    showSuccessModal('Success', `Successfully deleted "${itemToDelete}".`);
                 });
             }
         };
 
-        const handleUserFormSubmit = async (e) => {
+        const handleUserFormSubmit = (e) => {
             e.preventDefault();
             const userId = userIdInput.value;
-            const user = {
+            const userData = {
                 name: userNameInput.value,
                 surname: userSurnameInput.value,
                 email: userEmailInput.value,
                 department: userDepartmentSelect.value,
                 role: userRoleSelect.value,
-                // Do not save password to Firestore in a real app like this
-                // password: userPasswordInput.value 
             };
-            showConfirmationModal(`Are you sure you want to ${userId ? 'update' : 'add'} this user?`, async () => {
-                try {
-                    if (userId) {
-                        await setDoc(doc(usersCol, userId), user, { merge: true });
-                    } else {
-                        const newDocRef = await addDoc(usersCol, user);
-                        // Initialize permissions for the new user
-                         const permDocRef = doc(permissionsCol, newDocRef.id);
-                        await setDoc(permDocRef, { tabs: {} });
+
+            showConfirmationModal(`Are you sure you want to ${userId ? 'update' : 'add'} this user?`, () => {
+                if (userId) { // Update existing user
+                    const index = users.findIndex(u => u.id == userId);
+                    if (index !== -1) {
+                       users[index] = { ...users[index], ...userData };
                     }
-                    resetUserForm();
-                    showSuccessModal('Success', `User has been successfully ${userId ? 'updated' : 'saved'}.`);
-                } catch (e) {
-                    console.error("Error saving user:", e);
-                    showSuccessModal('Error', 'Could not save user.');
+                } else { // Add new user
+                    userData.id = Date.now(); // Simple unique ID for mock data
+                    users.push(userData);
                 }
+                
+                renderUsersTable();
+                populateLoginDropdown();
+                updateAllDropdowns();
+                resetUserForm();
+                showSuccessModal('Success', `User has been successfully ${userId ? 'updated' : 'saved'}.`);
             });
         };
         
@@ -1449,31 +1398,29 @@
                     userEmailInput.value = user.email;
                     userDepartmentSelect.value = user.department;
                     userRoleSelect.value = user.role;
-                    userPasswordInput.placeholder = "Unchanged if empty";
+                    userPasswordInput.value = ''; // Clear password field for security
+                    userPasswordInput.placeholder = "Unchanged";
                     cancelEditBtn.classList.remove('hidden');
                 }
             } else if (e.target.classList.contains('delete-user-btn')) {
                 const userId = e.target.dataset.id;
                 const user = users.find(u => u.id == userId);
-                showConfirmationModal(`Are you sure you want to delete user ${user.name} ${user.surname}?`, async () => {
-                    try {
-                        const batch = writeBatch(db);
-                        batch.delete(doc(usersCol, userId));
-                        batch.delete(doc(permissionsCol, userId));
-                        await batch.commit();
-                        showSuccessModal('Success', 'User and their permissions have been deleted.');
-                    } catch (e) {
-                         console.error("Error deleting user:", e);
-                         showSuccessModal('Error', 'Could not delete user.');
-                    }
+                showConfirmationModal(`Are you sure you want to delete user ${user.name} ${user.surname}?`, () => {
+                    users = users.filter(u => u.id != userId);
+                    delete userPermissions[userId];
+                    renderUsersTable();
+                    populateLoginDropdown();
+                    updateAllDropdowns();
+                    showSuccessModal('Success', 'User has been deleted.');
                 });
             }
         };
         
-        const savePermissions = async () => {
+        const savePermissions = () => {
             const selectedUserId = permissionsUserSelect.value;
             if (!selectedUserId) return showSuccessModal('Error', 'Please select a user first.');
-            showConfirmationModal('Are you sure you want to save these permissions?', async () => {
+            
+            showConfirmationModal('Are you sure you want to save these permissions?', () => {
                 const permsToSave = { tabs: {} };
                 document.querySelectorAll('.permission-row').forEach(row => {
                     const view = row.dataset.viewName;
@@ -1485,47 +1432,17 @@
                         view: row.querySelector('[data-action="view"]').checked
                     };
                 });
-                try {
-                    await setDoc(doc(permissionsCol, selectedUserId), permsToSave);
-                    showSuccessModal('Success', 'Permissions updated.');
-                    // The onSnapshot listener will handle updating local state
-                } catch (e) {
-                    console.error("Error saving permissions:", e);
-                    showSuccessModal('Error', 'Could not save permissions.');
+                userPermissions[selectedUserId] = permsToSave;
+                showSuccessModal('Success', 'Permissions updated.');
+                if (currentUser == selectedUserId) {
+                    applyPermissions(); // Re-apply if the current user's permissions changed
                 }
             });
         };
 
-        // --- REAL-TIME LISTENERS ---
-        const setupListeners = () => {
-            unsubscribeCategories = onSnapshot(categoriesCol, (snapshot) => {
-                dropdownOptions = {};
-                snapshot.forEach(doc => {
-                    dropdownOptions[doc.id] = doc.data().options;
-                });
-                updateAllDropdowns();
-            });
-
-            unsubscribeUsers = onSnapshot(usersCol, (snapshot) => {
-                users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderUsersTable();
-                populateLoginDropdown();
-                updateAllDropdowns();
-            });
-
-            unsubscribePermissions = onSnapshot(permissionsCol, (snapshot) => {
-                userPermissions = {};
-                snapshot.forEach(doc => {
-                    userPermissions[doc.id] = doc.data();
-                });
-                applyPermissions(); // Re-apply permissions when they change
-                renderPermissions(permissionsUserSelect.value); // Re-render if a user is selected
-            });
-        };
-        
         // --- EVENT LISTENERS ---
         const addEventListeners = () => {
-            modalCancelBtn.addEventListener('click', () => confirmModal.style.display = 'none');
+            document.getElementById('modal-cancel-btn').addEventListener('click', () => confirmModal.style.display = 'none');
             successModalOkBtn.addEventListener('click', () => successModal.style.display = 'none');
             
             loginAsSelect.addEventListener('change', (e) => {
@@ -1562,42 +1479,42 @@
             permissionsUserSelect.addEventListener('change', e => renderPermissions(e.target.value));
             savePermissionsBtn.addEventListener('click', savePermissions);
 
-            if (permissionsContainer) {
-                permissionsContainer.addEventListener('change', (e) => {
-                    if (e.target.classList.contains('tab-access-cb')) {
-                        const row = e.target.closest('.permission-row');
-                        row.querySelectorAll('.action-cb').forEach(cb => {
-                            if (!cb.hasAttribute('disabled')) { // only toggle non-hard-disabled checkboxes
-                               cb.disabled = !e.target.checked;
-                               if (!e.target.checked) cb.checked = false;
-                            }
-                        });
-                    }
-                });
-            }
-        }
+            permissionsContainer.addEventListener('change', (e) => {
+                const selectedUserId = permissionsUserSelect.value;
+                if (!selectedUserId) return;
+
+                const target = e.target;
+                const row = target.closest('.permission-row');
+                if (!row) return;
+
+                const view = row.dataset.viewName;
+                const action = target.dataset.action;
+
+                if (!userPermissions[selectedUserId]) userPermissions[selectedUserId] = { tabs: {} };
+                if (!userPermissions[selectedUserId].tabs[view]) userPermissions[selectedUserId].tabs[view] = {};
+
+                userPermissions[selectedUserId].tabs[view][action] = target.checked;
+
+                if (action === 'access' && !target.checked) {
+                    // When access is unchecked, uncheck the sub-permissions in the data model
+                    userPermissions[selectedUserId].tabs[view].add = false;
+                    userPermissions[selectedUserId].tabs[view].remove = false;
+                    userPermissions[selectedUserId].tabs[view].update = false;
+                    userPermissions[selectedUserId].tabs[view].view = false;
+                }
+                
+                // Re-render the permissions to reflect the data change
+                renderPermissions(selectedUserId);
+            });
+        };
         
         // --- INITIALIZATION ---
-        const initApp = async () => {
-            // Explicitly hide modals on script start
+        const initApp = () => {
             confirmModal.style.display = 'none';
             successModal.style.display = 'none';
-        
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                console.log("Authenticated successfully.");
-            } catch (error) {
-                console.error("Authentication failed:", error);
-                return; // Stop initialization if auth fails
-            }
 
             addEventListeners();
-            await initializeDefaultCategories();
-
+            
             // Populate all SAPS 13 number fields
             const sapContainers = document.querySelectorAll('.sap-container');
             sapContainers.forEach(container => {
@@ -1615,9 +1532,29 @@
             });
 
             document.getElementById('created-date').textContent = new Date().toLocaleString();
+            
+            // Dynamically populate the category selector dropdown
+            const categorySelector = document.getElementById('category-selector');
+            Object.keys(dropdownOptions).forEach(key => {
+                const textLabel = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                const option = new Option(textLabel, key);
+                categorySelector.add(option);
+            });
+
+            // Load all data from mock objects
+            renderUsersTable();
+            populateLoginDropdown();
+            updateAllDropdowns();
+            applyPermissions(); 
             renderCategoryEditor(document.getElementById('category-selector').value);
-            setupListeners(); // This sets up real-time updates
-            applyPermissions(); // Set the initial view correctly
+            
+            // Set initial view
+            const firstVisibleButton = sidebarNav.querySelector('button[data-view]:not(.hidden)');
+            if (firstVisibleButton) {
+                firstVisibleButton.click();
+            } else {
+                showView(null); 
+            }
         };
 
         initApp();

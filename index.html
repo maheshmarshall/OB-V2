@@ -314,7 +314,12 @@
                         <div class="border rounded-lg p-6 bg-gray-50">
                             <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">View Occurrence Book Records</h2>
                             <form id="ob-search-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                                <select id="ob-search-date" class="p-2 border rounded-md"></select>
+                                <div class="flex items-center gap-2 md:col-span-2 lg:col-span-3">
+                                    <label for="ob-search-date-from" class="text-sm font-medium text-gray-700 whitespace-nowrap">Date From:</label>
+                                    <input type="date" id="ob-search-date-from" class="p-2 border rounded-md w-full">
+                                    <label for="ob-search-date-to" class="text-sm font-medium text-gray-700 ml-2 whitespace-nowrap">To:</label>
+                                    <input type="date" id="ob-search-date-to" class="p-2 border rounded-md w-full">
+                                </div>
                                 <select id="ob-search-type" class="p-2 border rounded-md"></select>
                                 <select id="ob-search-station" class="p-2 border rounded-md"></select>
                                 <input type="text" id="ob-search-cas" class="p-2 border rounded-md" placeholder="Search by CAS Number">
@@ -786,7 +791,7 @@
                                 </div>
 
                                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                                      <div class="flex items-center">
+                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Arrested By:</label>
                                         <input type="text" class="p-2 border rounded-md w-2/3">
                                     </div>
@@ -1135,15 +1140,15 @@
                         </div>
 
                         <div id="permissions-container" class="space-y-4 pt-4 border-t">
-                            <!-- Headers -->
+                             <!-- Headers -->
                            <div class="grid grid-cols-7 items-center font-semibold text-gray-600 px-4">
-                                <div class="col-span-2">Tab</div>
-                                <div class="text-center">Access</div>
-                                <div class="text-center">Add</div>
-                                <div class="text-center">Remove</div>
-                                <div class="text-center">Update</div>
-                                <div class="text-center">View</div>
-                            </div>
+                               <div class="col-span-2">Tab</div>
+                               <div class="text-center">Access</div>
+                               <div class="text-center">Add</div>
+                               <div class="text-center">Remove</div>
+                               <div class="text-center">Update</div>
+                               <div class="text-center">View</div>
+                           </div>
                             <!-- Permissions Rows will be dynamically generated here -->
                         </div>
                          <!-- Save Button -->
@@ -1429,8 +1434,6 @@
             populateDropdown(assignDeptSelect, dropdownOptions.department || [], 'Select a Department');
             
             // OB Search Dropdowns
-            const dateRanges = ['All Time', 'Today', 'Yesterday', 'Last 7 Days', 'Last 30 Days'];
-            populateDropdown(document.getElementById('ob-search-date'), dateRanges, 'Select Date Range');
             populateDropdown(document.getElementById('ob-search-type'), dropdownOptions.obType, 'All OB Types');
             populateDropdown(document.getElementById('ob-search-station'), dropdownOptions.policeStation, 'All Stations');
             populateDropdown(document.getElementById('ob-search-area'), dropdownOptions.area, 'All Areas');
@@ -1887,7 +1890,8 @@
         };
 
         const handleObSearch = () => {
-            const dateRange = document.getElementById('ob-search-date').value;
+            const dateFromValue = document.getElementById('ob-search-date-from').value;
+            const dateToValue = document.getElementById('ob-search-date-to').value;
             const type = document.getElementById('ob-search-type').value;
             const station = document.getElementById('ob-search-station').value;
             const cas = document.getElementById('ob-search-cas').value.toLowerCase().trim();
@@ -1897,29 +1901,23 @@
             const contact = document.getElementById('ob-search-contact').value.trim();
             const address = document.getElementById('ob-search-address').value.toLowerCase().trim();
 
-            const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
             const filteredRecords = obRecords.filter(record => {
                 const recordDate = new Date(record.created);
                 recordDate.setHours(0, 0, 0, 0);
 
                 let dateMatch = true;
-                if (dateRange && dateRange !== 'All Time') {
-                    if (dateRange === 'Today') {
-                        dateMatch = recordDate.getTime() === today.getTime();
-                    } else if (dateRange === 'Yesterday') {
-                        const yesterday = new Date(today);
-                        yesterday.setDate(today.getDate() - 1);
-                        dateMatch = recordDate.getTime() === yesterday.getTime();
-                    } else if (dateRange === 'Last 7 Days') {
-                        const sevenDaysAgo = new Date(today);
-                        sevenDaysAgo.setDate(today.getDate() - 6);
-                        dateMatch = recordDate >= sevenDaysAgo && recordDate <= today;
-                    } else if (dateRange === 'Last 30 Days') {
-                        const thirtyDaysAgo = new Date(today);
-                        thirtyDaysAgo.setDate(today.getDate() - 29);
-                        dateMatch = recordDate >= thirtyDaysAgo && recordDate <= today;
+                if (dateFromValue) {
+                    const parts = dateFromValue.split('-');
+                    const fromDate = new Date(parts[0], parts[1] - 1, parts[2]);
+                    if (recordDate < fromDate) {
+                        dateMatch = false;
+                    }
+                }
+                if (dateToValue) {
+                    const parts = dateToValue.split('-');
+                    const toDate = new Date(parts[0], parts[1] - 1, parts[2]);
+                    if (recordDate > toDate) {
+                        dateMatch = false;
                     }
                 }
                 
@@ -2311,9 +2309,9 @@
                      const recordId = e.target.dataset.id;
                      const record = obRecords.find(r => r.id == recordId);
                      showConfirmationModal(`Are you sure you want to delete OB Record #${record.obNumber}?`, () => {
-                        obRecords = obRecords.filter(r => r.id != recordId);
-                        renderObRecordsTable();
-                        showSuccessModal('Success', 'Record deleted.');
+                         obRecords = obRecords.filter(r => r.id != recordId);
+                         renderObRecordsTable();
+                         showSuccessModal('Success', 'Record deleted.');
                      });
                 }
             });

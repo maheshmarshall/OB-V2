@@ -1004,6 +1004,10 @@
                 <div id="user-permissions-view" class="view-panel hidden">
                     <h2 class="text-2xl font-bold text-gray-800 mb-6">User Permissions</h2>
                     <div class="border rounded-lg p-6 bg-gray-50">
+                        <div class="mb-4">
+                            <label for="permissions-user-search-input" class="block text-sm font-medium text-gray-700 mb-1">Search by User Name or Surname:</label>
+                            <input type="text" id="permissions-user-search-input" class="p-2 border rounded-md w-full" placeholder="Type a name to filter...">
+                        </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                              <div>
                                 <label for="permissions-department-select" class="block text-sm font-medium text-gray-700 mb-1">Filter by Department:</label>
@@ -1204,6 +1208,7 @@
         const usersTbody = document.getElementById('users-tbody');
         const cancelEditBtn = document.getElementById('cancel-edit-btn');
         const userSearchInput = document.getElementById('user-search-input');
+        const permissionsUserSearchInput = document.getElementById('permissions-user-search-input');
         const permissionsDeptSelect = document.getElementById('permissions-department-select');
         const permissionsRoleSelect = document.getElementById('permissions-role-select');
         const permissionsUserSelect = document.getElementById('permissions-user-select');
@@ -1664,6 +1669,61 @@
             });
         };
 
+        const handlePermissionsUserSearch = (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            const deptSelect = permissionsDeptSelect;
+            const roleSelect = permissionsRoleSelect;
+            const userSelect = permissionsUserSelect;
+
+            if (searchTerm) {
+                deptSelect.disabled = true;
+                roleSelect.disabled = true;
+                userSelect.disabled = true;
+
+                const foundUser = users.find(u => 
+                    u.name.toLowerCase().includes(searchTerm) || 
+                    u.surname.toLowerCase().includes(searchTerm)
+                );
+
+                if (foundUser) {
+                    // Set department
+                    deptSelect.value = foundUser.department;
+                    
+                    // Update roles for that department
+                    const rolesForDept = departmentRoles[foundUser.department] || [];
+                    populateDropdown(roleSelect, rolesForDept, 'All Roles');
+                    roleSelect.value = foundUser.role;
+
+                    // Update users list (it will just be this one user)
+                    populateDropdown(userSelect, [foundUser], 'Select User');
+                    userSelect.value = foundUser.id;
+                    
+                    // Render permissions
+                    renderPermissions(foundUser.id);
+                    loadRolePermissionsBtn.classList.add('hidden'); // Hide template button during search
+
+                } else {
+                    // No user found, clear selections
+                    deptSelect.value = '';
+                    populateDropdown(roleSelect, [], 'All Roles');
+                    populateDropdown(userSelect, [], 'Select User');
+                    renderPermissions(null);
+                }
+            } else {
+                // Search is cleared, reset everything
+                deptSelect.disabled = false;
+                roleSelect.disabled = false;
+                userSelect.disabled = false;
+                
+                deptSelect.value = '';
+                // repopulate roles with all roles
+                populateDropdown(roleSelect, dropdownOptions.role, 'All Roles'); 
+                roleSelect.value = '';
+                filterPermissionUsers(); // This will repopulate users and clear permissions
+                loadRolePermissionsBtn.classList.add('hidden');
+            }
+        };
+
         // --- DEPARTMENT & ROLE MANAGEMENT ---
 
         const renderDepartments = () => {
@@ -1870,7 +1930,8 @@
                     showSuccessModal('Success', `Default permissions for "${selectedRole}" have been loaded. Please review and click Save Permissions.`);
                 });
             });
-
+            
+            permissionsUserSearchInput.addEventListener('input', handlePermissionsUserSearch);
             permissionsUserSelect.addEventListener('change', e => renderPermissions(e.target.value));
             savePermissionsBtn.addEventListener('click', savePermissions);
             permissionsContainer.addEventListener('change', handlePermissionChange);

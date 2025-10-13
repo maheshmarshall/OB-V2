@@ -947,10 +947,6 @@
                                         <input type="text" id="user-surname" class="mt-1 p-2 border rounded-md w-full" required>
                                     </div>
                                     <div>
-                                        <label for="user-username" class="block text-sm font-medium text-gray-700">Username</label>
-                                        <input type="text" id="user-username" class="mt-1 p-2 border rounded-md w-full" required>
-                                    </div>
-                                    <div>
                                         <label for="user-email" class="block text-sm font-medium text-gray-700">Email</label>
                                         <input type="email" id="user-email" class="mt-1 p-2 border rounded-md w-full" required>
                                     </div>
@@ -1123,7 +1119,8 @@
         // --- MOCK DATA (Replaces the backend) ---
         let users = [
             { id: 1, name: 'John', surname: 'Doe', username: 'johnd', email: 'john.d@example.com', department: 'SOT', role: 'SOT Manager' },
-            { id: 2, name: 'Jane', surname: 'Smith', username: 'janes', email: 'jane.s@example.com', department: 'Reaction', role: 'Reaction Manager' }
+            { id: 2, name: 'Jane', surname: 'Smith', username: 'janes', email: 'jane.s@example.com', department: 'Reaction', role: 'Reaction Manager' },
+            { id: 3, name: 'Mahesh', surname: 'Palad', username: 'maheshp', email: 'mahesh.p@example.com', department: 'I.T', role: 'I.T' }
         ];
 
         const departmentRoles = {
@@ -1206,7 +1203,6 @@
         const userIdInput = document.getElementById('user-id-input');
         const userNameInput = document.getElementById('user-name');
         const userSurnameInput = document.getElementById('user-surname');
-        const userUsernameInput = document.getElementById('user-username');
         const userEmailInput = document.getElementById('user-email');
         const userDepartmentSelect = document.getElementById('user-department');
         const userRoleSelect = document.getElementById('user-role');
@@ -1598,7 +1594,7 @@
                 id: userId ? parseInt(userId, 10) : Date.now(),
                 name: userNameInput.value,
                 surname: userSurnameInput.value,
-                username: userUsernameInput.value,
+                username: (userNameInput.value + userSurnameInput.value.charAt(0)).toLowerCase(),
                 email: userEmailInput.value,
                 department: userDepartmentSelect.value,
                 role: userRoleSelect.value,
@@ -1636,7 +1632,6 @@
                     userIdInput.value = user.id;
                     userNameInput.value = user.name;
                     userSurnameInput.value = user.surname;
-                    userUsernameInput.value = user.username;
                     userEmailInput.value = user.email;
                     
                     // Set department and then trigger change to populate roles
@@ -2020,4 +2015,5 @@
     </script>
 </body>
 </html>
+" and have made the following request: "In the Complaints tab, add a new field, to be called "Complaint ref number", please ensure this number can auto increment from number 1, and each time a new compliant is opened, it automatically saves to the next number."
 

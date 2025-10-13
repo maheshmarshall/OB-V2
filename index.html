@@ -1024,7 +1024,7 @@
                             </div>
                              <div>
                                 <label for="permissions-role-select" class="block text-sm font-medium text-gray-700 mb-1">Filter by Role:</label>
-                                <select id="permissions-role-select" class="p-2 border rounded-md w-full"></select>
+                                <select id="permissions-role-select" class="p-2 border rounded-md w-full" disabled></select>
                                 <!-- MODIFICATION: Added button to load role defaults -->
                                 <button id="load-role-permissions-btn" class="hidden mt-2 w-full px-4 py-2 bg-indigo-500 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 btn-hover-effect">
                                     Load Role Defaults
@@ -1032,7 +1032,7 @@
                             </div>
                              <div>
                                 <label for="permissions-user-select" class="block text-sm font-medium text-gray-700 mb-1">Select User:</label>
-                                <select id="permissions-user-select" class="p-2 border rounded-md w-full"></select>
+                                <select id="permissions-user-select" class="p-2 border rounded-md w-full" disabled></select>
                             </div>
                         </div>
 
@@ -1943,15 +1943,30 @@
 
             permissionsDeptSelect.addEventListener('change', () => {
                 const selectedDept = permissionsDeptSelect.value;
-                const rolesForDept = selectedDept ? (departmentRoles[selectedDept] || []) : dropdownOptions.role;
-                populateDropdown(permissionsRoleSelect, rolesForDept, 'All Roles');
-                filterPermissionUsers(); 
+                const rolesForDept = selectedDept ? (departmentRoles[selectedDept] || []) : [];
+                populateDropdown(permissionsRoleSelect, rolesForDept, 'Select Role');
+                populateDropdown(permissionsUserSelect, [], 'Select Role First'); // Clear users
+                
+                permissionsRoleSelect.disabled = !selectedDept;
+                permissionsUserSelect.disabled = true;
+
+                renderPermissions(null); // Clear permissions table
                 loadRolePermissionsBtn.classList.add('hidden');
             });
 
             permissionsRoleSelect.addEventListener('change', () => {
-                filterPermissionUsers();
+                const selectedDept = permissionsDeptSelect.value;
                 const selectedRole = permissionsRoleSelect.value;
+
+                const filteredUsers = (selectedDept && selectedRole) 
+                    ? users.filter(u => u.department === selectedDept && u.role === selectedRole)
+                    : [];
+                populateDropdown(permissionsUserSelect, filteredUsers, 'Select User');
+                
+                permissionsUserSelect.disabled = !selectedRole;
+
+                renderPermissions(null); // Clear permissions table
+
                 const showButton = selectedRole && rolePermissions[selectedRole];
                 loadRolePermissionsBtn.classList.toggle('hidden', !showButton);
             });
@@ -2070,4 +2085,5 @@
     </script>
 </body>
 </html>
+
 

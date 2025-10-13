@@ -142,167 +142,211 @@
                         <button data-action="view" class="ob-action-btn px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">View Record</button>
                     </div>
 
-                    <div class="border rounded-lg p-6 bg-gray-50">
-                        <div class="flex justify-between items-center border-b pb-4 mb-6">
-                            <h2 class="text-xl font-bold text-gray-800">Occurrence Book</h2>
-                            <span class="text-sm font-medium text-gray-600">UID:</span>
+                    <!-- OB Entry Form Panel -->
+                    <div id="ob-entry-form-panel">
+                        <div class="border rounded-lg p-6 bg-gray-50">
+                            <div class="flex justify-between items-center border-b pb-4 mb-6">
+                                <h2 id="ob-form-title" class="text-xl font-bold text-gray-800">Occurrence Book</h2>
+                                <span class="text-sm font-medium text-gray-600">UID:</span>
+                            </div>
+                            
+                            <form id="ob-form" class="space-y-4">
+                                <input type="hidden" id="ob-record-id">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">OB Number:</label>
+                                        <span id="ob-number-display" class="font-bold text-gray-800"></span>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">Created:</label>
+                                        <span id="created-date" class="text-gray-800"></span>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1">
+                                    <div class="flex items-center">
+                                        <label class="w-48 text-gray-600 font-medium">Time of Incident:</label>
+                                        <span class="mr-2">From</span>
+                                        <input type="datetime-local" id="ob-time-from" class="p-2 border rounded-md w-full">
+                                        <span class="mx-2">To</span>
+                                        <input type="datetime-local" id="ob-time-to" class="p-2 border rounded-md w-full">
+                                    </div>
+                                </div>
+                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                    <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">Created By:</label>
+                                        <span id="created-by-user" class="text-gray-800"></span>
+                                    </div>
+                                </div>
+                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                    <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">OB Type<span class="text-red-500">*</span>:</label>
+                                        <select id="ob-type-select" class="p-2 border rounded-md w-2/3"></select>
+                                    </div>
+                                </div>
+                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                    <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">OB Category:</label>
+                                        <input type="text" id="ob-category" class="p-2 border rounded-md w-2/3">
+                                    </div>
+                                </div>
+                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                    <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">Police Station:</label>
+                                        <select id="police-station-select" class="p-2 border rounded-md w-2/3"></select>
+                                    </div>
+                                </div>
+                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                    <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">CAS Number:</label>
+                                        <input type="text" id="ob-cas-number" class="p-2 border rounded-md w-2/3">
+                                    </div>
+                                </div>
+                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                    <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">SAP 13 Number:</label>
+                                        <div class="w-2/3 sap-container">
+                                            <input type="text" id="ob-sap-number" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
+                                            <div class="flex items-center space-x-2">
+                                                <select class="p-2 border rounded-md sap-month" id="ob-sap-month"></select>
+                                                <span class="text-gray-500">/</span>
+                                                <select class="p-2 border rounded-md sap-year" id="ob-sap-year"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                    <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">Requires Followup:</label>
+                                        <input type="checkbox" id="ob-requires-followup" class="h-5 w-5">
+                                    </div>
+                                </div>
+                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                    <div class="flex items-center">
+                                        <label class="w-1/3 text-gray-600 font-medium">Follow up User:</label>
+                                        <select id="follow-up-user-select" class="p-2 border rounded-md w-2/3"></select>
+                                    </div>
+                                </div>
+                                
+                                <!-- Location Information Section -->
+                                <div id="ob-location-info-section" class="border-t pt-6 mt-6">
+                                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Location Information</h3>
+                                    <div class="space-y-4">
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div class="flex items-center">
+                                                <label class="w-1/3 text-gray-600 font-medium">Area:</label>
+                                                <div class="flex w-2/3">
+                                                    <select id="area-select" class="p-2 border rounded-md w-full"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div class="flex items-center">
+                                                <label class="w-1/3 text-gray-600 font-medium">Client:</label>
+                                                <div class="flex items-center w-2/3">
+                                                    <span class="text-gray-800 mr-4">Recorded as Non-Client</span>
+                                                    <button type="button" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect">Lookup</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                            <div class="flex items-center">
+                                                <label class="w-1/3 text-gray-600 font-medium">Client Account:</label>
+                                                <input type="text" id="ob-client-account" class="p-2 border rounded-md w-2/3">
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                            <div class="flex items-center">
+                                                <label class="w-1/3 text-gray-600 font-medium">Contact No:</label>
+                                                <input type="text" id="ob-contact-no" class="p-2 border rounded-md w-2/3 numeric-only autosize-input">
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-1 gap-6 bg-blue-50 p-4 rounded-md">
+                                             <div class="flex">
+                                                <label class="w-1/6 text-gray-600 font-medium">Address:</label>
+                                                <div class="w-5/6 space-y-2">
+                                                    <input type="text" id="ob-address1" class="p-2 border rounded-md w-full">
+                                                    <input type="text" id="ob-address2" class="p-2 border rounded-md w-full">
+                                                    <input type="text" id="ob-address3" class="p-2 border rounded-md w-full">
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
+                                            <div class="flex items-center">
+                                                <label class="w-1/3 text-gray-600 font-medium">Latitude:</label>
+                                                <input type="text" id="ob-lat" class="p-2 border rounded-md w-2/3">
+                                            </div>
+                                             <div class="flex items-center">
+                                                <label class="w-1/3 text-gray-600 font-medium">Longitude:</label>
+                                                <input type="text" id="ob-lon" class="p-2 border rounded-md w-2/3">
+                                            </div>
+                                        </div>
+                                         <div class="grid grid-cols-1 gap-6">
+                                             <div class="flex">
+                                                <label class="w-1/6 text-gray-600 font-medium">Comments:</label>
+                                                <textarea id="ob-comments" class="p-2 border rounded-md w-5/6 h-24"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                            <div class="flex items-center">
+                                                <label class="w-1/3 text-gray-600 font-medium">Status:</label>
+                                                <div id="status-buttons" class="flex space-x-2">
+                                                    <button type="button" data-status="Open" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700 status-btn-active">Open</button>
+                                                    <button type="button" data-status="Closed" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700">Closed</button>
+                                                    <button type="button" data-status="Pending" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700">Pending</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Save Button -->
+                                <div class="flex justify-end pt-4">
+                                    <button type="button" id="save-record-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Record</button>
+                                </div>
+                            </form>
                         </div>
-                        
-                        <form id="ob-form" class="space-y-4">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="flex items-center">
-                                    <label class="w-1/3 text-gray-600 font-medium">OB Number:</label>
-                                    <span id="ob-number-display" class="font-bold text-gray-800"></span>
+                    </div>
+                    
+                    <!-- OB View Records Panel -->
+                    <div id="ob-view-records-panel" class="hidden">
+                        <div class="border rounded-lg p-6 bg-gray-50">
+                            <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">View Occurrence Book Records</h2>
+                            <form id="ob-search-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                                <input type="text" id="ob-search-date" class="p-2 border rounded-md" placeholder="Search by Date (YYYY-MM-DD)">
+                                <select id="ob-search-type" class="p-2 border rounded-md"></select>
+                                <select id="ob-search-station" class="p-2 border rounded-md"></select>
+                                <input type="text" id="ob-search-cas" class="p-2 border rounded-md" placeholder="Search by CAS Number">
+                                <input type="text" id="ob-search-sap" class="p-2 border rounded-md" placeholder="Search by SAP 13 Number">
+                                <select id="ob-search-area" class="p-2 border rounded-md"></select>
+                                <input type="text" id="ob-search-client" class="p-2 border rounded-md" placeholder="Search by Client Account">
+                                <input type="text" id="ob-search-contact" class="p-2 border rounded-md" placeholder="Search by Contact No">
+                                <input type="text" id="ob-search-address" class="p-2 border rounded-md lg:col-span-1" placeholder="Search by Address">
+                                <div class="flex items-center gap-2 lg:col-span-2">
+                                    <button type="button" id="ob-search-btn" class="w-full px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md btn-hover-effect">Search</button>
+                                    <button type="button" id="ob-clear-search-btn" class="w-full px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md btn-hover-effect">Clear</button>
                                 </div>
+                            </form>
+
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full bg-white border">
+                                    <thead class="bg-gray-200">
+                                        <tr>
+                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">OB Num</th>
+                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Date</th>
+                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Type</th>
+                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Area</th>
+                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Status</th>
+                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ob-records-tbody">
+                                        <!-- OB Record rows will be dynamically inserted here -->
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="flex items-center">
-                                    <label class="w-1/3 text-gray-600 font-medium">Created:</label>
-                                    <span id="created-date" class="text-gray-800"></span>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-1">
-                                <div class="flex items-center">
-                                    <label class="w-48 text-gray-600 font-medium">Time of Incident:</label>
-                                    <span class="mr-2">From</span>
-                                    <input type="datetime-local" class="p-2 border rounded-md w-full">
-                                    <span class="mx-2">To</span>
-                                    <input type="datetime-local" class="p-2 border rounded-md w-full">
-                                </div>
-                            </div>
-                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
-                                <div class="flex items-center">
-                                    <label class="w-1/3 text-gray-600 font-medium">Created By:</label>
-                                    <span id="created-by-user" class="text-gray-800"></span>
-                                </div>
-                            </div>
-                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
-                                <div class="flex items-center">
-                                    <label class="w-1/3 text-gray-600 font-medium">OB Type<span class="text-red-500">*</span>:</label>
-                                    <select id="ob-type-select" class="p-2 border rounded-md w-2/3"></select>
-                                </div>
-                            </div>
-                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
-                                <div class="flex items-center">
-                                    <label class="w-1/3 text-gray-600 font-medium">OB Category:</label>
-                                    <input type="text" class="p-2 border rounded-md w-2/3">
-                                </div>
-                            </div>
-                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
-                                <div class="flex items-center">
-                                    <label class="w-1/3 text-gray-600 font-medium">Police Station:</label>
-                                    <select id="police-station-select" class="p-2 border rounded-md w-2/3"></select>
-                                </div>
-                            </div>
-                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
-                                <div class="flex items-center">
-                                    <label class="w-1/3 text-gray-600 font-medium">CAS Number:</label>
-                                    <input type="text" class="p-2 border rounded-md w-2/3">
-                                </div>
-                            </div>
-                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
-                                <div class="flex items-center">
-                                    <label class="w-1/3 text-gray-600 font-medium">SAP 13 Number:</label>
-                                    <div class="w-2/3 sap-container">
-                                        <input type="text" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
-                                        <div class="flex items-center space-x-2">
-                                            <select class="p-2 border rounded-md sap-month"></select>
-                                            <span class="text-gray-500">/</span>
-                                            <select class="p-2 border rounded-md sap-year"></select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
-                                <div class="flex items-center">
-                                    <label class="w-1/3 text-gray-600 font-medium">Requires Followup:</label>
-                                    <input type="checkbox" class="h-5 w-5">
-                                </div>
-                            </div>
-                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
-                                <div class="flex items-center">
-                                    <label class="w-1/3 text-gray-600 font-medium">Follow up User:</label>
-                                    <select id="follow-up-user-select" class="p-2 border rounded-md w-2/3"></select>
-                                </div>
-                            </div>
-                            
-                            <!-- Location Information Section -->
-                            <div id="ob-location-info-section" class="border-t pt-6 mt-6">
-                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Location Information</h3>
-                                <div class="space-y-4">
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div class="flex items-center">
-                                            <label class="w-1/3 text-gray-600 font-medium">Area:</label>
-                                            <div class="flex w-2/3">
-                                                <select id="area-select" class="p-2 border rounded-md w-full"></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div class="flex items-center">
-                                            <label class="w-1/3 text-gray-600 font-medium">Client:</label>
-                                            <div class="flex items-center w-2/3">
-                                                <span class="text-gray-800 mr-4">Recorded as Non-Client</span>
-                                                <button type="button" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect">Lookup</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
-                                        <div class="flex items-center">
-                                            <label class="w-1/3 text-gray-600 font-medium">Client Account:</label>
-                                            <input type="text" class="p-2 border rounded-md w-2/3">
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
-                                        <div class="flex items-center">
-                                            <label class="w-1/3 text-gray-600 font-medium">Contact No:</label>
-                                            <input type="text" class="p-2 border rounded-md w-2/3 numeric-only autosize-input">
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-1 gap-6 bg-blue-50 p-4 rounded-md">
-                                         <div class="flex">
-                                            <label class="w-1/6 text-gray-600 font-medium">Address:</label>
-                                            <div class="w-5/6 space-y-2">
-                                                <input type="text" class="p-2 border rounded-md w-full">
-                                                <input type="text" class="p-2 border rounded-md w-full">
-                                                <input type="text" class="p-2 border rounded-md w-full">
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
-                                        <div class="flex items-center">
-                                            <label class="w-1/3 text-gray-600 font-medium">Latitude:</label>
-                                            <input type="text" class="p-2 border rounded-md w-2/3">
-                                        </div>
-                                         <div class="flex items-center">
-                                            <label class="w-1/3 text-gray-600 font-medium">Longitude:</label>
-                                            <input type="text" class="p-2 border rounded-md w-2/3">
-                                        </div>
-                                    </div>
-                                     <div class="grid grid-cols-1 gap-6">
-                                         <div class="flex">
-                                            <label class="w-1/6 text-gray-600 font-medium">Comments:</label>
-                                            <textarea class="p-2 border rounded-md w-5/6 h-24"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div class="flex items-center">
-                                            <label class="w-1/3 text-gray-600 font-medium">Status:</label>
-                                            <div id="status-buttons" class="flex space-x-2">
-                                                <button type="button" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700 status-btn-active">Open</button>
-                                                <button type="button" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700">Closed</button>
-                                                <button type="button" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700">Pending</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Save Button -->
-                            <div class="flex justify-end pt-4">
-                                <button type="button" id="save-record-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Record</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
 
@@ -1008,53 +1052,6 @@
                     </div>
                 </div>
 
-
-                <!-- User Permissions View -->
-                <div id="user-permissions-view" class="view-panel hidden">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">User Permissions</h2>
-                    <div class="border rounded-lg p-6 bg-gray-50">
-                        <div class="mb-4">
-                            <label for="permissions-user-search-input" class="block text-sm font-medium text-gray-700 mb-1">Search by User Name, Surname, or Username:</label>
-                            <input type="text" id="permissions-user-search-input" class="p-2 border rounded-md w-full" placeholder="Type a name, surname, or username to filter...">
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                             <div>
-                                <label for="permissions-department-select" class="block text-sm font-medium text-gray-700 mb-1">Filter by Department:</label>
-                                <select id="permissions-department-select" class="p-2 border rounded-md w-full"></select>
-                            </div>
-                             <div>
-                                <label for="permissions-role-select" class="block text-sm font-medium text-gray-700 mb-1">Filter by Role:</label>
-                                <select id="permissions-role-select" class="p-2 border rounded-md w-full" disabled></select>
-                                <!-- MODIFICATION: Added button to load role defaults -->
-                                <button id="load-role-permissions-btn" class="hidden mt-2 w-full px-4 py-2 bg-indigo-500 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 btn-hover-effect">
-                                    Load Role Defaults
-                                </button>
-                            </div>
-                             <div>
-                                <label for="permissions-user-select" class="block text-sm font-medium text-gray-700 mb-1">Select User:</label>
-                                <select id="permissions-user-select" class="p-2 border rounded-md w-full" disabled></select>
-                            </div>
-                        </div>
-
-                        <div id="permissions-container" class="space-y-4 pt-4 border-t">
-                            <!-- Headers -->
-                           <div class="grid grid-cols-7 items-center font-semibold text-gray-600 px-4">
-                                <div class="col-span-2">Tab</div>
-                                <div class="text-center">Access</div>
-                                <div class="text-center">Add</div>
-                                <div class="text-center">Remove</div>
-                                <div class="text-center">Update</div>
-                                <div class="text-center">View</div>
-                            </div>
-                            <!-- Permissions Rows will be dynamically generated here -->
-                        </div>
-                         <!-- Save Button -->
-                        <div class="flex justify-end pt-6 mt-6 border-t">
-                            <button id="save-permissions-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Permissions</button>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Department & Roles View -->
                 <div id="department-roles-view" class="view-panel hidden">
                     <h2 class="text-2xl font-bold text-gray-800 mb-6">Manage Departments & Roles</h2>
@@ -1110,6 +1107,51 @@
                     </div>
                 </div>
 
+                <!-- User Permissions View -->
+                <div id="user-permissions-view" class="view-panel hidden">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">User Permissions</h2>
+                    <div class="border rounded-lg p-6 bg-gray-50">
+                        <div class="mb-4">
+                            <label for="permissions-user-search-input" class="block text-sm font-medium text-gray-700 mb-1">Search by User Name, Surname, or Username:</label>
+                            <input type="text" id="permissions-user-search-input" class="p-2 border rounded-md w-full" placeholder="Type a name, surname, or username to filter...">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                             <div>
+                                <label for="permissions-department-select" class="block text-sm font-medium text-gray-700 mb-1">Filter by Department:</label>
+                                <select id="permissions-department-select" class="p-2 border rounded-md w-full"></select>
+                            </div>
+                             <div>
+                                <label for="permissions-role-select" class="block text-sm font-medium text-gray-700 mb-1">Filter by Role:</label>
+                                <select id="permissions-role-select" class="p-2 border rounded-md w-full" disabled></select>
+                                <!-- MODIFICATION: Added button to load role defaults -->
+                                <button id="load-role-permissions-btn" class="hidden mt-2 w-full px-4 py-2 bg-indigo-500 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 btn-hover-effect">
+                                    Load Role Defaults
+                                </button>
+                            </div>
+                             <div>
+                                <label for="permissions-user-select" class="block text-sm font-medium text-gray-700 mb-1">Select User:</label>
+                                <select id="permissions-user-select" class="p-2 border rounded-md w-full" disabled></select>
+                            </div>
+                        </div>
+
+                        <div id="permissions-container" class="space-y-4 pt-4 border-t">
+                            <!-- Headers -->
+                           <div class="grid grid-cols-7 items-center font-semibold text-gray-600 px-4">
+                                <div class="col-span-2">Tab</div>
+                                <div class="text-center">Access</div>
+                                <div class="text-center">Add</div>
+                                <div class="text-center">Remove</div>
+                                <div class="text-center">Update</div>
+                                <div class="text-center">View</div>
+                            </div>
+                            <!-- Permissions Rows will be dynamically generated here -->
+                        </div>
+                         <!-- Save Button -->
+                        <div class="flex justify-end pt-6 mt-6 border-t">
+                            <button id="save-permissions-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Permissions</button>
+                        </div>
+                    </div>
+                </div>
 
             </main>
         </div>
@@ -1131,6 +1173,13 @@
             { id: 2, name: 'Jane', surname: 'Smith', username: 'janes', email: 'jane.s@example.com', department: 'Reaction', role: 'Reaction Manager' },
             { id: 3, name: 'Mahesh', surname: 'Palad', username: 'maheshp', email: 'mahesh.p@example.com', department: 'I.T', role: 'I.T' }
         ];
+
+        let obRecords = [
+            { id: 1, obNumber: 1, created: '2025-10-13T10:00', timeFrom: '2025-10-13T09:00', timeTo: '2025-10-13T09:30', createdBy: 'John Doe', obType: 'House breaking', obCategory: 'Crime', policeStation: 'Durban North', casNumber: 'CAS123', sapNumber: 'SAP456', area: 'Durban North', clientAccount: 'ACC987', contactNo: '0821234567', address1: '123 Marine Drive', status: 'Open' },
+            { id: 2, obNumber: 2, created: '2025-10-12T15:30', timeFrom: '2025-10-12T15:00', timeTo: '2025-10-12T15:15', createdBy: 'Jane Smith', obType: 'Armed robbery', obCategory: 'Crime', policeStation: 'Berea', casNumber: 'CAS124', sapNumber: 'SAP457', area: 'Morningside', clientAccount: 'ACC988', contactNo: '0831234568', address1: '456 Florida Road', status: 'Closed' }
+        ];
+        obCounter = obRecords.length + 1;
+
 
         const departmentRoles = {
             'SOT': ['SOT Manager', 'SOT Member'],
@@ -1379,6 +1428,11 @@
             populateDropdown(permissionsDeptSelect, dropdownOptions.department || [], 'All Departments');
             populateDropdown(assignDeptSelect, dropdownOptions.department || [], 'Select a Department');
             
+            // OB Search Dropdowns
+            populateDropdown(document.getElementById('ob-search-type'), dropdownOptions.obType, 'All OB Types');
+            populateDropdown(document.getElementById('ob-search-station'), dropdownOptions.policeStation, 'All Stations');
+            populateDropdown(document.getElementById('ob-search-area'), dropdownOptions.area, 'All Areas');
+
             // Initially populate role dropdowns with a placeholder or based on selection
             const selectedUserDept = userDepartmentSelect.value;
             populateDropdown(userRoleSelect, selectedUserDept ? departmentRoles[selectedUserDept] : [], 'Select a department first');
@@ -1754,15 +1808,15 @@
             } else {
                 // Search is cleared, reset everything
                 deptSelect.disabled = false;
-                roleSelect.disabled = false;
-                userSelect.disabled = false;
+                roleSelect.disabled = true; 
+                userSelect.disabled = true; 
                 
                 deptSelect.value = '';
-                // repopulate roles with all roles
-                populateDropdown(roleSelect, dropdownOptions.role, 'All Roles'); 
-                roleSelect.value = '';
-                filterPermissionUsers(); // This will repopulate users and clear permissions
+                populateDropdown(roleSelect, [], 'Select Department First');
+                populateDropdown(permissionsUserSelect, [], 'Select Role First');
+
                 loadRolePermissionsBtn.classList.add('hidden');
+                renderPermissions(null);
             }
         };
 
@@ -2085,5 +2139,4 @@
     </script>
 </body>
 </html>
-
 

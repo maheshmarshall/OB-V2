@@ -340,8 +340,12 @@
                                         <tr>
                                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">OB Num</th>
                                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Date</th>
-                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Type</th>
+                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Time of Incident</th>
+                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">OB Type</th>
+                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Client Account</th>
+                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Address</th>
                                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Area</th>
+                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Comments</th>
                                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Status</th>
                                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Actions</th>
                                         </tr>
@@ -1180,8 +1184,8 @@
         ];
 
         let obRecords = [
-            { id: 1, obNumber: 1, created: '2025-10-13T10:00', timeFrom: '2025-10-13T09:00', timeTo: '2025-10-13T09:30', createdBy: 'John Doe', obType: 'House breaking', obCategory: 'Crime', policeStation: 'Durban North', casNumber: 'CAS123', sapNumber: 'SAP456', area: 'Durban North', clientAccount: 'ACC987', contactNo: '0821234567', address1: '123 Marine Drive', status: 'Open' },
-            { id: 2, obNumber: 2, created: '2025-10-12T15:30', timeFrom: '2025-10-12T15:00', timeTo: '2025-10-12T15:15', createdBy: 'Jane Smith', obType: 'Armed robbery', obCategory: 'Crime', policeStation: 'Berea', casNumber: 'CAS124', sapNumber: 'SAP457', area: 'Morningside', clientAccount: 'ACC988', contactNo: '0831234568', address1: '456 Florida Road', status: 'Closed' }
+            { id: 1, obNumber: 1, created: '2025-10-13T10:00', timeFrom: '2025-10-13T09:00', timeTo: '2025-10-13T09:30', createdBy: 'John Doe', obType: 'House breaking', obCategory: 'Crime', policeStation: 'Durban North', casNumber: 'CAS123', sapNumber: 'SAP456', area: 'Durban North', clientAccount: 'ACC987', contactNo: '0821234567', address1: '123 Marine Drive', status: 'Open', comments: 'Suspect seen fleeing the scene.' },
+            { id: 2, obNumber: 2, created: '2025-10-12T15:30', timeFrom: '2025-10-12T15:00', timeTo: '2025-10-12T15:15', createdBy: 'Jane Smith', obType: 'Armed robbery', obCategory: 'Crime', policeStation: 'Berea', casNumber: 'CAS124', sapNumber: 'SAP457', area: 'Morningside', clientAccount: 'ACC988', contactNo: '0831234568', address1: '456 Florida Road', status: 'Closed', comments: 'Perpetrators were armed.' }
         ];
         obCounter = obRecords.length + 1;
 
@@ -1868,18 +1872,25 @@
             const tbody = document.getElementById('ob-records-tbody');
             tbody.innerHTML = '';
             if (records.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="text-center p-4">No records found.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="10" class="text-center p-4">No records found.</td></tr>';
                 return;
             }
             records.forEach(record => {
+                const address = [record.address1, record.address2, record.address3].filter(Boolean).join(', ');
+                const incidentTime = `From: ${new Date(record.timeFrom).toLocaleString()} <br> To: ${new Date(record.timeTo).toLocaleString()}`;
+
                 const row = `
                     <tr class="hover:bg-gray-50">
-                        <td class="py-2 px-4 border-b">${record.obNumber}</td>
-                        <td class="py-2 px-4 border-b">${new Date(record.created).toLocaleDateString()}</td>
-                        <td class="py-2 px-4 border-b">${record.obType}</td>
-                        <td class="py-2 px-4 border-b">${record.area}</td>
-                        <td class="py-2 px-4 border-b">${record.status}</td>
-                        <td class="py-2 px-4 border-b">
+                        <td class="py-2 px-4 border-b text-sm">${record.obNumber}</td>
+                        <td class="py-2 px-4 border-b text-sm">${new Date(record.created).toLocaleDateString()}</td>
+                        <td class="py-2 px-4 border-b text-sm">${incidentTime}</td>
+                        <td class="py-2 px-4 border-b text-sm">${record.obType}</td>
+                        <td class="py-2 px-4 border-b text-sm">${record.clientAccount || ''}</td>
+                        <td class="py-2 px-4 border-b text-sm">${address}</td>
+                        <td class="py-2 px-4 border-b text-sm">${record.area}</td>
+                        <td class="py-2 px-4 border-b text-sm">${record.comments || ''}</td>
+                        <td class="py-2 px-4 border-b text-sm">${record.status}</td>
+                        <td class="py-2 px-4 border-b text-sm">
                             <button data-id="${record.id}" class="edit-ob-record-btn text-blue-500 hover:underline">Edit</button>
                             ${currentRecordAction === 'remove' ? `<button data-id="${record.id}" class="delete-ob-record-btn text-red-500 hover:underline ml-2">Delete</button>` : ''}
                         </td>

@@ -1896,15 +1896,20 @@
 
             permissionsDeptSelect.addEventListener('change', () => {
                 const selectedDept = permissionsDeptSelect.value;
-                // If a department is selected, get its roles. Otherwise, get all roles.
-                const rolesForDept = selectedDept ? departmentRoles[selectedDept] : dropdownOptions.role;
+                // When a department is selected, update the Role dropdown to show only relevant roles.
+                const rolesForDept = selectedDept ? (departmentRoles[selectedDept] || []) : dropdownOptions.role;
                 populateDropdown(permissionsRoleSelect, rolesForDept, 'All Roles');
-                loadRolePermissionsBtn.classList.add('hidden'); // Hide button when department changes
-                filterPermissionUsers();
+                
+                // Now that roles are updated, re-filter the user list.
+                filterPermissionUsers(); 
+                
+                loadRolePermissionsBtn.classList.add('hidden');
             });
 
             permissionsRoleSelect.addEventListener('change', () => {
+                // When a role is selected, simply re-filter the user list.
                 filterPermissionUsers();
+
                 const selectedRole = permissionsRoleSelect.value;
                 const showButton = selectedRole && rolePermissions[selectedRole];
                 loadRolePermissionsBtn.classList.toggle('hidden', !showButton);
@@ -2012,4 +2017,5 @@
     </script>
 </body>
 </html>
+
 

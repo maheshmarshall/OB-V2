@@ -314,7 +314,7 @@
                         <div class="border rounded-lg p-6 bg-gray-50">
                             <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">View Occurrence Book Records</h2>
                             <form id="ob-search-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                                <input type="text" id="ob-search-date" class="p-2 border rounded-md" placeholder="Search by Date (YYYY-MM-DD)">
+                                <select id="ob-search-date" class="p-2 border rounded-md"></select>
                                 <select id="ob-search-type" class="p-2 border rounded-md"></select>
                                 <select id="ob-search-station" class="p-2 border rounded-md"></select>
                                 <input type="text" id="ob-search-cas" class="p-2 border rounded-md" placeholder="Search by CAS Number">
@@ -1429,6 +1429,8 @@
             populateDropdown(assignDeptSelect, dropdownOptions.department || [], 'Select a Department');
             
             // OB Search Dropdowns
+            const dateRanges = ['All Time', 'Today', 'Yesterday', 'Last 7 Days', 'Last 30 Days'];
+            populateDropdown(document.getElementById('ob-search-date'), dateRanges, 'Select Date Range');
             populateDropdown(document.getElementById('ob-search-type'), dropdownOptions.obType, 'All OB Types');
             populateDropdown(document.getElementById('ob-search-station'), dropdownOptions.policeStation, 'All Stations');
             populateDropdown(document.getElementById('ob-search-area'), dropdownOptions.area, 'All Areas');
@@ -1885,7 +1887,7 @@
         };
 
         const handleObSearch = () => {
-            const date = document.getElementById('ob-search-date').value.trim();
+            const dateRange = document.getElementById('ob-search-date').value;
             const type = document.getElementById('ob-search-type').value;
             const station = document.getElementById('ob-search-station').value;
             const cas = document.getElementById('ob-search-cas').value.toLowerCase().trim();
@@ -1895,11 +1897,35 @@
             const contact = document.getElementById('ob-search-contact').value.trim();
             const address = document.getElementById('ob-search-address').value.toLowerCase().trim();
 
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
             const filteredRecords = obRecords.filter(record => {
-                const recordDate = record.created.split('T')[0];
+                const recordDate = new Date(record.created);
+                recordDate.setHours(0, 0, 0, 0);
+
+                let dateMatch = true;
+                if (dateRange && dateRange !== 'All Time') {
+                    if (dateRange === 'Today') {
+                        dateMatch = recordDate.getTime() === today.getTime();
+                    } else if (dateRange === 'Yesterday') {
+                        const yesterday = new Date(today);
+                        yesterday.setDate(today.getDate() - 1);
+                        dateMatch = recordDate.getTime() === yesterday.getTime();
+                    } else if (dateRange === 'Last 7 Days') {
+                        const sevenDaysAgo = new Date(today);
+                        sevenDaysAgo.setDate(today.getDate() - 6);
+                        dateMatch = recordDate >= sevenDaysAgo && recordDate <= today;
+                    } else if (dateRange === 'Last 30 Days') {
+                        const thirtyDaysAgo = new Date(today);
+                        thirtyDaysAgo.setDate(today.getDate() - 29);
+                        dateMatch = recordDate >= thirtyDaysAgo && recordDate <= today;
+                    }
+                }
+                
                 const fullAddress = `${record.address1 || ''} ${record.address2 || ''} ${record.address3 || ''}`.toLowerCase().trim();
 
-                return (!date || recordDate === date) &&
+                return dateMatch &&
                     (!type || record.obType === type) &&
                     (!station || record.policeStation === station) &&
                     (!cas || record.casNumber?.toLowerCase().includes(cas)) &&

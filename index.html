@@ -947,6 +947,10 @@
                                         <input type="text" id="user-surname" class="mt-1 p-2 border rounded-md w-full" required>
                                     </div>
                                     <div>
+                                        <label for="user-username" class="block text-sm font-medium text-gray-700">Username</label>
+                                        <input type="text" id="user-username" class="mt-1 p-2 border rounded-md w-full" required>
+                                    </div>
+                                    <div>
                                         <label for="user-email" class="block text-sm font-medium text-gray-700">Email</label>
                                         <input type="email" id="user-email" class="mt-1 p-2 border rounded-md w-full" required>
                                     </div>
@@ -976,13 +980,14 @@
                                 <h3 class="text-xl font-semibold mb-4">Existing Users</h3>
                                 <div class="mb-4">
                                     <label for="user-search-input" class="sr-only">Search Users</label>
-                                    <input type="text" id="user-search-input" class="mt-1 p-2 border rounded-md w-full" placeholder="Search by name, surname, or email...">
+                                    <input type="text" id="user-search-input" class="mt-1 p-2 border rounded-md w-full" placeholder="Search by name, surname, username, or email...">
                                 </div>
                                 <div class="overflow-x-auto">
                                     <table class="min-w-full bg-white border">
                                         <thead class="bg-gray-200">
                                             <tr>
                                                 <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Name</th>
+                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Username</th>
                                                 <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Email</th>
                                                 <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Department</th>
                                                 <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Role</th>
@@ -1117,8 +1122,8 @@
         
         // --- MOCK DATA (Replaces the backend) ---
         let users = [
-            { id: 1, name: 'John', surname: 'Doe', email: 'john.d@example.com', department: 'SOT', role: 'SOT Manager' },
-            { id: 2, name: 'Jane', surname: 'Smith', email: 'jane.s@example.com', department: 'Reaction', role: 'Reaction Manager' }
+            { id: 1, name: 'John', surname: 'Doe', username: 'johnd', email: 'john.d@example.com', department: 'SOT', role: 'SOT Manager' },
+            { id: 2, name: 'Jane', surname: 'Smith', username: 'janes', email: 'jane.s@example.com', department: 'Reaction', role: 'Reaction Manager' }
         ];
 
         const departmentRoles = {
@@ -1201,6 +1206,7 @@
         const userIdInput = document.getElementById('user-id-input');
         const userNameInput = document.getElementById('user-name');
         const userSurnameInput = document.getElementById('user-surname');
+        const userUsernameInput = document.getElementById('user-username');
         const userEmailInput = document.getElementById('user-email');
         const userDepartmentSelect = document.getElementById('user-department');
         const userRoleSelect = document.getElementById('user-role');
@@ -1387,6 +1393,7 @@
                 return (
                     user.name.toLowerCase().includes(normalizedSearch) ||
                     user.surname.toLowerCase().includes(normalizedSearch) ||
+                    user.username.toLowerCase().includes(normalizedSearch) ||
                     user.email.toLowerCase().includes(normalizedSearch)
                 );
             });
@@ -1395,6 +1402,7 @@
                 usersTbody.innerHTML += `
                     <tr class="hover:bg-gray-50">
                         <td class="py-2 px-4 border-b">${user.name} ${user.surname}</td>
+                        <td class="py-2 px-4 border-b">${user.username}</td>
                         <td class="py-2 px-4 border-b">${user.email}</td>
                         <td class="py-2 px-4 border-b">${user.department}</td>
                         <td class="py-2 px-4 border-b">${user.role}</td>
@@ -1590,6 +1598,7 @@
                 id: userId ? parseInt(userId, 10) : Date.now(),
                 name: userNameInput.value,
                 surname: userSurnameInput.value,
+                username: userUsernameInput.value,
                 email: userEmailInput.value,
                 department: userDepartmentSelect.value,
                 role: userRoleSelect.value,
@@ -1607,7 +1616,6 @@
                     }
                 } else { // action === 'add'
                     users.push(newUserData);
-                    // New users start with NO permissions by default, as requested.
                     userPermissions[newUserData.id] = { tabs: {} };
                 }
                 
@@ -1628,6 +1636,7 @@
                     userIdInput.value = user.id;
                     userNameInput.value = user.name;
                     userSurnameInput.value = user.surname;
+                    userUsernameInput.value = user.username;
                     userEmailInput.value = user.email;
                     
                     // Set department and then trigger change to populate roles
@@ -1896,20 +1905,14 @@
 
             permissionsDeptSelect.addEventListener('change', () => {
                 const selectedDept = permissionsDeptSelect.value;
-                // When a department is selected, update the Role dropdown to show only relevant roles.
                 const rolesForDept = selectedDept ? (departmentRoles[selectedDept] || []) : dropdownOptions.role;
                 populateDropdown(permissionsRoleSelect, rolesForDept, 'All Roles');
-                
-                // Now that roles are updated, re-filter the user list.
                 filterPermissionUsers(); 
-                
                 loadRolePermissionsBtn.classList.add('hidden');
             });
 
             permissionsRoleSelect.addEventListener('change', () => {
-                // When a role is selected, simply re-filter the user list.
                 filterPermissionUsers();
-
                 const selectedRole = permissionsRoleSelect.value;
                 const showButton = selectedRole && rolePermissions[selectedRole];
                 loadRolePermissionsBtn.classList.toggle('hidden', !showButton);
@@ -2017,5 +2020,4 @@
     </script>
 </body>
 </html>
-
 

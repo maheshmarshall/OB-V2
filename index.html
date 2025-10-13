@@ -1820,6 +1820,189 @@
             }
         };
 
+        // --- OB ENTRY HANDLERS ---
+
+        const handleObActionClick = (action) => {
+            const formPanel = document.getElementById('ob-entry-form-panel');
+            const viewPanel = document.getElementById('ob-view-records-panel');
+            const actionButtons = document.querySelectorAll('#ob-actions .ob-action-btn');
+            
+            actionButtons.forEach(btn => {
+                btn.classList.remove('action-btn-active');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+
+            const clickedButton = document.querySelector(`#ob-actions .ob-action-btn[data-action="${action}"]`);
+            if (clickedButton) {
+                clickedButton.classList.add('action-btn-active');
+            }
+            
+            currentRecordAction = action;
+
+            if (action === 'add') {
+                formPanel.classList.remove('hidden');
+                viewPanel.classList.add('hidden');
+                resetObForm();
+            } else { // 'view', 'update', 'remove'
+                formPanel.classList.add('hidden');
+                viewPanel.classList.remove('hidden');
+                renderObRecordsTable(obRecords);
+            }
+        };
+
+        const resetObForm = () => {
+            document.getElementById('ob-form').reset();
+            document.getElementById('ob-record-id').value = '';
+            document.getElementById('ob-number-display').textContent = obCounter;
+            document.getElementById('created-date').textContent = new Date().toLocaleString();
+            document.getElementById('ob-form-title').textContent = 'Add Occurrence Book Record';
+            currentRecordAction = 'add';
+        };
+        
+        const renderObRecordsTable = (records = obRecords) => {
+            const tbody = document.getElementById('ob-records-tbody');
+            tbody.innerHTML = '';
+            if (records.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center p-4">No records found.</td></tr>';
+                return;
+            }
+            records.forEach(record => {
+                const row = `
+                    <tr class="hover:bg-gray-50">
+                        <td class="py-2 px-4 border-b">${record.obNumber}</td>
+                        <td class="py-2 px-4 border-b">${new Date(record.created).toLocaleDateString()}</td>
+                        <td class="py-2 px-4 border-b">${record.obType}</td>
+                        <td class="py-2 px-4 border-b">${record.area}</td>
+                        <td class="py-2 px-4 border-b">${record.status}</td>
+                        <td class="py-2 px-4 border-b">
+                            <button data-id="${record.id}" class="edit-ob-record-btn text-blue-500 hover:underline">Edit</button>
+                            ${currentRecordAction === 'remove' ? `<button data-id="${record.id}" class="delete-ob-record-btn text-red-500 hover:underline ml-2">Delete</button>` : ''}
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        };
+
+        const handleObSearch = () => {
+            const date = document.getElementById('ob-search-date').value.trim();
+            const type = document.getElementById('ob-search-type').value;
+            const station = document.getElementById('ob-search-station').value;
+            const cas = document.getElementById('ob-search-cas').value.toLowerCase().trim();
+            const sap = document.getElementById('ob-search-sap').value.toLowerCase().trim();
+            const area = document.getElementById('ob-search-area').value;
+            const client = document.getElementById('ob-search-client').value.toLowerCase().trim();
+            const contact = document.getElementById('ob-search-contact').value.trim();
+            const address = document.getElementById('ob-search-address').value.toLowerCase().trim();
+
+            const filteredRecords = obRecords.filter(record => {
+                const recordDate = record.created.split('T')[0];
+                const fullAddress = `${record.address1 || ''} ${record.address2 || ''} ${record.address3 || ''}`.toLowerCase().trim();
+
+                return (!date || recordDate === date) &&
+                    (!type || record.obType === type) &&
+                    (!station || record.policeStation === station) &&
+                    (!cas || record.casNumber?.toLowerCase().includes(cas)) &&
+                    (!sap || record.sapNumber?.toLowerCase().includes(sap)) &&
+                    (!area || record.area === area) &&
+                    (!client || record.clientAccount?.toLowerCase().includes(client)) &&
+                    (!contact || record.contactNo?.includes(contact)) &&
+                    (!address || fullAddress.includes(address));
+            });
+            renderObRecordsTable(filteredRecords);
+        };
+
+        const loadObRecordIntoForm = (recordId) => {
+            const record = obRecords.find(r => r.id == recordId);
+            if (!record) return;
+
+            handleObActionClick('update'); // Switch mode to update
+            document.getElementById('ob-entry-form-panel').classList.remove('hidden');
+            document.getElementById('ob-view-records-panel').classList.add('hidden');
+            document.getElementById('ob-form-title').textContent = `Update OB Record #${record.obNumber}`;
+
+            document.getElementById('ob-record-id').value = record.id;
+            document.getElementById('ob-number-display').textContent = record.obNumber;
+            document.getElementById('created-date').textContent = new Date(record.created).toLocaleString();
+            document.getElementById('ob-time-from').value = record.timeFrom;
+            document.getElementById('ob-time-to').value = record.timeTo;
+            document.getElementById('ob-type-select').value = record.obType;
+            document.getElementById('ob-category').value = record.obCategory;
+            document.getElementById('police-station-select').value = record.policeStation;
+            document.getElementById('ob-cas-number').value = record.casNumber;
+            document.getElementById('ob-sap-number').value = record.sapNumber;
+            document.getElementById('ob-requires-followup').checked = record.requiresFollowup || false;
+            document.getElementById('follow-up-user-select').value = record.followUpUser || '';
+            document.getElementById('area-select').value = record.area;
+            document.getElementById('ob-client-account').value = record.clientAccount;
+            document.getElementById('ob-contact-no').value = record.contactNo;
+            document.getElementById('ob-address1').value = record.address1 || '';
+            document.getElementById('ob-address2').value = record.address2 || '';
+            document.getElementById('ob-address3').value = record.address3 || '';
+            document.getElementById('ob-lat').value = record.lat || '';
+            document.getElementById('ob-lon').value = record.lon || '';
+            document.getElementById('ob-comments').value = record.comments || '';
+
+            const statusButtons = document.getElementById('status-buttons');
+            statusButtons.querySelectorAll('button').forEach(btn => {
+                btn.classList.remove('status-btn-active');
+                if (btn.dataset.status === record.status) {
+                    btn.classList.add('status-btn-active');
+                }
+            });
+        };
+
+        const handleSaveObRecord = () => {
+            const recordId = document.getElementById('ob-record-id').value;
+            const action = recordId ? 'update' : 'add';
+
+            let recordData = {
+                id: recordId ? parseInt(recordId) : Date.now(),
+                obNumber: recordId ? obRecords.find(r => r.id == recordId).obNumber : obCounter,
+                created: recordId ? obRecords.find(r => r.id == recordId).created : new Date().toISOString(),
+                createdBy: createdByUserSpan.textContent,
+                timeFrom: document.getElementById('ob-time-from').value,
+                timeTo: document.getElementById('ob-time-to').value,
+                obType: document.getElementById('ob-type-select').value,
+                obCategory: document.getElementById('ob-category').value,
+                policeStation: document.getElementById('police-station-select').value,
+                casNumber: document.getElementById('ob-cas-number').value,
+                sapNumber: document.getElementById('ob-sap-number').value,
+                requiresFollowup: document.getElementById('ob-requires-followup').checked,
+                followUpUser: document.getElementById('follow-up-user-select').value,
+                area: document.getElementById('area-select').value,
+                clientAccount: document.getElementById('ob-client-account').value,
+                contactNo: document.getElementById('ob-contact-no').value,
+                address1: document.getElementById('ob-address1').value,
+                address2: document.getElementById('ob-address2').value,
+                address3: document.getElementById('ob-address3').value,
+                lat: document.getElementById('ob-lat').value,
+                lon: document.getElementById('ob-lon').value,
+                comments: document.getElementById('ob-comments').value,
+                status: document.querySelector('#status-buttons .status-btn-active').dataset.status
+            };
+
+            if (!recordData.obType) {
+                showSuccessModal('Error', 'OB Type is a required field.');
+                return;
+            }
+
+            showConfirmationModal(`Are you sure you want to ${action} this record?`, () => {
+                if (action === 'add') {
+                    obRecords.push(recordData);
+                    obCounter++;
+                } else {
+                    const index = obRecords.findIndex(r => r.id == recordId);
+                    if (index !== -1) {
+                        obRecords[index] = recordData;
+                    }
+                }
+                showSuccessModal('Success', `Record successfully ${action === 'add' ? 'saved' : 'updated'}.`);
+                resetObForm();
+                handleObActionClick('add'); // Go back to add mode
+            });
+        };
+
         // --- DEPARTMENT & ROLE MANAGEMENT ---
 
         const renderDepartments = () => {
@@ -2078,6 +2261,34 @@
                         resolutionContainer.classList.add('hidden');
                         resolutionContainer.classList.remove('flex');
                     }
+                }
+            });
+
+             // OB Entry Actions
+            document.getElementById('ob-actions').addEventListener('click', (e) => {
+                const btn = e.target.closest('.ob-action-btn');
+                if (!btn) return;
+                handleObActionClick(btn.dataset.action);
+            });
+
+            document.getElementById('save-record-btn').addEventListener('click', handleSaveObRecord);
+            document.getElementById('ob-search-btn').addEventListener('click', handleObSearch);
+            document.getElementById('ob-clear-search-btn').addEventListener('click', () => {
+                document.getElementById('ob-search-form').reset();
+                renderObRecordsTable(obRecords);
+            });
+             document.getElementById('ob-records-tbody').addEventListener('click', (e) => {
+                if (e.target.classList.contains('edit-ob-record-btn')) {
+                    const recordId = e.target.dataset.id;
+                    loadObRecordIntoForm(recordId);
+                } else if (e.target.classList.contains('delete-ob-record-btn')) {
+                     const recordId = e.target.dataset.id;
+                     const record = obRecords.find(r => r.id == recordId);
+                     showConfirmationModal(`Are you sure you want to delete OB Record #${record.obNumber}?`, () => {
+                        obRecords = obRecords.filter(r => r.id != recordId);
+                        renderObRecordsTable();
+                        showSuccessModal('Success', 'Record deleted.');
+                     });
                 }
             });
 

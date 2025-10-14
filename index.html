@@ -2570,6 +2570,20 @@
                 }
             });
 
+             // Event listeners for other tables
+            ['recoveries', 'complaints', 'positive-arrests', 'sot'].forEach(view => {
+                document.getElementById(`${view}-records-tbody`).addEventListener('click', (e) => {
+                    const recordId = e.target.dataset.id;
+                    if (e.target.classList.contains(`edit-${view.slice(0, -1)}-record-btn`)) {
+                        // Dynamically call load function
+                        window[`load${toSentenceCase(view.slice(0, -1))}RecordIntoForm`](recordId);
+                    } else if (e.target.classList.contains(`delete-${view.slice(0, -1)}-record-btn`)) {
+                        // Dynamically call delete function
+                        window[`handleDelete${toSentenceCase(view.slice(0, -1))}Record`](recordId);
+                    }
+                });
+            });
+
             // Suspect add/remove
             document.getElementById('add-suspect-btn').addEventListener('click', () => {
                 const tbody = document.getElementById('suspects-tbody');

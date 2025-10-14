@@ -507,7 +507,7 @@
                                 </div>
                             </div>
                              <div class="flex justify-end pt-4">
-                                <button type="button" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Recovery</button>
+                                <button type="button" id="save-recovery-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Recovery</button>
                             </div>
                         </form>
                     </div>
@@ -795,14 +795,14 @@
                                 </div>
 
                                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                                     <div class="flex items-center">
+                                      <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Arrested By:</label>
                                         <input type="text" class="p-2 border rounded-md w-2/3">
                                     </div>
                                 </div>
 
                                  <div class="flex justify-end pt-4">
-                                    <button type="button" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Arrest</button>
+                                    <button type="button" id="save-arrest-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Arrest</button>
                                 </div>
                             </form>
                         </div>
@@ -979,7 +979,7 @@
 
                             <!-- Save Button -->
                             <div class="flex justify-end pt-4">
-                                <button type="button" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save SOT Record</button>
+                                <button type="button" id="save-sot-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save SOT Record</button>
                             </div>
                         </form>
                     </div>
@@ -1188,6 +1188,11 @@
             { id: 2, obNumber: 2, created: '2025-10-12T15:30', timeFrom: '2025-10-12T15:00', timeTo: '2025-10-12T15:15', createdBy: 'Jane Smith', obType: 'Armed robbery', obCategory: 'Crime', policeStation: 'Berea', casNumber: 'CAS124', sapNumber: 'SAP457', area: 'Morningside', clientAccount: 'ACC988', contactNo: '0831234568', address1: '456 Florida Road', status: 'Closed', comments: 'Perpetrators were armed.' }
         ];
         obCounter = obRecords.length + 1;
+
+        let recoveryRecords = [];
+        let complaintRecords = [];
+        let arrestRecords = [];
+        let sotRecords = [];
 
 
         const departmentRoles = {
@@ -1404,7 +1409,7 @@
                 const text = typeof opt === 'object' ? `${opt.name} ${opt.surname}` : opt;
                 select.innerHTML += `<option value="${value}">${text}</option>`;
             });
-            if(options.includes(currentValue)){
+            if(options.map(o => typeof o === 'object' ? o.id.toString() : o).includes(currentValue)){
                 select.value = currentValue;
             }
         };
@@ -2274,6 +2279,7 @@
                     // In a real app, you would gather form data and send to a backend.
                     // For now, we just increment the counter and show success.
                     complaintCounter++;
+                    complaintRecords.push({}); // Placeholder for actual data
                     updateComplaintRefNumber();
                     document.getElementById('complaints-form').reset(); // Clear the form
                     showSuccessModal('Success', 'Complaint has been saved.');
@@ -2307,6 +2313,10 @@
             });
 
             document.getElementById('save-record-btn').addEventListener('click', handleSaveObRecord);
+            document.getElementById('save-recovery-btn').addEventListener('click', () => showSuccessModal('Success', 'Recovery record saved.'));
+            document.getElementById('save-arrest-btn').addEventListener('click', () => showSuccessModal('Success', 'Arrest record saved.'));
+            document.getElementById('save-sot-btn').addEventListener('click', () => showSuccessModal('Success', 'SOT record saved.'));
+
             document.getElementById('ob-search-btn').addEventListener('click', handleObSearch);
             document.getElementById('ob-clear-search-btn').addEventListener('click', () => {
                 document.getElementById('ob-search-form').reset();
@@ -2324,6 +2334,26 @@
                          renderObRecordsTable();
                          showSuccessModal('Success', 'Record deleted.');
                      });
+                }
+            });
+
+            // Suspect add/remove
+            document.getElementById('add-suspect-btn').addEventListener('click', () => {
+                const tbody = document.getElementById('suspects-tbody');
+                const newRow = document.createElement('tr');
+                newRow.className = 'suspect-row';
+                newRow.innerHTML = `
+                    <td class="py-2 px-4 border-b"><input type="text" class="p-1 border rounded-md w-full suspect-name" placeholder="Name & Surname"></td>
+                    <td class="py-2 px-4 border-b"><input type="text" class="p-1 border rounded-md w-full suspect-id" placeholder="ID Number"></td>
+                    <td class="py-2 px-4 border-b"><input type="file" class="p-1 border rounded-md w-full suspect-id-pic"></td>
+                    <td class="py-2 px-4 border-b"><button type="button" class="remove-suspect-btn text-red-500 hover:underline">Remove</button></td>
+                `;
+                tbody.appendChild(newRow);
+            });
+
+            document.getElementById('suspects-tbody').addEventListener('click', e => {
+                if (e.target.classList.contains('remove-suspect-btn')) {
+                    e.target.closest('tr').remove();
                 }
             });
 

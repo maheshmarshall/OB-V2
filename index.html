@@ -55,7 +55,7 @@
         .modal-hidden {
             display: none;
         }
-        .autosize-person-textarea {
+        .autosize-textarea {
             resize: none;
             overflow-y: hidden;
         }
@@ -205,11 +205,11 @@
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">SAP 13 Number:</label>
                                         <div class="w-2/3 sap-container">
-                                            <input type="text" id="ob-sap-number" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
+                                            <input type="text" class="p-2 border rounded-md numeric-only w-full mb-2" placeholder="Number">
                                             <div class="flex items-center space-x-2">
-                                                <select class="p-2 border rounded-md sap-month" id="ob-sap-month"></select>
+                                                <select class="p-2 border rounded-md sap-month"></select>
                                                 <span class="text-gray-500">/</span>
-                                                <select class="p-2 border rounded-md sap-year" id="ob-sap-year"></select>
+                                                <select class="p-2 border rounded-md sap-year"></select>
                                             </div>
                                         </div>
                                     </div>
@@ -257,7 +257,7 @@
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
                                             <div class="flex items-center">
                                                 <label class="w-1/3 text-gray-600 font-medium">Contact No:</label>
-                                                <input type="text" id="ob-contact-no" class="p-2 border rounded-md w-2/3 numeric-only autosize-input">
+                                                <input type="text" id="ob-contact-no" class="p-2 border rounded-md w-2/3 numeric-only">
                                             </div>
                                         </div>
                                         <div class="grid grid-cols-1 gap-6 bg-blue-50 p-4 rounded-md">
@@ -273,17 +273,17 @@
                                          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50 p-4 rounded-md">
                                             <div class="flex items-center">
                                                 <label class="w-1/3 text-gray-600 font-medium">Latitude:</label>
-                                                <input type="text" id="ob-lat" class="p-2 border rounded-md w-2/3">
+                                                <input type="text" id="ob-lat" class="p-2 border rounded-md w-2/3 decimal-only">
                                             </div>
                                              <div class="flex items-center">
                                                 <label class="w-1/3 text-gray-600 font-medium">Longitude:</label>
-                                                <input type="text" id="ob-lon" class="p-2 border rounded-md w-2/3">
+                                                <input type="text" id="ob-lon" class="p-2 border rounded-md w-2/3 decimal-only">
                                             </div>
                                         </div>
                                          <div class="grid grid-cols-1 gap-6">
                                              <div class="flex">
                                                 <label class="w-1/6 text-gray-600 font-medium">Comments:</label>
-                                                <textarea id="ob-comments" class="p-2 border rounded-md w-5/6 h-24"></textarea>
+                                                <textarea id="ob-comments" class="p-2 border rounded-md w-5/6 h-24 autosize-textarea"></textarea>
                                             </div>
                                         </div>
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -393,17 +393,17 @@
                     </div>
                     <div id="recoveries-form-panel">
                         <div class="border rounded-lg p-6 bg-gray-50">
-                            <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">Recoveries</h2>
+                            <h2 id="recovery-form-title" class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">Recoveries</h2>
                             <form id="recoveries-form" class="space-y-4">
                                 <input type="hidden" id="recovery-record-id">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Date and Time:</label>
-                                        <input type="datetime-local" class="p-2 border rounded-md w-2/3">
+                                        <input type="datetime-local" id="recovery-datetime" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Name:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3">
+                                        <input type="text" id="recovery-name" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Division:</label>
@@ -419,23 +419,23 @@
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Duration of Incident:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3">
+                                        <input type="text" id="recovery-duration" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Registration:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3">
+                                        <input type="text" id="recovery-registration" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Vin Number:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3">
+                                        <input type="text" id="recovery-vin" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Items Recovered:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3">
+                                        <input type="text" id="recovery-items" class="p-2 border rounded-md w-2/3">
                                     </div>
                                      <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Quantity of items:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3 numeric-only">
+                                        <input type="text" id="recovery-quantity" class="p-2 border rounded-md w-2/3 numeric-only">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Vehicle Brand:</label>
@@ -443,7 +443,7 @@
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Make of vehicle:</label>
-                                         <input type="text" class="p-2 border rounded-md w-2/3">
+                                         <input type="text" id="recovery-make" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Police Station (From):</label>
@@ -451,7 +451,7 @@
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Case number:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3">
+                                        <input type="text" id="recovery-case-number" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Police Station (Recovered):</label>
@@ -460,7 +460,7 @@
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
                                         <div class="w-2/3 sap-container">
-                                            <input type="text" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
+                                            <input type="text" class="p-2 border rounded-md numeric-only w-full mb-2" placeholder="Number">
                                             <div class="flex items-center space-x-2">
                                                 <select class="p-2 border rounded-md sap-month"></select>
                                                 <span class="text-gray-500">/</span>
@@ -470,38 +470,38 @@
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Estimated Value of vehicle:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3 currency-rand">
+                                        <input type="text" id="recovery-value-vehicle" class="p-2 border rounded-md w-2/3 currency-rand">
                                     </div>
                                      <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Estimated Value of Items:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3 currency-rand">
+                                        <input type="text" id="recovery-value-items" class="p-2 border rounded-md w-2/3 currency-rand">
                                     </div>
                                      <div class="flex items-center col-span-1 md:col-span-2">
                                         <label class="w-1/6 text-gray-600 font-medium">Address Of Incident:</label>
-                                        <textarea class="p-2 border rounded-md w-5/6 h-20"></textarea>
+                                        <textarea id="recovery-address" class="p-2 border rounded-md w-5/6 h-20 autosize-textarea"></textarea>
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Coordinates (Recovery):</label>
                                         <div class="flex w-2/3 gap-2">
-                                            <input type="text" placeholder="Latitude" class="p-2 border rounded-md w-1/2 decimal-only">
-                                            <input type="text" placeholder="Longitude" class="p-2 border rounded-md w-1/2 decimal-only">
+                                            <input type="text" id="recovery-lat" placeholder="Latitude" class="p-2 border rounded-md w-1/2 decimal-only">
+                                            <input type="text" id="recovery-lon" placeholder="Longitude" class="p-2 border rounded-md w-1/2 decimal-only">
                                         </div>
                                     </div>
                                      <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Marshall OB number:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3">
+                                        <input type="text" id="recovery-ob-number" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Recovered by:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3">
+                                        <input type="text" id="recovery-recovered-by" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Photo of Vehicle Stolen:</label>
-                                        <input type="file" class="p-1 border rounded-md w-2/3">
+                                        <input type="file" id="recovery-photo-vehicle" class="p-1 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Photo of Items Stolen:</label>
-                                        <input type="file" class="p-1 border rounded-md w-2/3">
+                                        <input type="file" id="recovery-photo-items" class="p-1 border rounded-md w-2/3">
                                     </div>
                                 </div>
                                  <div class="flex justify-end pt-4">
@@ -539,7 +539,7 @@
                     </div>
                     <div id="complaints-form-panel">
                         <div class="border rounded-lg p-6 bg-gray-50">
-                            <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">Complaints</h2>
+                            <h2 id="complaint-form-title" class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">Complaints</h2>
                             <form id="complaints-form" class="space-y-4">
                                 <input type="hidden" id="complaint-record-id">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -549,19 +549,19 @@
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Date of Complaint:</label>
-                                        <input type="datetime-local" class="p-2 border rounded-md w-2/3">
+                                        <input type="datetime-local" id="complaint-date" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Complainant Name:</label>
-                                        <input type="text" placeholder="Full Name" class="p-2 border rounded-md w-2/3">
+                                        <input type="text" id="complaint-name" placeholder="Full Name" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Contact Number:</label>
-                                        <input type="text" placeholder="Phone Number" class="p-2 border rounded-md w-2/3 numeric-only">
+                                        <input type="text" id="complaint-contact" placeholder="Phone Number" class="p-2 border rounded-md w-2/3 numeric-only">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Email Address:</label>
-                                        <input type="email" placeholder="Email" class="p-2 border rounded-md w-2/3">
+                                        <input type="email" id="complaint-email" placeholder="Email" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Complaint Against (Dept):</label>
@@ -577,7 +577,7 @@
                                     </div>
                                     <div class="flex items-start col-span-1 md:col-span-2">
                                         <label class="w-1/6 text-gray-600 font-medium pt-2">Details:</label>
-                                        <textarea placeholder="Please provide a detailed description of the complaint..." class="p-2 border rounded-md w-5/6" rows="4"></textarea>
+                                        <textarea id="complaint-details" placeholder="Please provide a detailed description of the complaint..." class="p-2 border rounded-md w-5/6 autosize-textarea" rows="4"></textarea>
                                     </div>
                                      <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Assigned To:</label>
@@ -586,14 +586,14 @@
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Status:</label>
                                         <div id="complaint-status-buttons" class="flex space-x-2">
-                                            <button type="button" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700 status-btn-active">Open</button>
-                                            <button type="button" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700">Pending</button>
-                                            <button type="button" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700">Resolved</button>
+                                            <button type="button" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700 status-btn-active" data-status="Open">Open</button>
+                                            <button type="button" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700" data-status="Pending">Pending</button>
+                                            <button type="button" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700" data-status="Resolved">Resolved</button>
                                         </div>
                                     </div>
                                     <div id="complaint-resolution-container" class="items-start col-span-1 md:col-span-2 hidden">
                                          <label class="w-1/6 text-gray-600 font-medium pt-2">Resolution:</label>
-                                         <textarea placeholder="Describe the resolution..." class="p-2 border rounded-md w-5/6" rows="4"></textarea>
+                                         <textarea id="complaint-resolution" placeholder="Describe the resolution..." class="p-2 border rounded-md w-5/6 autosize-textarea" rows="4"></textarea>
                                     </div>
                                 </div>
                                  <div class="flex justify-end pt-4 border-t mt-4">
@@ -625,245 +625,245 @@
 
                 <!-- Positive Arrests View -->
                 <div id="positive-arrests-view" class="view-panel hidden">
-                         <div id="positive-arrests-actions" class="flex justify-center space-x-4 mb-6">
-                            <button data-action="add" class="ob-action-btn px-6 py-2 rounded-lg bg-blue-500 text-white font-semibold shadow-md btn-hover-effect action-btn-active">Add Record</button>
-                            <button data-action="view" class="ob-action-btn px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">View Records</button>
-                        </div>
-                        <div id="positive-arrests-form-panel">
-                            <div class="border rounded-lg p-6 bg-gray-50">
-                                <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">Positive Arrests</h2>
-                                <form id="positive-arrests-form" class="space-y-6">
-                                    <input type="hidden" id="arrest-record-id">
-                                    <!-- Basic Info -->
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div class="flex items-center">
-                                            <label class="w-1/3 text-gray-600 font-medium">Date Time Captured:</label>
-                                            <input type="datetime-local" class="p-2 border rounded-md w-2/3">
-                                        </div>
-                                        <div class="flex items-center">
-                                            <label class="w-1/3 text-gray-600 font-medium">Information Entered by:</label>
-                                            <input type="text" class="p-2 border rounded-md w-2/3">
-                                        </div>
-                                        <div class="flex items-center">
-                                            <label class="w-1/3 text-gray-600 font-medium">Division:</label>
-                                            <select id="pa-division-select" class="p-2 border rounded-md w-2/3"></select>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <label class="w-1/3 text-gray-600 font-medium">Date:</label>
-                                            <input type="date" class="p-2 border rounded-md w-2/3">
-                                        </div>
-                                        <div class="flex items-center col-span-1 md:col-span-2">
-                                            <label class="w-1/6 text-gray-600 font-medium">Address of Crime:</label>
-                                            <textarea class="p-2 border rounded-md w-5/6 h-20"></textarea>
-                                        </div>
-                                    </div>
+                               <div id="positive-arrests-actions" class="flex justify-center space-x-4 mb-6">
+                                    <button data-action="add" class="ob-action-btn px-6 py-2 rounded-lg bg-blue-500 text-white font-semibold shadow-md btn-hover-effect action-btn-active">Add Record</button>
+                                    <button data-action="view" class="ob-action-btn px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-blue-100 hover:text-blue-700 font-medium btn-hover-effect">View Records</button>
+                                </div>
+                                <div id="positive-arrests-form-panel">
+                                    <div class="border rounded-lg p-6 bg-gray-50">
+                                        <h2 id="arrest-form-title" class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">Positive Arrests</h2>
+                                        <form id="positive-arrests-form" class="space-y-6">
+                                            <input type="hidden" id="arrest-record-id">
+                                            <!-- Basic Info -->
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div class="flex items-center">
+                                                    <label class="w-1/3 text-gray-600 font-medium">Date Time Captured:</label>
+                                                    <input type="datetime-local" id="arrest-datetime-captured" class="p-2 border rounded-md w-2/3">
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <label class="w-1/3 text-gray-600 font-medium">Information Entered by:</label>
+                                                    <input type="text" id="arrest-entered-by" class="p-2 border rounded-md w-2/3">
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <label class="w-1/3 text-gray-600 font-medium">Division:</label>
+                                                    <select id="pa-division-select" class="p-2 border rounded-md w-2/3"></select>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <label class="w-1/3 text-gray-600 font-medium">Date:</label>
+                                                    <input type="date" id="arrest-date" class="p-2 border rounded-md w-2/3">
+                                                </div>
+                                                <div class="flex items-center col-span-1 md:col-span-2">
+                                                    <label class="w-1/6 text-gray-600 font-medium">Address of Crime:</label>
+                                                    <textarea id="arrest-address" class="p-2 border rounded-md w-5/6 h-20 autosize-textarea"></textarea>
+                                                </div>
+                                            </div>
 
-                                    <!-- Crime Details Sections -->
-                                    <div id="pa-crime-details-section" class="space-y-4">
-                                        <!-- Crime 1 -->
-                                        <div class="border-t pt-4 mt-4">
-                                             <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 1</h3>
-                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">Nature of Crime:</label>
-                                                     <select class="pa-nature-crime-select p-2 border rounded-md w-2/3"></select>
-                                                 </div>
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">Police station:</label>
-                                                     <select class="pa-police-station-select p-2 border rounded-md w-2/3"></select>
-                                                 </div>
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">SAPS Case number:</label>
-                                                     <input type="text" class="p-2 border rounded-md w-2/3">
-                                                 </div>
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
-                                                     <div class="w-2/3 sap-container">
-                                                         <input type="text" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
-                                                         <div class="flex items-center space-x-2">
-                                                             <select class="p-2 border rounded-md sap-month"></select>
-                                                             <span class="text-gray-500">/</span>
-                                                             <select class="p-2 border rounded-md sap-year"></select>
+                                            <!-- Crime Details Sections -->
+                                            <div id="pa-crime-details-section" class="space-y-4">
+                                                <!-- Crime 1 -->
+                                                <div class="border-t pt-4 mt-4">
+                                                     <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 1</h3>
+                                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">Nature of Crime:</label>
+                                                             <select id="crime-1-nature" class="pa-nature-crime-select p-2 border rounded-md w-2/3"></select>
+                                                         </div>
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">Police station:</label>
+                                                             <select id="crime-1-station" class="pa-police-station-select p-2 border rounded-md w-2/3"></select>
+                                                         </div>
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">SAPS Case number:</label>
+                                                             <input type="text" id="crime-1-case" class="p-2 border rounded-md w-2/3">
+                                                         </div>
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
+                                                             <div id="crime-1-sap" class="w-2/3 sap-container">
+                                                                 <input type="text" class="p-2 border rounded-md numeric-only w-full mb-2" placeholder="Number">
+                                                                 <div class="flex items-center space-x-2">
+                                                                     <select class="p-2 border rounded-md sap-month"></select>
+                                                                     <span class="text-gray-500">/</span>
+                                                                     <select class="p-2 border rounded-md sap-year"></select>
+                                                                 </div>
+                                                             </div>
                                                          </div>
                                                      </div>
-                                                 </div>
-                                             </div>
-                                        </div>
-                                        <!-- Crime 2 -->
-                                        <div class="border-t pt-4 mt-4">
-                                             <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 2</h3>
-                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">Nature of Crime:</label>
-                                                     <select class="pa-nature-crime-select p-2 border rounded-md w-2/3"></select>
-                                                 </div>
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">Police station:</label>
-                                                     <select class="pa-police-station-select p-2 border rounded-md w-2/3"></select>
-                                                 </div>
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">SAPS Case number:</label>
-                                                     <input type="text" class="p-2 border rounded-md w-2/3">
-                                                 </div>
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
-                                                     <div class="w-2/3 sap-container">
-                                                         <input type="text" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
-                                                         <div class="flex items-center space-x-2">
-                                                             <select class="p-2 border rounded-md sap-month"></select>
-                                                             <span class="text-gray-500">/</span>
-                                                             <select class="p-2 border rounded-md sap-year"></select>
+                                                </div>
+                                                <!-- Crime 2 -->
+                                                <div class="border-t pt-4 mt-4">
+                                                     <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 2</h3>
+                                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">Nature of Crime:</label>
+                                                             <select id="crime-2-nature" class="pa-nature-crime-select p-2 border rounded-md w-2/3"></select>
+                                                         </div>
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">Police station:</label>
+                                                             <select id="crime-2-station" class="pa-police-station-select p-2 border rounded-md w-2/3"></select>
+                                                         </div>
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">SAPS Case number:</label>
+                                                             <input type="text" id="crime-2-case" class="p-2 border rounded-md w-2/3">
+                                                         </div>
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
+                                                             <div id="crime-2-sap" class="w-2/3 sap-container">
+                                                                 <input type="text" class="p-2 border rounded-md numeric-only w-full mb-2" placeholder="Number">
+                                                                 <div class="flex items-center space-x-2">
+                                                                     <select class="p-2 border rounded-md sap-month"></select>
+                                                                     <span class="text-gray-500">/</span>
+                                                                     <select class="p-2 border rounded-md sap-year"></select>
+                                                                 </div>
+                                                             </div>
                                                          </div>
                                                      </div>
-                                                 </div>
-                                             </div>
-                                        </div>
-                                        <!-- Crime 3 -->
-                                        <div class="border-t pt-4 mt-4">
-                                             <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 3</h3>
-                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">Nature of Crime:</label>
-                                                     <select class="pa-nature-crime-select p-2 border rounded-md w-2/3"></select>
-                                                 </div>
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">Police station:</label>
-                                                     <select class="pa-police-station-select p-2 border rounded-md w-2/3"></select>
-                                                 </div>
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">SAPS Case number:</label>
-                                                     <input type="text" class="p-2 border rounded-md w-2/3">
-                                                 </div>
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
-                                                     <div class="w-2/3 sap-container">
-                                                         <input type="text" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
-                                                         <div class="flex items-center space-x-2">
-                                                             <select class="p-2 border rounded-md sap-month"></select>
-                                                             <span class="text-gray-500">/</span>
-                                                             <select class="p-2 border rounded-md sap-year"></select>
+                                                </div>
+                                                <!-- Crime 3 -->
+                                                <div class="border-t pt-4 mt-4">
+                                                     <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 3</h3>
+                                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">Nature of Crime:</label>
+                                                             <select id="crime-3-nature" class="pa-nature-crime-select p-2 border rounded-md w-2/3"></select>
+                                                         </div>
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">Police station:</label>
+                                                             <select id="crime-3-station" class="pa-police-station-select p-2 border rounded-md w-2/3"></select>
+                                                         </div>
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">SAPS Case number:</label>
+                                                             <input type="text" id="crime-3-case" class="p-2 border rounded-md w-2/3">
+                                                         </div>
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
+                                                             <div id="crime-3-sap" class="w-2/3 sap-container">
+                                                                 <input type="text" class="p-2 border rounded-md numeric-only w-full mb-2" placeholder="Number">
+                                                                 <div class="flex items-center space-x-2">
+                                                                     <select class="p-2 border rounded-md sap-month"></select>
+                                                                     <span class="text-gray-500">/</span>
+                                                                     <select class="p-2 border rounded-md sap-year"></select>
+                                                                 </div>
+                                                             </div>
                                                          </div>
                                                      </div>
-                                                 </div>
-                                             </div>
-                                        </div>
-                                        <!-- Crime 4 -->
-                                        <div class="border-t pt-4 mt-4">
-                                             <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 4</h3>
-                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">Nature of Crime:</label>
-                                                     <select class="pa-nature-crime-select p-2 border rounded-md w-2/3"></select>
-                                                 </div>
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">Police station:</label>
-                                                     <select class="pa-police-station-select p-2 border rounded-md w-2/3"></select>
-                                                 </div>
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">SAPS Case number:</label>
-                                                     <input type="text" class="p-2 border rounded-md w-2/3">
-                                                 </div>
-                                                 <div class="flex items-center">
-                                                     <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
-                                                     <div class="w-2/3 sap-container">
-                                                         <input type="text" class="p-2 border rounded-md numeric-only autosize-input w-full mb-2" placeholder="Number">
-                                                         <div class="flex items-center space-x-2">
-                                                             <select class="p-2 border rounded-md sap-month"></select>
-                                                             <span class="text-gray-500">/</span>
-                                                             <select class="p-2 border rounded-md sap-year"></select>
+                                                </div>
+                                                <!-- Crime 4 -->
+                                                <div class="border-t pt-4 mt-4">
+                                                     <h3 class="text-lg font-semibold text-gray-700 mb-4">Crime 4</h3>
+                                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">Nature of Crime:</label>
+                                                             <select id="crime-4-nature" class="pa-nature-crime-select p-2 border rounded-md w-2/3"></select>
+                                                         </div>
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">Police station:</label>
+                                                             <select id="crime-4-station" class="pa-police-station-select p-2 border rounded-md w-2/3"></select>
+                                                         </div>
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">SAPS Case number:</label>
+                                                             <input type="text" id="crime-4-case" class="p-2 border rounded-md w-2/3">
+                                                         </div>
+                                                         <div class="flex items-center">
+                                                             <label class="w-1/3 text-gray-600 font-medium">SAPS 13 Number:</label>
+                                                             <div id="crime-4-sap" class="w-2/3 sap-container">
+                                                                 <input type="text" class="p-2 border rounded-md numeric-only w-full mb-2" placeholder="Number">
+                                                                 <div class="flex items-center space-x-2">
+                                                                     <select class="p-2 border rounded-md sap-month"></select>
+                                                                     <span class="text-gray-500">/</span>
+                                                                     <select class="p-2 border rounded-md sap-year"></select>
+                                                                 </div>
+                                                             </div>
                                                          </div>
                                                      </div>
-                                                 </div>
-                                             </div>
-                                        </div>
-                                    </div>
+                                                </div>
+                                            </div>
 
-                                     <!-- Pictures Section -->
-                                    <div id="pa-evidence-section" class="border-t pt-4 mt-4">
-                                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Evidence Pictures</h3>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div class="flex items-center">
-                                                <label class="w-1/3 text-gray-600 font-medium">Pictures of Scene:</label>
-                                                <input type="file" multiple class="p-1 border rounded-md w-2/3">
+                                             <!-- Pictures Section -->
+                                            <div id="pa-evidence-section" class="border-t pt-4 mt-4">
+                                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Evidence Pictures</h3>
+                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                    <div class="flex items-center">
+                                                        <label class="w-1/3 text-gray-600 font-medium">Pictures of Scene:</label>
+                                                        <input type="file" multiple id="arrest-pics-scene" class="p-1 border rounded-md w-2/3">
+                                                    </div>
+                                                    <div class="flex items-center">
+                                                        <label class="w-1/3 text-gray-600 font-medium">Picture of Statement:</label>
+                                                        <input type="file" id="arrest-pic-statement1" class="p-1 border rounded-md w-2/3">
+                                                    </div>
+                                                     <div class="flex items-center">
+                                                        <label class="w-1/3 text-gray-600 font-medium">Picture of Statement 2:</label>
+                                                        <input type="file" id="arrest-pic-statement2" class="p-1 border rounded-md w-2/3">
+                                                    </div>
+                                                     <div class="flex items-center">
+                                                        <label class="w-1/3 text-gray-600 font-medium">Picture of Statement 3:</label>
+                                                        <input type="file" id="arrest-pic-statement3" class="p-1 border rounded-md w-2/3">
+                                                    </div>
+                                                     <div class="flex items-center">
+                                                        <label class="w-1/3 text-gray-600 font-medium">Picture of Statement 4:</label>
+                                                        <input type="file" id="arrest-pic-statement4" class="p-1 border rounded-md w-2/3">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="flex items-center">
-                                                <label class="w-1/3 text-gray-600 font-medium">Picture of Statement:</label>
-                                                <input type="file" class="p-1 border rounded-md w-2/3">
+                                            
+                                             <!-- Suspects Section -->
+                                            <div id="pa-suspects-section" class="border-t pt-4 mt-4">
+                                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Suspect Details</h3>
+                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                                                     <div class="flex items-center">
+                                                        <label class="w-1/3 text-gray-600 font-medium">Total Suspects:</label>
+                                                        <input type="text" id="arrest-total-suspects" class="p-2 border rounded-md w-2/3 numeric-only">
+                                                    </div>
+                                                </div>
+                                                <div class="flex justify-end mb-2">
+                                                    <button type="button" id="add-suspect-btn" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect">Add Suspect</button>
+                                                </div>
+                                                <div class="overflow-x-auto">
+                                                    <table class="min-w-full bg-white border">
+                                                        <thead class="bg-gray-200">
+                                                            <tr>
+                                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Suspect Name</th>
+                                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">ID Number</th>
+                                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">ID Picture</th>
+                                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="suspects-tbody"></tbody>
+                                                    </table>
+                                                </div>
                                             </div>
-                                             <div class="flex items-center">
-                                                <label class="w-1/3 text-gray-600 font-medium">Picture of Statement 2:</label>
-                                                <input type="file" class="p-1 border rounded-md w-2/3">
+
+                                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                                                  <div class="flex items-center">
+                                                    <label class="w-1/3 text-gray-600 font-medium">Arrested By:</label>
+                                                    <input type="text" id="arrest-arrested-by" class="p-2 border rounded-md w-2/3">
+                                                </div>
                                             </div>
-                                             <div class="flex items-center">
-                                                <label class="w-1/3 text-gray-600 font-medium">Picture of Statement 3:</label>
-                                                <input type="file" class="p-1 border rounded-md w-2/3">
+
+                                             <div class="flex justify-end pt-4">
+                                                <button type="button" id="save-arrest-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Arrest</button>
                                             </div>
-                                             <div class="flex items-center">
-                                                <label class="w-1/3 text-gray-600 font-medium">Picture of Statement 4:</label>
-                                                <input type="file" class="p-1 border rounded-md w-2/3">
-                                            </div>
-                                        </div>
+                                        </form>
                                     </div>
-                                    
-                                     <!-- Suspects Section -->
-                                    <div id="pa-suspects-section" class="border-t pt-4 mt-4">
-                                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Suspect Details</h3>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                                             <div class="flex items-center">
-                                                <label class="w-1/3 text-gray-600 font-medium">Total Suspects:</label>
-                                                <input type="text" class="p-2 border rounded-md w-2/3 numeric-only">
-                                            </div>
-                                        </div>
-                                        <div class="flex justify-end mb-2">
-                                            <button type="button" id="add-suspect-btn" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect">Add Suspect</button>
-                                        </div>
+                                </div>
+                                 <div id="positive-arrests-view-records-panel" class="hidden">
+                                    <div class="border rounded-lg p-6 bg-gray-50">
+                                        <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">View Arrest Records</h2>
                                         <div class="overflow-x-auto">
                                             <table class="min-w-full bg-white border">
                                                 <thead class="bg-gray-200">
                                                     <tr>
-                                                        <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Suspect Name</th>
-                                                        <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">ID Number</th>
-                                                        <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">ID Picture</th>
-                                                        <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Action</th>
+                                                        <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Date</th>
+                                                        <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Division</th>
+                                                        <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Address</th>
+                                                        <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Suspects</th>
+                                                        <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Actions</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="suspects-tbody"></tbody>
+                                                <tbody id="positive-arrests-records-tbody"></tbody>
                                             </table>
                                         </div>
                                     </div>
-
-                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-                                         <div class="flex items-center">
-                                            <label class="w-1/3 text-gray-600 font-medium">Arrested By:</label>
-                                            <input type="text" class="p-2 border rounded-md w-2/3">
-                                        </div>
-                                    </div>
-
-                                     <div class="flex justify-end pt-4">
-                                        <button type="button" id="save-arrest-btn" class="px-8 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg btn-hover-effect">Save Arrest</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                         <div id="positive-arrests-view-records-panel" class="hidden">
-                            <div class="border rounded-lg p-6 bg-gray-50">
-                                <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">View Arrest Records</h2>
-                                <div class="overflow-x-auto">
-                                    <table class="min-w-full bg-white border">
-                                        <thead class="bg-gray-200">
-                                            <tr>
-                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Date</th>
-                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Division</th>
-                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Address</th>
-                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Suspects</th>
-                                                <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="positive-arrests-records-tbody"></tbody>
-                                    </table>
                                 </div>
-                            </div>
-                        </div>
                 </div>
 
                 <!-- SOT Positives View -->
@@ -874,7 +874,7 @@
                     </div>
                     <div id="sot-form-panel">
                         <div class="border rounded-lg p-6 bg-gray-50">
-                            <h2 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">SOT Positives</h2>
+                            <h2 id="sot-form-title" class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">SOT Positives</h2>
                             <form id="sot-form" class="space-y-6">
                                 <input type="hidden" id="sot-record-id">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -882,45 +882,45 @@
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Status:</label>
                                         <div id="sot-status-buttons" class="flex space-x-2">
-                                            <button type="button" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700 status-btn-active">Open</button>
-                                            <button type="button" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700">Closed</button>
-                                            <button type="button" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700">Pending</button>
+                                            <button type="button" data-status="Open" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700 status-btn-active">Open</button>
+                                            <button type="button" data-status="Closed" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700">Closed</button>
+                                            <button type="button" data-status="Pending" class="status-btn px-4 py-2 rounded-md bg-gray-200 text-gray-700">Pending</button>
                                         </div>
                                     </div>
                                     <!-- Date Opened -->
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Date Opened:</label>
-                                        <input type="datetime-local" class="p-2 border rounded-md w-2/3">
+                                        <input type="datetime-local" id="sot-date-opened" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <!-- Date Assigned -->
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Date Assigned:</label>
-                                        <input type="datetime-local" class="p-2 border rounded-md w-2/3">
+                                        <input type="datetime-local" id="sot-date-assigned" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <!-- Date Closed -->
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Date Closed:</label>
-                                        <input type="datetime-local" class="p-2 border rounded-md w-2/3">
+                                        <input type="datetime-local" id="sot-date-closed" class="p-2 border rounded-md w-2/3">
                                     </div>
                                      <!-- Investigation Close Date -->
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Investigation Close Date:</label>
-                                        <input type="date" class="p-2 border rounded-md w-2/3">
+                                        <input type="date" id="sot-date-investigation-closed" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <!-- Marshall Client -->
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Marshall Client:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3">
+                                        <input type="text" id="sot-client" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <!-- Unit number -->
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Unit number:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3">
+                                        <input type="text" id="sot-unit-number" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <!-- Business Name -->
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Business Name:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3">
+                                        <input type="text" id="sot-business-name" class="p-2 border rounded-md w-2/3">
                                     </div>
                                     <!-- Incident Type -->
                                     <div class="flex items-center">
@@ -935,17 +935,17 @@
                                     <!-- Client Contacted -->
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Client Contacted:</label>
-                                        <input type="checkbox" class="h-5 w-5">
+                                        <input type="checkbox" id="sot-client-contacted" class="h-5 w-5">
                                     </div>
                                      <!-- Contact Number -->
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Contact Number:</label>
-                                        <input type="text" class="p-2 border rounded-md w-2/3 numeric-only">
+                                        <input type="text" id="sot-contact-number" class="p-2 border rounded-md w-2/3 numeric-only">
                                     </div>
                                     <!-- Onsite Meeting -->
                                     <div class="flex items-center">
                                         <label class="w-1/3 text-gray-600 font-medium">Onsite Meeting:</label>
-                                        <input type="checkbox" class="h-5 w-5">
+                                        <input type="checkbox" id="sot-onsite-meeting" class="h-5 w-5">
                                     </div>
                                 </div>
 
@@ -954,17 +954,17 @@
                                      <!-- Address Of Incident -->
                                     <div class="flex items-start">
                                         <label class="w-1/4 text-gray-600 font-medium pt-2">Address Of Incident:</label>
-                                        <textarea class="p-2 border rounded-md w-3/4" rows="3"></textarea>
+                                        <textarea id="sot-address" class="p-2 border rounded-md w-3/4 autosize-textarea" rows="3"></textarea>
                                     </div>
                                     <!-- History Report -->
                                     <div class="flex items-start">
                                         <label class="w-1/4 text-gray-600 font-medium pt-2">History Report:</label>
-                                        <input type="file" class="p-1 border rounded-md w-3/4">
+                                        <input type="file" id="sot-history-report" class="p-1 border rounded-md w-3/4">
                                     </div>
                                     <!-- Feedback/Investigation -->
                                     <div class="flex items-start">
                                         <label class="w-1/4 text-gray-600 font-medium pt-2">Feedback/Investigation:</label>
-                                        <textarea class="p-2 border rounded-md w-3/4" rows="4"></textarea>
+                                        <textarea id="sot-feedback" class="p-2 border rounded-md w-3/4 autosize-textarea" rows="4"></textarea>
                                     </div>
                                 </div>
 
@@ -975,7 +975,7 @@
                                             <input type="checkbox" data-target="cctv-comments" class="h-5 w-5 sot-comment-toggle">
                                             <span>CCTV Footage</span>
                                         </label>
-                                        <textarea id="cctv-comments" placeholder="CCTV Comments" class="p-2 border rounded-md w-full hidden" rows="2"></textarea>
+                                        <textarea id="cctv-comments" placeholder="CCTV Comments" class="p-2 border rounded-md w-full hidden autosize-textarea" rows="2"></textarea>
                                     </div>
                                     <!-- Case Open -->
                                     <div class="space-y-2">
@@ -983,7 +983,7 @@
                                             <input type="checkbox" data-target="case-open-comments" class="h-5 w-5 sot-comment-toggle">
                                             <span>Case Open</span>
                                         </label>
-                                        <textarea id="case-open-comments" placeholder="Case Open Comments" class="p-2 border rounded-md w-full hidden" rows="2"></textarea>
+                                        <textarea id="case-open-comments" placeholder="Case Open Comments" class="p-2 border rounded-md w-full hidden autosize-textarea" rows="2"></textarea>
                                     </div>
                                     <!-- Technical Assistance -->
                                     <div class="space-y-2">
@@ -991,7 +991,7 @@
                                             <input type="checkbox" data-target="technical-comments" class="h-5 w-5 sot-comment-toggle">
                                             <span>Technical Assistance</span>
                                         </label>
-                                        <textarea id="technical-comments" placeholder="Technical Comments" class="p-2 border rounded-md w-full hidden" rows="2"></textarea>
+                                        <textarea id="technical-comments" placeholder="Technical Comments" class="p-2 border rounded-md w-full hidden autosize-textarea" rows="2"></textarea>
                                     </div>
                                     <!-- Sales Assistance -->
                                     <div class="space-y-2">
@@ -999,7 +999,7 @@
                                             <input type="checkbox" data-target="sales-comments" class="h-5 w-5 sot-comment-toggle">
                                             <span>Sales Assistance</span>
                                         </label>
-                                        <textarea id="sales-comments" placeholder="Sales Comments" class="p-2 border rounded-md w-full hidden" rows="2"></textarea>
+                                        <textarea id="sales-comments" placeholder="Sales Comments" class="p-2 border rounded-md w-full hidden autosize-textarea" rows="2"></textarea>
                                     </div>
                                     <!-- Response Assistance -->
                                     <div class="space-y-2">
@@ -1007,7 +1007,7 @@
                                             <input type="checkbox" data-target="response-comments" class="h-5 w-5 sot-comment-toggle">
                                             <span>Response Assistance</span>
                                         </label>
-                                        <textarea id="response-comments" placeholder="Response Comments" class="p-2 border rounded-md w-full hidden" rows="2"></textarea>
+                                        <textarea id="response-comments" placeholder="Response Comments" class="p-2 border rounded-md w-full hidden autosize-textarea" rows="2"></textarea>
                                     </div>
                                     <!-- Control Room Assistance -->
                                     <div class="space-y-2">
@@ -1015,7 +1015,7 @@
                                             <input type="checkbox" data-target="control-room-comments" class="h-5 w-5 sot-comment-toggle">
                                             <span>Control Room Assistance</span>
                                         </label>
-                                        <textarea id="control-room-comments" placeholder="Control Room Comments" class="p-2 border rounded-md w-full hidden" rows="2"></textarea>
+                                        <textarea id="control-room-comments" placeholder="Control Room Comments" class="p-2 border rounded-md w-full hidden autosize-textarea" rows="2"></textarea>
                                     </div>
                                     <!-- Complaints/Compliments -->
                                     <div class="space-y-2">
@@ -1023,7 +1023,7 @@
                                             <input type="checkbox" data-target="complaints-comments" class="h-5 w-5 sot-comment-toggle">
                                             <span>Complaints/Compliments</span>
                                         </label>
-                                        <textarea id="complaints-comments" placeholder="Complaints/Compliments Comments" class="p-2 border rounded-md w-full hidden" rows="2"></textarea>
+                                        <textarea id="complaints-comments" placeholder="Complaints/Compliments Comments" class="p-2 border rounded-md w-full hidden autosize-textarea" rows="2"></textarea>
                                     </div>
                                     <!-- Risk Assessment -->
                                     <div class="space-y-2">
@@ -1031,7 +1031,7 @@
                                             <input type="checkbox" data-target="risk-assessment-comments" class="h-5 w-5 sot-comment-toggle">
                                             <span>Risk Assessment</span>
                                         </label>
-                                        <textarea id="risk-assessment-comments" placeholder="Risk Assessment Comments" class="p-2 border rounded-md w-full hidden" rows="2"></textarea>
+                                        <textarea id="risk-assessment-comments" placeholder="Risk Assessment Comments" class="p-2 border rounded-md w-full hidden autosize-textarea" rows="2"></textarea>
                                     </div>
                                 </div>
 
@@ -1223,14 +1223,14 @@
 
                         <div id="permissions-container" class="space-y-4 pt-4 border-t">
                              <!-- Headers -->
-                           <div class="grid grid-cols-7 items-center font-semibold text-gray-600 px-4">
-                               <div class="col-span-2">Tab</div>
-                               <div class="text-center">Access</div>
-                               <div class="text-center">Add</div>
-                               <div class="text-center">Remove</div>
-                               <div class="text-center">Update</div>
-                               <div class="text-center">View</div>
-                           </div>
+                            <div class="grid grid-cols-7 items-center font-semibold text-gray-600 px-4">
+                                <div class="col-span-2">Tab</div>
+                                <div class="text-center">Access</div>
+                                <div class="text-center">Add</div>
+                                <div class="text-center">Remove</div>
+                                <div class="text-center">Update</div>
+                                <div class="text-center">View</div>
+                            </div>
                             <!-- Permissions Rows will be dynamically generated here -->
                         </div>
                          <!-- Save Button -->
@@ -1249,6 +1249,7 @@
         // It does NOT connect to a backend server.
         
         // --- STATE MANAGEMENT ---
+        const currentDate = new Date('2025-10-14T09:44:00');
         let obCounter = 1;
         let complaintCounter = 1;
         let currentUser = 'admin'; // 'admin' or a user ID
@@ -1393,7 +1394,8 @@
         // --- UTILITY FUNCTIONS ---
         const toSentenceCase = (str) => {
             if (typeof str !== 'string' || str.length === 0) return str;
-            return str.charAt(0).toUpperCase() + str.slice(1);
+            const lower = str.toLowerCase();
+            return lower.charAt(0).toUpperCase() + lower.slice(1);
         };
 
         const showConfirmationModal = (message, onConfirmCallback) => {
@@ -1938,6 +1940,13 @@
                 formPanel.classList.remove('hidden');
                 recordsPanel.classList.add('hidden');
                 // You might want to call a reset function for the form here
+                 switch(viewId) {
+                    case 'ob-entry-view': resetObForm(); break;
+                    case 'recoveries-view': resetRecoveryForm(); break;
+                    case 'complaints-view': resetComplaintForm(); break;
+                    case 'positive-arrests-view': resetArrestForm(); break;
+                    case 'sot-view': resetSotForm(); break;
+                }
             } else if (action === 'view') {
                 formPanel.classList.add('hidden');
                 recordsPanel.classList.remove('hidden');
@@ -2062,8 +2071,43 @@
             document.getElementById('ob-form').reset();
             document.getElementById('ob-record-id').value = '';
             document.getElementById('ob-number-display').textContent = obCounter;
-            document.getElementById('created-date').textContent = new Date().toLocaleString();
+            document.getElementById('created-date').textContent = currentDate.toLocaleString();
             document.getElementById('ob-form-title').textContent = 'Add Occurrence Book Record';
+        };
+
+        const resetRecoveryForm = () => {
+             document.getElementById('recoveries-form').reset();
+             document.getElementById('recovery-record-id').value = '';
+             document.getElementById('recovery-form-title').textContent = 'Recoveries';
+        };
+
+        const resetComplaintForm = () => {
+             document.getElementById('complaints-form').reset();
+             document.getElementById('complaint-record-id').value = '';
+             document.getElementById('complaint-form-title').textContent = 'Complaints';
+             updateComplaintRefNumber();
+        };
+
+         const resetArrestForm = () => {
+             document.getElementById('positive-arrests-form').reset();
+             document.getElementById('arrest-record-id').value = '';
+             document.getElementById('arrest-form-title').textContent = 'Positive Arrests';
+             document.getElementById('suspects-tbody').innerHTML = '';
+        };
+        
+        const resetSotForm = () => {
+            const form = document.getElementById('sot-form');
+            form.reset();
+            document.getElementById('sot-record-id').value = '';
+            document.getElementById('sot-form-title').textContent = 'SOT Positives';
+            // Also hide all comment textareas
+            form.querySelectorAll('.sot-comment-toggle').forEach(checkbox => {
+                const targetId = checkbox.dataset.target;
+                const textarea = document.getElementById(targetId);
+                if (textarea) {
+                    textarea.classList.add('hidden');
+                }
+            });
         };
         
         const renderObRecordsTable = (records = obRecords) => {
@@ -2149,8 +2193,7 @@
             const record = obRecords.find(r => r.id == recordId);
             if (!record) return;
 
-            document.getElementById('ob-entry-form-panel').classList.remove('hidden');
-            document.getElementById('ob-view-records-panel').classList.add('hidden');
+            handleActionClick('ob-entry-view', 'add');
             document.getElementById('ob-form-title').textContent = `Update OB Record #${record.obNumber}`;
 
             document.getElementById('ob-record-id').value = record.id;
@@ -2162,7 +2205,20 @@
             document.getElementById('ob-category').value = record.obCategory;
             document.getElementById('police-station-select').value = record.policeStation;
             document.getElementById('ob-cas-number').value = record.casNumber;
-            document.getElementById('ob-sap-number').value = record.sapNumber;
+            
+            const sapContainer = document.querySelector('#ob-form .sap-container');
+            if (sapContainer && record.sapNumber) {
+                const parts = record.sapNumber.split('/');
+                if (parts.length === 3) {
+                    sapContainer.querySelector('input').value = parts[0];
+                    sapContainer.querySelector('.sap-month').value = parts[1];
+                    sapContainer.querySelector('.sap-year').value = parts[2];
+                } else {
+                     sapContainer.querySelector('input').value = record.sapNumber;
+                }
+            }
+
+
             document.getElementById('ob-requires-followup').checked = record.requiresFollowup || false;
             document.getElementById('follow-up-user-select').value = record.followUpUser || '';
             document.getElementById('area-select').value = record.area;
@@ -2188,10 +2244,17 @@
             const recordId = document.getElementById('ob-record-id').value;
             const action = recordId ? 'update' : 'add';
 
+            const sapContainer = document.querySelector('#ob-form .sap-container');
+            const sapNumber = sapContainer.querySelector('input').value;
+            const sapMonth = sapContainer.querySelector('.sap-month').value;
+            const sapYear = sapContainer.querySelector('.sap-year').value;
+            const fullSap = (sapNumber && sapMonth && sapYear) ? `${sapNumber}/${sapMonth}/${sapYear}` : sapNumber;
+
+
             let recordData = {
                 id: recordId ? parseInt(recordId) : Date.now(),
                 obNumber: recordId ? obRecords.find(r => r.id == recordId).obNumber : obCounter,
-                created: recordId ? obRecords.find(r => r.id == recordId).created : new Date().toISOString(),
+                created: recordId ? obRecords.find(r => r.id == recordId).created : currentDate.toISOString(),
                 createdBy: createdByUserSpan.textContent,
                 timeFrom: document.getElementById('ob-time-from').value,
                 timeTo: document.getElementById('ob-time-to').value,
@@ -2199,7 +2262,7 @@
                 obCategory: document.getElementById('ob-category').value,
                 policeStation: document.getElementById('police-station-select').value,
                 casNumber: document.getElementById('ob-cas-number').value,
-                sapNumber: document.getElementById('ob-sap-number').value,
+                sapNumber: fullSap,
                 requiresFollowup: document.getElementById('ob-requires-followup').checked,
                 followUpUser: document.getElementById('follow-up-user-select').value,
                 area: document.getElementById('area-select').value,
@@ -2288,80 +2351,6 @@
             });
         };
         
-        addDepartmentForm.addEventListener('submit', e => {
-            e.preventDefault();
-            const newDept = toSentenceCase(newDepartmentInput.value.trim());
-            if (newDept && !departmentRoles[newDept]) {
-                departmentRoles[newDept] = [];
-                dropdownOptions.department = Object.keys(departmentRoles);
-                renderDepartments();
-                newDepartmentInput.value = '';
-                showSuccessModal('Success', `Department "${newDept}" added.`);
-            } else {
-                 showSuccessModal('Error', `Department "${newDept}" already exists or is invalid.`);
-            }
-        });
-
-        addRoleForm.addEventListener('submit', e => {
-            e.preventDefault();
-            const newRole = toSentenceCase(newRoleInput.value.trim());
-            if (newRole && !dropdownOptions.role.includes(newRole)) {
-                dropdownOptions.role.push(newRole);
-                renderRoles();
-                newRoleInput.value = '';
-                showSuccessModal('Success', `Role "${newRole}" added.`);
-            } else {
-                showSuccessModal('Error', `Role "${newRole}" already exists or is invalid.`);
-            }
-        });
-
-        saveAssignmentBtn.addEventListener('click', () => {
-            const selectedDept = assignDeptSelect.value;
-            if (!selectedDept) {
-                showSuccessModal('Error', 'Please select a department first.');
-                return;
-            }
-            showConfirmationModal(`Are you sure you want to save role assignments for ${selectedDept}?`, () => {
-                const newAssignedRoles = [];
-                roleAssignmentList.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
-                    newAssignedRoles.push(cb.dataset.role);
-                });
-                departmentRoles[selectedDept] = newAssignedRoles;
-                showSuccessModal('Success', `Assignments for ${selectedDept} saved.`);
-            });
-        });
-
-        departmentList.addEventListener('click', (e) => {
-            if (e.target.classList.contains('delete-dept-btn')) {
-                const deptToDelete = e.target.dataset.dept;
-                showConfirmationModal(`Are you sure you want to delete the "${deptToDelete}" department? This cannot be undone.`, () => {
-                    delete departmentRoles[deptToDelete];
-                    dropdownOptions.department = Object.keys(departmentRoles);
-                    renderDepartments();
-                    renderRoleAssignments();
-                    showSuccessModal('Success', `Department "${deptToDelete}" deleted.`);
-                });
-            }
-        });
-        
-        roleList.addEventListener('click', (e) => {
-            if (e.target.classList.contains('delete-role-btn')) {
-                const roleToDelete = e.target.dataset.role;
-                 showConfirmationModal(`Are you sure you want to delete the "${roleToDelete}" role? This will remove it from all departments.`, () => {
-                    // Remove from flat list
-                    dropdownOptions.role = dropdownOptions.role.filter(r => r !== roleToDelete);
-                    // Remove from all department assignments
-                    for (const dept in departmentRoles) {
-                        departmentRoles[dept] = departmentRoles[dept].filter(r => r !== roleToDelete);
-                    }
-                    renderRoles();
-                    showSuccessModal('Success', `Role "${roleToDelete}" deleted.`);
-                });
-            }
-        });
-
-        assignDeptSelect.addEventListener('change', renderRoleAssignments);
-
         // --- EVENT LISTENERS ---
         const addEventListeners = () => {
             document.getElementById('modal-cancel-btn').addEventListener('click', () => confirmModal.style.display = 'none');
@@ -2468,87 +2457,41 @@
             savePermissionsBtn.addEventListener('click', savePermissions);
             permissionsContainer.addEventListener('change', handlePermissionChange);
 
-            document.getElementById('save-complaint-btn').addEventListener('click', () => {
-                 showConfirmationModal('Are you sure you want to save this complaint?', () => {
-                    // In a real app, you would gather form data and send to a backend.
-                    // For now, we just increment the counter and show success.
-                    complaintCounter++;
-                    complaintRecords.push({
-                        id: Date.now(),
-                        refNumber: complaintCounter -1,
-                        date: document.querySelector('#complaints-form input[type="datetime-local"]').value,
-                        complainantName: document.querySelector('#complaints-form input[placeholder="Full Name"]').value,
-                        status: document.querySelector('#complaint-status-buttons .status-btn-active').textContent
-                    }); 
-                    updateComplaintRefNumber();
-                    document.getElementById('complaints-form').reset(); // Clear the form
-                    showSuccessModal('Success', 'Complaint has been saved.');
-                });
-            });
+            document.getElementById('save-complaint-btn').addEventListener('click', handleSaveComplaintRecord);
+            document.getElementById('save-recovery-btn').addEventListener('click', handleSaveRecoveryRecord);
+            document.getElementById('save-arrest-btn').addEventListener('click', handleSaveArrestRecord);
+            document.getElementById('save-sot-btn').addEventListener('click', handleSaveSotRecord);
 
 
-             // Complaints View Specific Listeners
-            const complaintStatusButtons = document.getElementById('complaint-status-buttons');
-            complaintStatusButtons.addEventListener('click', (e) => {
-                if(e.target.tagName === 'BUTTON') {
-                    complaintStatusButtons.querySelectorAll('button').forEach(btn => btn.classList.remove('status-btn-active'));
-                    e.target.classList.add('status-btn-active');
+             // Generic Status Button Click Handler
+            const handleStatusButtonClick = (e) => {
+                const btn = e.target.closest('.status-btn');
+                if (btn) {
+                    const container = btn.parentElement;
+                    container.querySelectorAll('.status-btn').forEach(b => b.classList.remove('status-btn-active'));
+                    btn.classList.add('status-btn-active');
                     
-                    const resolutionContainer = document.getElementById('complaint-resolution-container');
-                    if (e.target.textContent === 'Resolved') {
-                        resolutionContainer.classList.remove('hidden');
-                        resolutionContainer.classList.add('flex');
-                    } else {
-                        resolutionContainer.classList.add('hidden');
-                        resolutionContainer.classList.remove('flex');
+                    // Special handling for complaints view
+                    if(container.id === 'complaint-status-buttons'){
+                         const resolutionContainer = document.getElementById('complaint-resolution-container');
+                         const isResolved = btn.dataset.status === 'Resolved';
+                         resolutionContainer.classList.toggle('hidden', !isResolved);
+                         resolutionContainer.classList.toggle('flex', isResolved);
                     }
                 }
+            };
+
+            ['status-buttons', 'complaint-status-buttons', 'sot-status-buttons'].forEach(id => {
+                document.getElementById(id)?.addEventListener('click', handleStatusButtonClick);
             });
+
 
             // Set up action button handlers for all views
             ['ob-entry-view', 'recoveries-view', 'complaints-view', 'positive-arrests-view', 'sot-view'].forEach(setupActionButtons);
 
 
             document.getElementById('save-record-btn').addEventListener('click', handleSaveObRecord);
-            document.getElementById('save-recovery-btn').addEventListener('click', () => {
-                 showConfirmationModal('Are you sure you want to save this recovery?', () => {
-                    recoveryRecords.push({
-                        id: Date.now(),
-                        dateTime: document.querySelector('#recoveries-form input[type="datetime-local"]').value,
-                        name: document.querySelector('#recoveries-form input[type="text"]').value,
-                        division: document.getElementById('recovery-division-select').value,
-                        recoveryType: document.getElementById('recovery-type-select').value,
-                    });
-                    document.getElementById('recoveries-form').reset();
-                    showSuccessModal('Success', 'Recovery record saved.');
-                });
-            });
-            document.getElementById('save-arrest-btn').addEventListener('click', () => {
-                 showConfirmationModal('Are you sure you want to save this arrest?', () => {
-                    arrestRecords.push({
-                         id: Date.now(),
-                         date: document.querySelector('#positive-arrests-form input[type="date"]').value,
-                         division: document.getElementById('pa-division-select').value,
-                         addressOfCrime: document.querySelector('#positive-arrests-form textarea').value,
-                         totalSuspects: document.querySelector('#positive-arrests-form input[type="text"].numeric-only').value,
-                    });
-                    document.getElementById('positive-arrests-form').reset();
-                    showSuccessModal('Success', 'Arrest record saved.');
-                });
-            });
-            document.getElementById('save-sot-btn').addEventListener('click', () => {
-                 showConfirmationModal('Are you sure you want to save this SOT record?', () => {
-                    sotRecords.push({
-                         id: Date.now(),
-                         dateOpened: document.querySelector('#sot-form input[type="datetime-local"]').value,
-                         marshallClient: document.querySelector('#sot-form input[type="text"]').value,
-                         incidentType: document.getElementById('sot-incident-type-select').value,
-                         status: document.querySelector('#sot-status-buttons .status-btn-active').textContent
-                    });
-                     document.getElementById('sot-form').reset();
-                    showSuccessModal('Success', 'SOT record saved.');
-                });
-            });
+            
 
             document.getElementById('ob-search-btn').addEventListener('click', handleObSearch);
             document.getElementById('ob-clear-search-btn').addEventListener('click', () => {
@@ -2570,19 +2513,43 @@
                 }
             });
 
-             // Event listeners for other tables
-            ['recoveries', 'complaints', 'positive-arrests', 'sot'].forEach(view => {
-                document.getElementById(`${view}-records-tbody`).addEventListener('click', (e) => {
-                    const recordId = e.target.dataset.id;
-                    if (e.target.classList.contains(`edit-${view.slice(0, -1)}-record-btn`)) {
-                        // Dynamically call load function
-                        window[`load${toSentenceCase(view.slice(0, -1))}RecordIntoForm`](recordId);
-                    } else if (e.target.classList.contains(`delete-${view.slice(0, -1)}-record-btn`)) {
-                        // Dynamically call delete function
-                        window[`handleDelete${toSentenceCase(view.slice(0, -1))}Record`](recordId);
-                    }
-                });
+             // --- CORRECTED EVENT LISTENERS FOR ALL OTHER TABLES ---
+            document.getElementById('recoveries-records-tbody').addEventListener('click', (e) => {
+                const recordId = e.target.dataset.id;
+                if (e.target.classList.contains('edit-recovery-record-btn')) {
+                    window.loadRecoveryRecordIntoForm(recordId);
+                } else if (e.target.classList.contains('delete-recovery-record-btn')) {
+                    window.handleDeleteRecoveryRecord(recordId);
+                }
             });
+
+            document.getElementById('complaints-records-tbody').addEventListener('click', (e) => {
+                const recordId = e.target.dataset.id;
+                if (e.target.classList.contains('edit-complaint-record-btn')) {
+                    window.loadComplaintRecordIntoForm(recordId);
+                } else if (e.target.classList.contains('delete-complaint-record-btn')) {
+                    window.handleDeleteComplaintRecord(recordId);
+                }
+            });
+
+            document.getElementById('positive-arrests-records-tbody').addEventListener('click', (e) => {
+                const recordId = e.target.dataset.id;
+                if (e.target.classList.contains('edit-arrest-record-btn')) {
+                    window.loadPositiveArrestRecordIntoForm(recordId);
+                } else if (e.target.classList.contains('delete-arrest-record-btn')) {
+                    window.handleDeletePositiveArrestRecord(recordId);
+                }
+            });
+
+            document.getElementById('sot-records-tbody').addEventListener('click', (e) => {
+                const recordId = e.target.dataset.id;
+                if (e.target.classList.contains('edit-sot-record-btn')) {
+                    window.loadSotRecordIntoForm(recordId);
+                } else if (e.target.classList.contains('delete-sot-record-btn')) {
+                    window.handleDeleteSotRecord(recordId);
+                }
+            });
+
 
             // Suspect add/remove
             document.getElementById('add-suspect-btn').addEventListener('click', () => {
@@ -2603,6 +2570,135 @@
                     e.target.closest('tr').remove();
                 }
             });
+            
+            // SOT Comment Toggles
+            document.getElementById('sot-comments-section').addEventListener('change', e => {
+                if (e.target.classList.contains('sot-comment-toggle')) {
+                    const targetId = e.target.dataset.target;
+                    const textarea = document.getElementById(targetId);
+                    if (textarea) {
+                        textarea.classList.toggle('hidden', !e.target.checked);
+                    }
+                }
+            });
+            
+            // Textarea autosize
+            document.body.addEventListener('input', e => {
+                if(e.target.tagName.toLowerCase() === 'textarea' && e.target.classList.contains('autosize-textarea')) {
+                    e.target.style.height = 'auto';
+                    e.target.style.height = (e.target.scrollHeight) + 'px';
+                }
+            });
+            
+            // Input formatters
+            document.body.addEventListener('input', e => {
+                 if (e.target.classList.contains('numeric-only')) {
+                    e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                } else if(e.target.classList.contains('decimal-only')) {
+                     e.target.value = e.target.value.replace(/[^0-9.-]/g, '');
+                } else if (e.target.classList.contains('currency-rand')) {
+                    let value = e.target.value.replace(/[^0-9.]/g, '');
+                    const parts = value.split('.');
+                    if (parts.length > 2) {
+                        value = parts[0] + '.' + parts.slice(1).join('');
+                    }
+                    if (parts[1] && parts[1].length > 2) {
+                        parts[1] = parts[1].substring(0, 2);
+                        value = parts.join('.');
+                    }
+                    e.target.value = value;
+                }
+            });
+
+            document.body.addEventListener('blur', e => {
+                if (e.target.classList.contains('currency-rand') && e.target.value) {
+                    const value = parseFloat(e.target.value);
+                    if (!isNaN(value)) {
+                         e.target.value = 'R ' + value.toLocaleString('en-ZA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    }
+                }
+            }, true);
+
+            document.body.addEventListener('focus', e => {
+                if (e.target.classList.contains('currency-rand')) {
+                   e.target.value = e.target.value.replace(/[R\s,]/g, '');
+                }
+            }, true);
+
+
+            addDepartmentForm.addEventListener('submit', e => {
+                e.preventDefault();
+                const newDept = toSentenceCase(newDepartmentInput.value.trim());
+                if (newDept && !departmentRoles[newDept]) {
+                    departmentRoles[newDept] = [];
+                    dropdownOptions.department = Object.keys(departmentRoles);
+                    renderDepartments();
+                    newDepartmentInput.value = '';
+                    showSuccessModal('Success', `Department "${newDept}" added.`);
+                } else {
+                     showSuccessModal('Error', `Department "${newDept}" already exists or is invalid.`);
+                }
+            });
+
+            addRoleForm.addEventListener('submit', e => {
+                e.preventDefault();
+                const newRole = toSentenceCase(newRoleInput.value.trim());
+                if (newRole && !dropdownOptions.role.includes(newRole)) {
+                    dropdownOptions.role.push(newRole);
+                    renderRoles();
+                    newRoleInput.value = '';
+                    showSuccessModal('Success', `Role "${newRole}" added.`);
+                } else {
+                    showSuccessModal('Error', `Role "${newRole}" already exists or is invalid.`);
+                }
+            });
+
+            saveAssignmentBtn.addEventListener('click', () => {
+                const selectedDept = assignDeptSelect.value;
+                if (!selectedDept) {
+                    showSuccessModal('Error', 'Please select a department first.');
+                    return;
+                }
+                showConfirmationModal(`Are you sure you want to save role assignments for ${selectedDept}?`, () => {
+                    const newAssignedRoles = [];
+                    roleAssignmentList.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                        newAssignedRoles.push(cb.dataset.role);
+                    });
+                    departmentRoles[selectedDept] = newAssignedRoles;
+                    showSuccessModal('Success', `Assignments for ${selectedDept} saved.`);
+                });
+            });
+
+            departmentList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-dept-btn')) {
+                    const deptToDelete = e.target.dataset.dept;
+                    showConfirmationModal(`Are you sure you want to delete the "${deptToDelete}" department? This cannot be undone.`, () => {
+                        delete departmentRoles[deptToDelete];
+                        dropdownOptions.department = Object.keys(departmentRoles);
+                        renderDepartments();
+                        renderRoleAssignments();
+                        showSuccessModal('Success', `Department "${deptToDelete}" deleted.`);
+                    });
+                }
+            });
+            
+            roleList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-role-btn')) {
+                    const roleToDelete = e.target.dataset.role;
+                     showConfirmationModal(`Are you sure you want to delete the "${roleToDelete}" role? This will remove it from all departments.`, () => {
+                        // Remove from flat list
+                        dropdownOptions.role = dropdownOptions.role.filter(r => r !== roleToDelete);
+                        // Remove from all department assignments
+                        for (const dept in departmentRoles) {
+                            departmentRoles[dept] = departmentRoles[dept].filter(r => r !== roleToDelete);
+                        }
+                        renderRoles();
+                        showSuccessModal('Success', `Role "${roleToDelete}" deleted.`);
+                    });
+                }
+            });
+
+            assignDeptSelect.addEventListener('change', renderRoleAssignments);
 
         };
         
@@ -2624,14 +2720,18 @@
                     monthSelect.innerHTML += `<option value="${month}">${month}</option>`;
                 });
                 const currentYear = new Date().getFullYear();
-                for (let i = 0; i < 10; i++) {
+                for (let i = -5; i < 5; i++) {
                     const year = currentYear + i;
                     yearSelect.innerHTML += `<option value="${year}">${year}</option>`;
                 }
+                yearSelect.value = currentYear;
             });
-
-            document.getElementById('created-date').textContent = new Date().toLocaleString();
             
+            // Set initial dates
+            document.getElementById('created-date').textContent = currentDate.toLocaleString();
+            document.getElementById('ob-search-date-from').value = '2025-10-01';
+            document.getElementById('ob-search-date-to').value = '2025-10-14';
+
             // Dynamically populate the category selector dropdown
             const categorySelector = document.getElementById('category-selector');
             Object.keys(dropdownOptions).forEach(key => {
@@ -2657,6 +2757,190 @@
                 showView(null); 
             }
         };
+
+        // --- NEW HANDLERS FOR EDIT/DELETE ---
+
+        window.loadRecoveryRecordIntoForm = (recordId) => { 
+            const record = recoveryRecords.find(r => r.id == recordId);
+            if (!record) return;
+            handleActionClick('recoveries-view', 'add');
+            document.getElementById('recovery-form-title').textContent = `Update Recovery Record`;
+            document.getElementById('recovery-record-id').value = record.id;
+            document.getElementById('recovery-datetime').value = record.dateTime;
+            document.getElementById('recovery-name').value = record.name;
+            document.getElementById('recovery-division-select').value = record.division;
+            document.getElementById('recovery-type-select').value = record.recoveryType;
+            // ... etc for all fields in the recovery form
+        };
+        window.loadComplaintRecordIntoForm = (recordId) => { 
+             const record = complaintRecords.find(r => r.id == recordId);
+            if (!record) return;
+            handleActionClick('complaints-view', 'add');
+            document.getElementById('complaint-form-title').textContent = `Update Complaint #${record.refNumber}`;
+            document.getElementById('complaint-record-id').value = record.id;
+            document.getElementById('complaint-ref-number').textContent = record.refNumber;
+            document.getElementById('complaint-date').value = record.date;
+            document.getElementById('complaint-name').value = record.complainantName;
+            document.getElementById('complaint-status-buttons').querySelector(`[data-status="${record.status}"]`).click();
+            // ... etc for all fields
+        };
+        window.loadPositiveArrestRecordIntoForm = (recordId) => { 
+            const record = arrestRecords.find(r => r.id == recordId);
+            if (!record) return;
+            handleActionClick('positive-arrests-view', 'add');
+            document.getElementById('arrest-form-title').textContent = `Update Arrest Record`;
+            document.getElementById('arrest-record-id').value = record.id;
+            document.getElementById('arrest-date').value = record.date;
+            document.getElementById('pa-division-select').value = record.division;
+            document.getElementById('arrest-address').value = record.addressOfCrime;
+            document.getElementById('arrest-total-suspects').value = record.totalSuspects;
+             // ... etc for all fields
+        };
+        window.loadSotRecordIntoForm = (recordId) => { 
+            const record = sotRecords.find(r => r.id == recordId);
+            if (!record) return;
+            handleActionClick('sot-view', 'add');
+            document.getElementById('sot-form-title').textContent = `Update SOT Record`;
+            document.getElementById('sot-record-id').value = record.id;
+            document.getElementById('sot-date-opened').value = record.dateOpened;
+            document.getElementById('sot-client').value = record.marshallClient;
+            document.getElementById('sot-incident-type-select').value = record.incidentType;
+            document.getElementById('sot-status-buttons').querySelector(`[data-status="${record.status}"]`).click();
+            // ... etc
+        };
+
+
+        const handleSaveRecoveryRecord = () => {
+             const recordId = document.getElementById('recovery-record-id').value;
+             const action = recordId ? 'update' : 'add';
+             const recordData = {
+                id: recordId ? parseInt(recordId) : Date.now(),
+                dateTime: document.getElementById('recovery-datetime').value,
+                name: document.getElementById('recovery-name').value,
+                division: document.getElementById('recovery-division-select').value,
+                recoveryType: document.getElementById('recovery-type-select').value,
+             };
+             showConfirmationModal(`Are you sure you want to ${action} this recovery?`, () => {
+                if (action === 'add') {
+                    recoveryRecords.push(recordData);
+                } else {
+                    const index = recoveryRecords.findIndex(r => r.id == recordId);
+                    if (index !== -1) recoveryRecords[index] = recordData;
+                }
+                resetRecoveryForm();
+                showSuccessModal('Success', `Recovery record ${action === 'add' ? 'saved' : 'updated'}.`);
+                renderRecoveryRecordsTable();
+            });
+        };
+        const handleSaveComplaintRecord = () => {
+            const recordId = document.getElementById('complaint-record-id').value;
+            const action = recordId ? 'update' : 'add';
+            const recordData = {
+                id: recordId ? parseInt(recordId) : Date.now(),
+                refNumber: recordId ? complaintRecords.find(c => c.id == recordId).refNumber : complaintCounter,
+                date: document.getElementById('complaint-date').value,
+                complainantName: document.getElementById('complaint-name').value,
+                status: document.querySelector('#complaint-status-buttons .status-btn-active').dataset.status
+             };
+             showConfirmationModal(`Are you sure you want to ${action} this complaint?`, () => {
+                if (action === 'add') {
+                    complaintRecords.push(recordData);
+                    complaintCounter++;
+                } else {
+                    const index = complaintRecords.findIndex(c => c.id == recordId);
+                    if (index !== -1) complaintRecords[index] = recordData;
+                }
+                resetComplaintForm();
+                showSuccessModal('Success', `Complaint has been ${action === 'add' ? 'saved' : 'updated'}.`);
+                renderComplaintsRecordsTable();
+            });
+        };
+        const handleSaveArrestRecord = () => {
+             const recordId = document.getElementById('arrest-record-id').value;
+             const action = recordId ? 'update' : 'add';
+             const recordData = {
+                 id: recordId ? parseInt(recordId) : Date.now(),
+                 date: document.getElementById('arrest-date').value,
+                 division: document.getElementById('pa-division-select').value,
+                 addressOfCrime: document.getElementById('arrest-address').value,
+                 totalSuspects: document.getElementById('arrest-total-suspects').value,
+             };
+             showConfirmationModal(`Are you sure you want to ${action} this arrest?`, () => {
+                if (action === 'add') {
+                    arrestRecords.push(recordData);
+                } else {
+                    const index = arrestRecords.findIndex(r => r.id == recordId);
+                    if (index !== -1) arrestRecords[index] = recordData;
+                }
+                resetArrestForm();
+                showSuccessModal('Success', `Arrest record ${action === 'add' ? 'saved' : 'updated'}.`);
+                renderArrestRecordsTable();
+            });
+        };
+        const handleSaveSotRecord = () => {
+             const recordId = document.getElementById('sot-record-id').value;
+             const action = recordId ? 'update' : 'add';
+             const recordData = {
+                 id: recordId ? parseInt(recordId) : Date.now(),
+                 dateOpened: document.getElementById('sot-date-opened').value,
+                 marshallClient: document.getElementById('sot-client').value,
+                 incidentType: document.getElementById('sot-incident-type-select').value,
+                 status: document.querySelector('#sot-status-buttons .status-btn-active').dataset.status
+             };
+             showConfirmationModal(`Are you sure you want to ${action} this SOT record?`, () => {
+                if(action === 'add') {
+                    sotRecords.push(recordData);
+                } else {
+                    const index = sotRecords.findIndex(r => r.id == recordId);
+                    if (index !== -1) sotRecords[index] = recordData;
+                }
+                resetSotForm();
+                showSuccessModal('Success', `SOT record ${action === 'add' ? 'saved' : 'updated'}.`);
+                renderSotRecordsTable();
+            });
+        };
+        
+        window.handleDeleteRecoveryRecord = (recordId) => {
+            const record = recoveryRecords.find(r => r.id == recordId);
+            if (record) {
+                showConfirmationModal(`Are you sure you want to delete this recovery record?`, () => {
+                    recoveryRecords = recoveryRecords.filter(r => r.id != recordId);
+                    renderRecoveryRecordsTable();
+                    showSuccessModal('Success', 'Record deleted.');
+                });
+            }
+        };
+        window.handleDeleteComplaintRecord = (recordId) => {
+            const record = complaintRecords.find(r => r.id == recordId);
+            if (record) {
+                showConfirmationModal(`Are you sure you want to delete complaint #${record.refNumber}?`, () => {
+                    complaintRecords = complaintRecords.filter(r => r.id != recordId);
+                    renderComplaintsRecordsTable();
+                    showSuccessModal('Success', 'Record deleted.');
+                });
+            }
+        };
+        window.handleDeletePositiveArrestRecord = (recordId) => {
+            const record = arrestRecords.find(r => r.id == recordId);
+            if (record) {
+                showConfirmationModal(`Are you sure you want to delete this arrest record?`, () => {
+                    arrestRecords = arrestRecords.filter(r => r.id != recordId);
+                    renderArrestRecordsTable();
+                    showSuccessModal('Success', 'Record deleted.');
+                });
+            }
+        };
+        window.handleDeleteSotRecord = (recordId) => {
+            const record = sotRecords.find(r => r.id == recordId);
+             if (record) {
+                showConfirmationModal(`Are you sure you want to delete this SOT record?`, () => {
+                    sotRecords = sotRecords.filter(r => r.id != recordId);
+                    renderSotRecordsTable();
+                    showSuccessModal('Success', 'Record deleted.');
+                });
+            }
+        };
+        
 
         initApp();
     </script>

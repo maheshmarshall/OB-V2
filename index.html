@@ -1247,7 +1247,6 @@
         // --- STATE MANAGEMENT ---
         let obCounter = 1;
         let complaintCounter = 1;
-        let currentRecordAction = 'add';
         let currentUser = 'admin'; // 'admin' or a user ID
         
         // --- MOCK DATA (Replaces the backend) ---
@@ -1647,10 +1646,22 @@
             cancelEditBtn.classList.add('hidden');
         };
 
-        const showView = (viewId) => {
+        const showView = (viewId, showRecords = false) => {
             viewPanels.forEach(panel => {
                 panel.classList.toggle('hidden', panel.id !== viewId);
             });
+
+             const viewPanel = document.getElementById(viewId);
+            if (!viewPanel) return;
+
+            const formPanel = viewPanel.querySelector('div[id$="-form-panel"]');
+            const recordsPanel = viewPanel.querySelector('div[id$="-view-records-panel"]');
+            
+            if (formPanel && recordsPanel) {
+                formPanel.classList.toggle('hidden', showRecords);
+                recordsPanel.classList.toggle('hidden', !showRecords);
+            }
+
 
             if (viewId === 'complaints-view') {
                 updateComplaintRefNumber();
@@ -1908,33 +1919,49 @@
             }
         };
 
-        // --- OB ENTRY HANDLERS ---
-
-        const handleObActionClick = (action) => {
-            const formPanel = document.getElementById('ob-entry-form-panel');
-            const viewPanel = document.getElementById('ob-view-records-panel');
-            const actionButtons = document.querySelectorAll('#ob-actions .ob-action-btn');
+       const handleActionClick = (viewId, action) => {
+            const view = document.getElementById(viewId);
+            const formPanel = view.querySelector('div[id$="-form-panel"]');
+            const recordsPanel = view.querySelector('div[id$="-view-records-panel"]');
+            const actionButtons = view.querySelector('.flex.justify-center.space-x-4.mb-6');
             
-            actionButtons.forEach(btn => {
+            actionButtons.querySelectorAll('.ob-action-btn').forEach(btn => {
                 btn.classList.remove('action-btn-active');
-                btn.classList.add('bg-gray-200', 'text-gray-700');
             });
+            actionButtons.querySelector(`[data-action="${action}"]`).classList.add('action-btn-active');
 
-            const clickedButton = document.querySelector(`#ob-actions .ob-action-btn[data-action="${action}"]`);
-            if (clickedButton) {
-                clickedButton.classList.add('action-btn-active');
-            }
-            
             if (action === 'add') {
                 formPanel.classList.remove('hidden');
-                viewPanel.classList.add('hidden');
-                resetObForm();
-            } else { // 'view'
+                recordsPanel.classList.add('hidden');
+                // You might want to call a reset function for the form here
+            } else if (action === 'view') {
                 formPanel.classList.add('hidden');
-                viewPanel.classList.remove('hidden');
-                renderObRecordsTable(obRecords);
+                recordsPanel.classList.remove('hidden');
+                // Call the appropriate render function
+                switch(viewId) {
+                    case 'ob-entry-view': renderObRecordsTable(); break;
+                    case 'recoveries-view': renderRecoveryRecordsTable(); break;
+                    case 'complaints-view': renderComplaintsRecordsTable(); break;
+                    case 'positive-arrests-view': renderArrestRecordsTable(); break;
+                    case 'sot-view': renderSotRecordsTable(); break;
+                }
             }
         };
+
+        const setupActionButtons = (viewId) => {
+            const view = document.getElementById(viewId);
+            const actionContainer = view.querySelector('.flex.justify-center.space-x-4.mb-6');
+            if (!actionContainer) return;
+            actionContainer.addEventListener('click', (e) => {
+                const btn = e.target.closest('.ob-action-btn');
+                if (btn) handleActionClick(viewId, btn.dataset.action);
+            });
+        };
+        
+        const renderRecoveryRecordsTable = () => { /* Logic to render recovery table */ };
+        const renderComplaintsRecordsTable = () => { /* Logic to render complaints table */ };
+        const renderArrestRecordsTable = () => { /* Logic to render arrests table */ };
+        const renderSotRecordsTable = () => { /* Logic to render SOT table */ };
 
         const resetObForm = () => {
             document.getElementById('ob-form').reset();
@@ -2109,7 +2136,9 @@
                 }
                 showSuccessModal('Success', `Record successfully ${action === 'add' ? 'saved' : 'updated'}.`);
                 resetObForm();
-                handleObActionClick('add'); // Go back to add mode
+                 const actionContainer = document.getElementById('ob-actions');
+                const addBtn = actionContainer.querySelector('[data-action="add"]');
+                if (addBtn) addBtn.click();
             });
         };
 
@@ -2375,11 +2404,9 @@
                 }
             });
 
-             // OB Entry Actions
-            document.getElementById('ob-actions').addEventListener('click', (e) => {
-                const btn = e.target.closest('.ob-action-btn');
-                if (btn) handleObActionClick(btn.dataset.action);
-            });
+            // Set up action button handlers for all views
+            ['ob-entry-view', 'recoveries-view', 'complaints-view', 'positive-arrests-view', 'sot-view'].forEach(setupActionButtons);
+
 
             document.getElementById('save-record-btn').addEventListener('click', handleSaveObRecord);
             document.getElementById('save-recovery-btn').addEventListener('click', () => showSuccessModal('Success', 'Recovery record saved.'));

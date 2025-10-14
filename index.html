@@ -1981,7 +1981,7 @@
             records.forEach(record => {
                 const row = `
                     <tr class="hover:bg-gray-50">
-                        <td class="py-2 px-4 border-b text-sm">${new Date(record.dateTime).toLocaleString()}</td>
+                        <td class="py-2 px-4 border-b text-sm">${record.dateTime ? new Date(record.dateTime).toLocaleString() : 'Invalid Date'}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.name}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.division}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.recoveryType}</td>
@@ -2006,7 +2006,7 @@
                 const row = `
                     <tr class="hover:bg-gray-50">
                         <td class="py-2 px-4 border-b text-sm">${record.refNumber}</td>
-                        <td class="py-2 px-4 border-b text-sm">${new Date(record.date).toLocaleString()}</td>
+                        <td class="py-2 px-4 border-b text-sm">${record.date ? new Date(record.date).toLocaleString() : 'Invalid Date'}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.complainantName}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.status}</td>
                         <td class="py-2 px-4 border-b text-sm">
@@ -2029,7 +2029,7 @@
             records.forEach(record => {
                 const row = `
                     <tr class="hover:bg-gray-50">
-                        <td class="py-2 px-4 border-b text-sm">${new Date(record.date).toLocaleDateString()}</td>
+                        <td class="py-2 px-4 border-b text-sm">${record.date ? new Date(record.date).toLocaleDateString() : 'Invalid Date'}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.division}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.addressOfCrime}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.totalSuspects}</td>
@@ -2053,7 +2053,7 @@
             records.forEach(record => {
                 const row = `
                     <tr class="hover:bg-gray-50">
-                        <td class="py-2 px-4 border-b text-sm">${new Date(record.dateOpened).toLocaleString()}</td>
+                        <td class="py-2 px-4 border-b text-sm">${record.dateOpened ? new Date(record.dateOpened).toLocaleString() : 'Invalid Date'}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.marshallClient}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.incidentType}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.status}</td>
@@ -2758,7 +2758,7 @@
             }
         };
 
-        // --- NEW HANDLERS FOR EDIT/DELETE ---
+        // --- FULLY IMPLEMENTED HANDLERS FOR EDIT/DELETE ---
 
         window.loadRecoveryRecordIntoForm = (recordId) => { 
             const record = recoveryRecords.find(r => r.id == recordId);
@@ -2766,12 +2766,18 @@
             handleActionClick('recoveries-view', 'add');
             document.getElementById('recovery-form-title').textContent = `Update Recovery Record`;
             document.getElementById('recovery-record-id').value = record.id;
-            document.getElementById('recovery-datetime').value = record.dateTime;
-            document.getElementById('recovery-name').value = record.name;
-            document.getElementById('recovery-division-select').value = record.division;
-            document.getElementById('recovery-type-select').value = record.recoveryType;
-            // ... etc for all fields in the recovery form
+             for (const key in record) {
+                const element = document.getElementById(`recovery-${key.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`)}`);
+                if (element) {
+                    if (element.type === 'checkbox') {
+                        element.checked = record[key];
+                    } else {
+                        element.value = record[key] || '';
+                    }
+                }
+            }
         };
+
         window.loadComplaintRecordIntoForm = (recordId) => { 
              const record = complaintRecords.find(r => r.id == recordId);
             if (!record) return;
@@ -2781,21 +2787,32 @@
             document.getElementById('complaint-ref-number').textContent = record.refNumber;
             document.getElementById('complaint-date').value = record.date;
             document.getElementById('complaint-name').value = record.complainantName;
+            document.getElementById('complaint-contact').value = record.contact;
+            document.getElementById('complaint-email').value = record.email;
+            document.getElementById('complaint-department-select').value = record.department;
+            document.getElementById('complaint-user-select').value = record.user;
+            document.getElementById('complaint-nature-select').value = record.nature;
+            document.getElementById('complaint-details').value = record.details;
+            document.getElementById('complaint-assigned-select').value = record.assignedTo;
+            document.getElementById('complaint-resolution').value = record.resolution;
             document.getElementById('complaint-status-buttons').querySelector(`[data-status="${record.status}"]`).click();
-            // ... etc for all fields
         };
+
         window.loadPositiveArrestRecordIntoForm = (recordId) => { 
             const record = arrestRecords.find(r => r.id == recordId);
             if (!record) return;
             handleActionClick('positive-arrests-view', 'add');
             document.getElementById('arrest-form-title').textContent = `Update Arrest Record`;
             document.getElementById('arrest-record-id').value = record.id;
-            document.getElementById('arrest-date').value = record.date;
+            document.getElementById('arrest-datetime-captured').value = record.dateTimeCaptured;
+            document.getElementById('arrest-entered-by').value = record.enteredBy;
             document.getElementById('pa-division-select').value = record.division;
+            document.getElementById('arrest-date').value = record.date;
             document.getElementById('arrest-address').value = record.addressOfCrime;
             document.getElementById('arrest-total-suspects').value = record.totalSuspects;
-             // ... etc for all fields
+            document.getElementById('arrest-arrested-by').value = record.arrestedBy;
         };
+        
         window.loadSotRecordIntoForm = (recordId) => { 
             const record = sotRecords.find(r => r.id == recordId);
             if (!record) return;
@@ -2803,10 +2820,20 @@
             document.getElementById('sot-form-title').textContent = `Update SOT Record`;
             document.getElementById('sot-record-id').value = record.id;
             document.getElementById('sot-date-opened').value = record.dateOpened;
+            document.getElementById('sot-date-assigned').value = record.dateAssigned;
+            document.getElementById('sot-date-closed').value = record.dateClosed;
+            document.getElementById('sot-date-investigation-closed').value = record.investigationCloseDate;
             document.getElementById('sot-client').value = record.marshallClient;
+            document.getElementById('sot-unit-number').value = record.unitNumber;
+            document.getElementById('sot-business-name').value = record.businessName;
             document.getElementById('sot-incident-type-select').value = record.incidentType;
+            document.getElementById('sot-person-assigned-select').value = record.personAssigned;
+            document.getElementById('sot-client-contacted').checked = record.clientContacted;
+            document.getElementById('sot-contact-number').value = record.contactNumber;
+            document.getElementById('sot-onsite-meeting').checked = record.onsiteMeeting;
+            document.getElementById('sot-address').value = record.address;
+            document.getElementById('sot-feedback').value = record.feedback;
             document.getElementById('sot-status-buttons').querySelector(`[data-status="${record.status}"]`).click();
-            // ... etc
         };
 
 
@@ -2814,11 +2841,29 @@
              const recordId = document.getElementById('recovery-record-id').value;
              const action = recordId ? 'update' : 'add';
              const recordData = {
-                id: recordId ? parseInt(recordId) : Date.now(),
+                id: recordId ? parseInt(recordId, 10) : Date.now(),
                 dateTime: document.getElementById('recovery-datetime').value,
                 name: document.getElementById('recovery-name').value,
                 division: document.getElementById('recovery-division-select').value,
                 recoveryType: document.getElementById('recovery-type-select').value,
+                incidentType: document.getElementById('recovery-incident-type-select').value,
+                duration: document.getElementById('recovery-duration').value,
+                registration: document.getElementById('recovery-registration').value,
+                vin: document.getElementById('recovery-vin').value,
+                items: document.getElementById('recovery-items').value,
+                quantity: document.getElementById('recovery-quantity').value,
+                vehicleBrand: document.getElementById('recovery-vehicle-brand-select').value,
+                make: document.getElementById('recovery-make').value,
+                psFrom: document.getElementById('recovery-ps-from-select').value,
+                caseNumber: document.getElementById('recovery-case-number').value,
+                psRecovered: document.getElementById('recovery-ps-recovered-select').value,
+                valueVehicle: document.getElementById('recovery-value-vehicle').value,
+                valueItems: document.getElementById('recovery-value-items').value,
+                address: document.getElementById('recovery-address').value,
+                lat: document.getElementById('recovery-lat').value,
+                lon: document.getElementById('recovery-lon').value,
+                obNumber: document.getElementById('recovery-ob-number').value,
+                recoveredBy: document.getElementById('recovery-recovered-by').value,
              };
              showConfirmationModal(`Are you sure you want to ${action} this recovery?`, () => {
                 if (action === 'add') {
@@ -2836,10 +2881,18 @@
             const recordId = document.getElementById('complaint-record-id').value;
             const action = recordId ? 'update' : 'add';
             const recordData = {
-                id: recordId ? parseInt(recordId) : Date.now(),
+                id: recordId ? parseInt(recordId, 10) : Date.now(),
                 refNumber: recordId ? complaintRecords.find(c => c.id == recordId).refNumber : complaintCounter,
                 date: document.getElementById('complaint-date').value,
                 complainantName: document.getElementById('complaint-name').value,
+                contact: document.getElementById('complaint-contact').value,
+                email: document.getElementById('complaint-email').value,
+                department: document.getElementById('complaint-department-select').value,
+                user: document.getElementById('complaint-user-select').value,
+                nature: document.getElementById('complaint-nature-select').value,
+                details: document.getElementById('complaint-details').value,
+                assignedTo: document.getElementById('complaint-assigned-select').value,
+                resolution: document.getElementById('complaint-resolution').value,
                 status: document.querySelector('#complaint-status-buttons .status-btn-active').dataset.status
              };
              showConfirmationModal(`Are you sure you want to ${action} this complaint?`, () => {
@@ -2859,11 +2912,14 @@
              const recordId = document.getElementById('arrest-record-id').value;
              const action = recordId ? 'update' : 'add';
              const recordData = {
-                 id: recordId ? parseInt(recordId) : Date.now(),
-                 date: document.getElementById('arrest-date').value,
+                 id: recordId ? parseInt(recordId, 10) : Date.now(),
+                 dateTimeCaptured: document.getElementById('arrest-datetime-captured').value,
+                 enteredBy: document.getElementById('arrest-entered-by').value,
                  division: document.getElementById('pa-division-select').value,
+                 date: document.getElementById('arrest-date').value,
                  addressOfCrime: document.getElementById('arrest-address').value,
                  totalSuspects: document.getElementById('arrest-total-suspects').value,
+                 arrestedBy: document.getElementById('arrest-arrested-by').value,
              };
              showConfirmationModal(`Are you sure you want to ${action} this arrest?`, () => {
                 if (action === 'add') {
@@ -2881,10 +2937,21 @@
              const recordId = document.getElementById('sot-record-id').value;
              const action = recordId ? 'update' : 'add';
              const recordData = {
-                 id: recordId ? parseInt(recordId) : Date.now(),
+                 id: recordId ? parseInt(recordId, 10) : Date.now(),
                  dateOpened: document.getElementById('sot-date-opened').value,
+                 dateAssigned: document.getElementById('sot-date-assigned').value,
+                 dateClosed: document.getElementById('sot-date-closed').value,
+                 investigationCloseDate: document.getElementById('sot-date-investigation-closed').value,
                  marshallClient: document.getElementById('sot-client').value,
+                 unitNumber: document.getElementById('sot-unit-number').value,
+                 businessName: document.getElementById('sot-business-name').value,
                  incidentType: document.getElementById('sot-incident-type-select').value,
+                 personAssigned: document.getElementById('sot-person-assigned-select').value,
+                 clientContacted: document.getElementById('sot-client-contacted').checked,
+                 contactNumber: document.getElementById('sot-contact-number').value,
+                 onsiteMeeting: document.getElementById('sot-onsite-meeting').checked,
+                 address: document.getElementById('sot-address').value,
+                 feedback: document.getElementById('sot-feedback').value,
                  status: document.querySelector('#sot-status-buttons .status-btn-active').dataset.status
              };
              showConfirmationModal(`Are you sure you want to ${action} this SOT record?`, () => {

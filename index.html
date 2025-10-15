@@ -521,6 +521,7 @@
                                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Name</th>
                                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Division</th>
                                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Type</th>
+                                            <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Incident Type</th>
                                             <th class="py-2 px-4 border-b text-left text-sm font-semibold text-gray-600">Actions</th>
                                         </tr>
                                     </thead>
@@ -2003,7 +2004,7 @@
             const tbody = document.getElementById('recoveries-records-tbody');
             tbody.innerHTML = '';
              if (records.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center p-4">No records found.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center p-4">No records found.</td></tr>';
                 return;
             }
             const isAdmin = currentUser === 'admin';
@@ -2020,6 +2021,7 @@
                         <td class="py-2 px-4 border-b text-sm">${record.name}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.division}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.recoveryType}</td>
+                        <td class="py-2 px-4 border-b text-sm">${record.incidentType}</td>
                         <td class="py-2 px-4 border-b text-sm">
                             ${viewButton}
                             ${editButton}
@@ -3243,6 +3245,7 @@
     </script>
 </body>
 </html>
+
 
 
 

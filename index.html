@@ -244,7 +244,7 @@
                                                 <label class="w-1/3 text-gray-600 font-medium">Client:</label>
                                                 <div class="flex items-center w-2/3">
                                                     <span class="text-gray-800 mr-4">Recorded as Non-Client</span>
-                                                    <button type="button" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect">Lookup</button>
+                                                    <button type="button" class="px-4 py-2 bg-blue-500 text-white rounded-md btn-hover-effect lookup-btn">Lookup</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1392,6 +1392,34 @@
         const successModalOkBtn = document.getElementById('success-modal-ok-btn');
 
         // --- UTILITY FUNCTIONS ---
+        const setFormEditable = (formId, isEditable) => {
+            const form = document.getElementById(formId);
+            if (!form) return;
+
+            form.querySelectorAll('input, select, textarea, button').forEach(el => {
+                // Don't disable the hidden ID input or the main form's save button (handled separately)
+                if (el.type !== 'hidden' && !el.id.startsWith('save-')) {
+                    el.disabled = !isEditable;
+                }
+            });
+
+            // Handle main save button visibility
+            const saveButton = form.querySelector('button[id^="save-"]');
+            if (saveButton) {
+                saveButton.style.display = isEditable ? '' : 'none';
+            }
+
+            // Special handling for buttons inside the form that aren't the main save button
+            if (formId === 'positive-arrests-form') {
+                const addSuspectBtn = form.querySelector('#add-suspect-btn');
+                if (addSuspectBtn) addSuspectBtn.style.display = isEditable ? '' : 'none';
+                
+                form.querySelectorAll('.remove-suspect-btn').forEach(btn => {
+                   btn.style.display = isEditable ? '' : 'none';
+                });
+            }
+        };
+        
         const toSentenceCase = (str) => {
             if (typeof str !== 'string' || str.length === 0) return str;
             const lower = str.toLowerCase();
@@ -2077,12 +2105,14 @@
             document.getElementById('ob-number-display').textContent = obCounter;
             document.getElementById('created-date').textContent = currentDate.toLocaleString();
             document.getElementById('ob-form-title').textContent = 'Add Occurrence Book Record';
+            setFormEditable('ob-form', true);
         };
 
         const resetRecoveryForm = () => {
              document.getElementById('recoveries-form').reset();
              document.getElementById('recovery-record-id').value = '';
              document.getElementById('recovery-form-title').textContent = 'Recoveries';
+             setFormEditable('recoveries-form', true);
         };
 
         const resetComplaintForm = () => {
@@ -2090,6 +2120,7 @@
              document.getElementById('complaint-record-id').value = '';
              document.getElementById('complaint-form-title').textContent = 'Complaints';
              updateComplaintRefNumber();
+             setFormEditable('complaints-form', true);
         };
 
          const resetArrestForm = () => {
@@ -2097,6 +2128,7 @@
              document.getElementById('arrest-record-id').value = '';
              document.getElementById('arrest-form-title').textContent = 'Positive Arrests';
              document.getElementById('suspects-tbody').innerHTML = '';
+             setFormEditable('positive-arrests-form', true);
         };
         
         const resetSotForm = () => {
@@ -2112,6 +2144,7 @@
                     textarea.classList.add('hidden');
                 }
             });
+            setFormEditable('sot-form', true);
         };
         
         const renderObRecordsTable = (records = obRecords) => {
@@ -2194,12 +2227,14 @@
             renderObRecordsTable(filteredRecords);
         };
 
-        const loadObRecordIntoForm = (recordId) => {
+        const loadObRecordIntoForm = (recordId, isViewOnly = false) => {
             const record = obRecords.find(r => r.id == recordId);
             if (!record) return;
 
             handleActionClick('ob-entry-view', 'add');
-            document.getElementById('ob-form-title').textContent = `Update OB Record #${record.obNumber}`;
+            document.getElementById('ob-form-title').textContent = isViewOnly 
+                ? `Viewing OB Record #${record.obNumber}` 
+                : `Update OB Record #${record.obNumber}`;
 
             document.getElementById('ob-record-id').value = record.id;
             document.getElementById('ob-number-display').textContent = record.obNumber;
@@ -2243,6 +2278,7 @@
                     btn.classList.add('status-btn-active');
                 }
             });
+            setFormEditable('ob-form', !isViewOnly);
         };
 
         const handleSaveObRecord = () => {
@@ -2502,11 +2538,11 @@
                 renderObRecordsTable(obRecords);
             });
              document.getElementById('ob-records-tbody').addEventListener('click', (e) => {
+                const recordId = e.target.dataset.id;
                 if (e.target.classList.contains('edit-ob-record-btn') || e.target.classList.contains('view-ob-record-btn')) {
-                    const recordId = e.target.dataset.id;
-                    loadObRecordIntoForm(recordId);
+                    const isViewOnly = e.target.classList.contains('view-ob-record-btn');
+                    loadObRecordIntoForm(recordId, isViewOnly);
                 } else if (e.target.classList.contains('delete-ob-record-btn')) {
-                     const recordId = e.target.dataset.id;
                      const record = obRecords.find(r => r.id == recordId);
                      showConfirmationModal(`Are you sure you want to delete OB Record #${record.obNumber}?`, () => {
                          obRecords = obRecords.filter(r => r.id != recordId);
@@ -2520,7 +2556,8 @@
             document.getElementById('recoveries-records-tbody').addEventListener('click', (e) => {
                 const recordId = e.target.dataset.id;
                 if (e.target.classList.contains('edit-recovery-record-btn') || e.target.classList.contains('view-recovery-record-btn')) {
-                    window.loadRecoveryRecordIntoForm(recordId);
+                    const isViewOnly = e.target.classList.contains('view-recovery-record-btn');
+                    window.loadRecoveryRecordIntoForm(recordId, isViewOnly);
                 } else if (e.target.classList.contains('delete-recovery-record-btn')) {
                     window.handleDeleteRecoveryRecord(recordId);
                 }
@@ -2529,7 +2566,8 @@
             document.getElementById('complaints-records-tbody').addEventListener('click', (e) => {
                 const recordId = e.target.dataset.id;
                 if (e.target.classList.contains('edit-complaint-record-btn') || e.target.classList.contains('view-complaint-record-btn')) {
-                    window.loadComplaintRecordIntoForm(recordId);
+                    const isViewOnly = e.target.classList.contains('view-complaint-record-btn');
+                    window.loadComplaintRecordIntoForm(recordId, isViewOnly);
                 } else if (e.target.classList.contains('delete-complaint-record-btn')) {
                     window.handleDeleteComplaintRecord(recordId);
                 }
@@ -2538,7 +2576,8 @@
             document.getElementById('positive-arrests-records-tbody').addEventListener('click', (e) => {
                 const recordId = e.target.dataset.id;
                 if (e.target.classList.contains('edit-arrest-record-btn') || e.target.classList.contains('view-arrest-record-btn')) {
-                    window.loadPositiveArrestRecordIntoForm(recordId);
+                    const isViewOnly = e.target.classList.contains('view-arrest-record-btn');
+                    window.loadPositiveArrestRecordIntoForm(recordId, isViewOnly);
                 } else if (e.target.classList.contains('delete-arrest-record-btn')) {
                     window.handleDeletePositiveArrestRecord(recordId);
                 }
@@ -2547,7 +2586,8 @@
             document.getElementById('sot-records-tbody').addEventListener('click', (e) => {
                 const recordId = e.target.dataset.id;
                 if (e.target.classList.contains('edit-sot-record-btn') || e.target.classList.contains('view-sot-record-btn')) {
-                    window.loadSotRecordIntoForm(recordId);
+                    const isViewOnly = e.target.classList.contains('view-sot-record-btn');
+                    window.loadSotRecordIntoForm(recordId, isViewOnly);
                 } else if (e.target.classList.contains('delete-sot-record-btn')) {
                     window.handleDeleteSotRecord(recordId);
                 }
@@ -2763,14 +2803,14 @@
 
         // --- FULLY IMPLEMENTED HANDLERS FOR EDIT/DELETE ---
 
-        window.loadRecoveryRecordIntoForm = (recordId) => {
+        window.loadRecoveryRecordIntoForm = (recordId, isViewOnly = false) => {
             const record = recoveryRecords.find(r => r.id == recordId);
             if (!record) return;
 
             resetRecoveryForm(); // Reset form first
 
             handleActionClick('recoveries-view', 'add');
-            document.getElementById('recovery-form-title').textContent = `Update Recovery Record`;
+            document.getElementById('recovery-form-title').textContent = isViewOnly ? 'Viewing Recovery Record' : 'Update Recovery Record';
 
             document.getElementById('recovery-record-id').value = record.id;
             document.getElementById('recovery-datetime').value = record.dateTime || '';
@@ -2807,14 +2847,15 @@
                     sapContainer.querySelector('input').value = record.sapNumber;
                 }
             }
+            setFormEditable('recoveries-form', !isViewOnly);
         };
 
 
-        window.loadComplaintRecordIntoForm = (recordId) => { 
+        window.loadComplaintRecordIntoForm = (recordId, isViewOnly = false) => { 
              const record = complaintRecords.find(r => r.id == recordId);
             if (!record) return;
             handleActionClick('complaints-view', 'add');
-            document.getElementById('complaint-form-title').textContent = `Update Complaint #${record.refNumber}`;
+            document.getElementById('complaint-form-title').textContent = isViewOnly ? `Viewing Complaint #${record.refNumber}` : `Update Complaint #${record.refNumber}`;
             document.getElementById('complaint-record-id').value = record.id;
             document.getElementById('complaint-ref-number').textContent = record.refNumber;
             document.getElementById('complaint-date').value = record.date;
@@ -2828,16 +2869,17 @@
             document.getElementById('complaint-assigned-select').value = record.assignedTo;
             document.getElementById('complaint-resolution').value = record.resolution;
             document.getElementById('complaint-status-buttons').querySelector(`[data-status="${record.status}"]`).click();
+            setFormEditable('complaints-form', !isViewOnly);
         };
 
-        window.loadPositiveArrestRecordIntoForm = (recordId) => {
+        window.loadPositiveArrestRecordIntoForm = (recordId, isViewOnly = false) => {
             const record = arrestRecords.find(r => r.id == recordId);
             if (!record) return;
             
             resetArrestForm();
 
             handleActionClick('positive-arrests-view', 'add');
-            document.getElementById('arrest-form-title').textContent = `Update Arrest Record`;
+            document.getElementById('arrest-form-title').textContent = isViewOnly ? 'Viewing Arrest Record' : `Update Arrest Record`;
             document.getElementById('arrest-record-id').value = record.id;
             document.getElementById('arrest-datetime-captured').value = record.dateTimeCaptured || '';
             document.getElementById('arrest-entered-by').value = record.enteredBy || '';
@@ -2882,16 +2924,17 @@
                     suspectsTbody.appendChild(newRow);
                 });
             }
+            setFormEditable('positive-arrests-form', !isViewOnly);
         };
         
-        window.loadSotRecordIntoForm = (recordId) => { 
+        window.loadSotRecordIntoForm = (recordId, isViewOnly = false) => { 
             const record = sotRecords.find(r => r.id == recordId);
             if (!record) return;
             
             resetSotForm();
 
             handleActionClick('sot-view', 'add');
-            document.getElementById('sot-form-title').textContent = `Update SOT Record`;
+            document.getElementById('sot-form-title').textContent = isViewOnly ? 'Viewing SOT Record' : 'Update SOT Record';
             document.getElementById('sot-record-id').value = record.id;
             document.getElementById('sot-date-opened').value = record.dateOpened || '';
             document.getElementById('sot-date-assigned').value = record.dateAssigned || '';
@@ -2933,6 +2976,7 @@
                     }
                 }
             }
+            setFormEditable('sot-form', !isViewOnly);
         };
 
 
@@ -3164,4 +3208,5 @@
     </script>
 </body>
 </html>
+
 

@@ -2006,7 +2006,14 @@
                 tbody.innerHTML = '<tr><td colspan="5" class="text-center p-4">No records found.</td></tr>';
                 return;
             }
+            const isAdmin = currentUser === 'admin';
+            const permissions = (userPermissions[currentUser]) ? userPermissions[currentUser].tabs['recoveries-view'] : null;
+
             records.forEach(record => {
+                const viewButton = (isAdmin || (permissions && permissions.view)) ? `<button data-id="${record.id}" class="view-recovery-record-btn text-green-500 hover:underline">View</button>` : '';
+                const editButton = (isAdmin || (permissions && permissions.update)) ? `<button data-id="${record.id}" class="edit-recovery-record-btn text-blue-500 hover:underline ml-2">Edit</button>` : '';
+                const deleteButton = (isAdmin || (permissions && permissions.remove)) ? `<button data-id="${record.id}" class="delete-recovery-record-btn text-red-500 hover:underline ml-2">Delete</button>` : '';
+
                 const row = `
                     <tr class="hover:bg-gray-50">
                         <td class="py-2 px-4 border-b text-sm">${record.dateTime ? new Date(record.dateTime).toLocaleString() : 'Invalid Date'}</td>
@@ -2014,9 +2021,9 @@
                         <td class="py-2 px-4 border-b text-sm">${record.division}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.recoveryType}</td>
                         <td class="py-2 px-4 border-b text-sm">
-                            <button data-id="${record.id}" class="view-recovery-record-btn text-green-500 hover:underline">View</button>
-                            <button data-id="${record.id}" class="edit-recovery-record-btn text-blue-500 hover:underline ml-2">Edit</button>
-                            <button data-id="${record.id}" class="delete-recovery-record-btn text-red-500 hover:underline ml-2">Delete</button>
+                            ${viewButton}
+                            ${editButton}
+                            ${deleteButton}
                         </td>
                     </tr>
                 `;
@@ -2031,7 +2038,14 @@
                 tbody.innerHTML = '<tr><td colspan="5" class="text-center p-4">No records found.</td></tr>';
                 return;
             }
+            const isAdmin = currentUser === 'admin';
+            const permissions = (userPermissions[currentUser]) ? userPermissions[currentUser].tabs['complaints-view'] : null;
+
             records.forEach(record => {
+                const viewButton = (isAdmin || (permissions && permissions.view)) ? `<button data-id="${record.id}" class="view-complaint-record-btn text-green-500 hover:underline">View</button>` : '';
+                const editButton = (isAdmin || (permissions && permissions.update)) ? `<button data-id="${record.id}" class="edit-complaint-record-btn text-blue-500 hover:underline ml-2">Edit</button>` : '';
+                const deleteButton = (isAdmin || (permissions && permissions.remove)) ? `<button data-id="${record.id}" class="delete-complaint-record-btn text-red-500 hover:underline ml-2">Delete</button>` : '';
+
                 const row = `
                     <tr class="hover:bg-gray-50">
                         <td class="py-2 px-4 border-b text-sm">${record.refNumber}</td>
@@ -2039,9 +2053,9 @@
                         <td class="py-2 px-4 border-b text-sm">${record.complainantName}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.status}</td>
                         <td class="py-2 px-4 border-b text-sm">
-                            <button data-id="${record.id}" class="view-complaint-record-btn text-green-500 hover:underline">View</button>
-                            <button data-id="${record.id}" class="edit-complaint-record-btn text-blue-500 hover:underline ml-2">Edit</button>
-                            <button data-id="${record.id}" class="delete-complaint-record-btn text-red-500 hover:underline ml-2">Delete</button>
+                            ${viewButton}
+                            ${editButton}
+                            ${deleteButton}
                         </td>
                     </tr>
                 `;
@@ -2056,7 +2070,14 @@
                 tbody.innerHTML = '<tr><td colspan="5" class="text-center p-4">No records found.</td></tr>';
                 return;
             }
+            const isAdmin = currentUser === 'admin';
+            const permissions = (userPermissions[currentUser]) ? userPermissions[currentUser].tabs['positive-arrests-view'] : null;
+
             records.forEach(record => {
+                const viewButton = (isAdmin || (permissions && permissions.view)) ? `<button data-id="${record.id}" class="view-arrest-record-btn text-green-500 hover:underline">View</button>` : '';
+                const editButton = (isAdmin || (permissions && permissions.update)) ? `<button data-id="${record.id}" class="edit-arrest-record-btn text-blue-500 hover:underline ml-2">Edit</button>` : '';
+                const deleteButton = (isAdmin || (permissions && permissions.remove)) ? `<button data-id="${record.id}" class="delete-arrest-record-btn text-red-500 hover:underline ml-2">Delete</button>` : '';
+
                 const row = `
                     <tr class="hover:bg-gray-50">
                         <td class="py-2 px-4 border-b text-sm">${record.date ? new Date(record.date).toLocaleDateString() : 'Invalid Date'}</td>
@@ -2064,9 +2085,9 @@
                         <td class="py-2 px-4 border-b text-sm">${record.addressOfCrime}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.totalSuspects}</td>
                         <td class="py-2 px-4 border-b text-sm">
-                            <button data-id="${record.id}" class="view-arrest-record-btn text-green-500 hover:underline">View</button>
-                            <button data-id="${record.id}" class="edit-arrest-record-btn text-blue-500 hover:underline ml-2">Edit</button>
-                            <button data-id="${record.id}" class="delete-arrest-record-btn text-red-500 hover:underline ml-2">Delete</button>
+                            ${viewButton}
+                            ${editButton}
+                            ${deleteButton}
                         </td>
                     </tr>
                 `;
@@ -2081,7 +2102,14 @@
                 tbody.innerHTML = '<tr><td colspan="5" class="text-center p-4">No records found.</td></tr>';
                 return;
             }
+            const isAdmin = currentUser === 'admin';
+            const permissions = (userPermissions[currentUser]) ? userPermissions[currentUser].tabs['sot-view'] : null;
+
             records.forEach(record => {
+                const viewButton = (isAdmin || (permissions && permissions.view)) ? `<button data-id="${record.id}" class="view-sot-record-btn text-green-500 hover:underline">View</button>` : '';
+                const editButton = (isAdmin || (permissions && permissions.update)) ? `<button data-id="${record.id}" class="edit-sot-record-btn text-blue-500 hover:underline ml-2">Edit</button>` : '';
+                const deleteButton = (isAdmin || (permissions && permissions.remove)) ? `<button data-id="${record.id}" class="delete-sot-record-btn text-red-500 hover:underline ml-2">Delete</button>` : '';
+
                 const row = `
                     <tr class="hover:bg-gray-50">
                         <td class="py-2 px-4 border-b text-sm">${record.dateOpened ? new Date(record.dateOpened).toLocaleString() : 'Invalid Date'}</td>
@@ -2089,9 +2117,9 @@
                         <td class="py-2 px-4 border-b text-sm">${record.incidentType}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.status}</td>
                         <td class="py-2 px-4 border-b text-sm">
-                            <button data-id="${record.id}" class="view-sot-record-btn text-green-500 hover:underline">View</button>
-                            <button data-id="${record.id}" class="edit-sot-record-btn text-blue-500 hover:underline ml-2">Edit</button>
-                            <button data-id="${record.id}" class="delete-sot-record-btn text-red-500 hover:underline ml-2">Delete</button>
+                            ${viewButton}
+                            ${editButton}
+                            ${deleteButton}
                         </td>
                     </tr>
                 `;
@@ -2154,9 +2182,16 @@
                 tbody.innerHTML = '<tr><td colspan="10" class="text-center p-4">No records found.</td></tr>';
                 return;
             }
+            const isAdmin = currentUser === 'admin';
+            const permissions = (userPermissions[currentUser]) ? userPermissions[currentUser].tabs['ob-entry-view'] : null;
+
             records.forEach(record => {
                 const address = [record.address1, record.address2, record.address3].filter(Boolean).join(', ');
                 const incidentTime = `From: ${new Date(record.timeFrom).toLocaleString()} <br> To: ${new Date(record.timeTo).toLocaleString()}`;
+
+                const viewButton = (isAdmin || (permissions && permissions.view)) ? `<button data-id="${record.id}" class="view-ob-record-btn text-green-500 hover:underline">View</button>` : '';
+                const editButton = (isAdmin || (permissions && permissions.update)) ? `<button data-id="${record.id}" class="edit-ob-record-btn text-blue-500 hover:underline ml-2">Edit</button>` : '';
+                const deleteButton = (isAdmin || (permissions && permissions.remove)) ? `<button data-id="${record.id}" class="delete-ob-record-btn text-red-500 hover:underline ml-2">Delete</button>` : '';
 
                 const row = `
                     <tr class="hover:bg-gray-50">
@@ -2170,9 +2205,9 @@
                         <td class="py-2 px-4 border-b text-sm">${record.comments || ''}</td>
                         <td class="py-2 px-4 border-b text-sm">${record.status}</td>
                         <td class="py-2 px-4 border-b text-sm">
-                            <button data-id="${record.id}" class="view-ob-record-btn text-green-500 hover:underline">View</button>
-                            <button data-id="${record.id}" class="edit-ob-record-btn text-blue-500 hover:underline ml-2">Edit</button>
-                            <button data-id="${record.id}" class="delete-ob-record-btn text-red-500 hover:underline ml-2">Delete</button>
+                            ${viewButton}
+                            ${editButton}
+                            ${deleteButton}
                         </td>
                     </tr>
                 `;
@@ -3208,5 +3243,6 @@
     </script>
 </body>
 </html>
+
 
 

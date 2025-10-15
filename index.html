@@ -2294,10 +2294,7 @@
                 }
                 showSuccessModal('Success', `Record successfully ${action === 'add' ? 'saved' : 'updated'}.`);
                 resetObForm();
-                renderObRecordsTable();
-                const actionContainer = document.getElementById('ob-actions');
-                const viewBtn = actionContainer.querySelector('[data-action="view"]');
-                if (viewBtn) viewBtn.click();
+                handleActionClick('ob-entry-view', 'view');
             });
         };
 
@@ -2761,23 +2758,52 @@
 
         // --- FULLY IMPLEMENTED HANDLERS FOR EDIT/DELETE ---
 
-        window.loadRecoveryRecordIntoForm = (recordId) => { 
+        window.loadRecoveryRecordIntoForm = (recordId) => {
             const record = recoveryRecords.find(r => r.id == recordId);
             if (!record) return;
+
+            resetRecoveryForm(); // Reset form first
+
             handleActionClick('recoveries-view', 'add');
             document.getElementById('recovery-form-title').textContent = `Update Recovery Record`;
+
             document.getElementById('recovery-record-id').value = record.id;
-             for (const key in record) {
-                const element = document.getElementById(`recovery-${key.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`)}`);
-                if (element) {
-                    if (element.type === 'checkbox') {
-                        element.checked = record[key];
-                    } else {
-                        element.value = record[key] || '';
-                    }
+            document.getElementById('recovery-datetime').value = record.dateTime || '';
+            document.getElementById('recovery-name').value = record.name || '';
+            document.getElementById('recovery-division-select').value = record.division || '';
+            document.getElementById('recovery-type-select').value = record.recoveryType || '';
+            document.getElementById('recovery-incident-type-select').value = record.incidentType || '';
+            document.getElementById('recovery-duration').value = record.duration || '';
+            document.getElementById('recovery-registration').value = record.registration || '';
+            document.getElementById('recovery-vin').value = record.vin || '';
+            document.getElementById('recovery-items').value = record.items || '';
+            document.getElementById('recovery-quantity').value = record.quantity || '';
+            document.getElementById('recovery-vehicle-brand-select').value = record.vehicleBrand || '';
+            document.getElementById('recovery-make').value = record.make || '';
+            document.getElementById('recovery-ps-from-select').value = record.psFrom || '';
+            document.getElementById('recovery-case-number').value = record.caseNumber || '';
+            document.getElementById('recovery-ps-recovered-select').value = record.psRecovered || '';
+            document.getElementById('recovery-value-vehicle').value = record.valueVehicle || '';
+            document.getElementById('recovery-value-items').value = record.valueItems || '';
+            document.getElementById('recovery-address').value = record.address || '';
+            document.getElementById('recovery-lat').value = record.lat || '';
+            document.getElementById('recovery-lon').value = record.lon || '';
+            document.getElementById('recovery-ob-number').value = record.obNumber || '';
+            document.getElementById('recovery-recovered-by').value = record.recoveredBy || '';
+            
+            const sapContainer = document.querySelector('#recoveries-form .sap-container');
+            if (sapContainer && record.sapNumber) {
+                const parts = record.sapNumber.split('/');
+                if (parts.length === 3) {
+                    sapContainer.querySelector('input').value = parts[0];
+                    sapContainer.querySelector('.sap-month').value = parts[1];
+                    sapContainer.querySelector('.sap-year').value = parts[2];
+                } else {
+                    sapContainer.querySelector('input').value = record.sapNumber;
                 }
             }
         };
+
 
         window.loadComplaintRecordIntoForm = (recordId) => { 
              const record = complaintRecords.find(r => r.id == recordId);
@@ -2799,48 +2825,122 @@
             document.getElementById('complaint-status-buttons').querySelector(`[data-status="${record.status}"]`).click();
         };
 
-        window.loadPositiveArrestRecordIntoForm = (recordId) => { 
+        window.loadPositiveArrestRecordIntoForm = (recordId) => {
             const record = arrestRecords.find(r => r.id == recordId);
             if (!record) return;
+            
+            resetArrestForm();
+
             handleActionClick('positive-arrests-view', 'add');
             document.getElementById('arrest-form-title').textContent = `Update Arrest Record`;
             document.getElementById('arrest-record-id').value = record.id;
-            document.getElementById('arrest-datetime-captured').value = record.dateTimeCaptured;
-            document.getElementById('arrest-entered-by').value = record.enteredBy;
-            document.getElementById('pa-division-select').value = record.division;
-            document.getElementById('arrest-date').value = record.date;
-            document.getElementById('arrest-address').value = record.addressOfCrime;
-            document.getElementById('arrest-total-suspects').value = record.totalSuspects;
-            document.getElementById('arrest-arrested-by').value = record.arrestedBy;
+            document.getElementById('arrest-datetime-captured').value = record.dateTimeCaptured || '';
+            document.getElementById('arrest-entered-by').value = record.enteredBy || '';
+            document.getElementById('pa-division-select').value = record.division || '';
+            document.getElementById('arrest-date').value = record.date || '';
+            document.getElementById('arrest-address').value = record.addressOfCrime || '';
+            document.getElementById('arrest-total-suspects').value = record.totalSuspects || '';
+            document.getElementById('arrest-arrested-by').value = record.arrestedBy || '';
+
+            if (record.crimes) {
+                record.crimes.forEach((crime, index) => {
+                    const crimeIndex = index + 1;
+                    document.getElementById(`crime-${crimeIndex}-nature`).value = crime.nature || '';
+                    document.getElementById(`crime-${crimeIndex}-station`).value = crime.station || '';
+                    document.getElementById(`crime-${crimeIndex}-case`).value = crime.case || '';
+                    const sapContainer = document.getElementById(`crime-${crimeIndex}-sap`);
+                    if (sapContainer && crime.sap) {
+                         const parts = crime.sap.split('/');
+                         if (parts.length === 3) {
+                             sapContainer.querySelector('input').value = parts[0];
+                             sapContainer.querySelector('.sap-month').value = parts[1];
+                             sapContainer.querySelector('.sap-year').value = parts[2];
+                         } else {
+                             sapContainer.querySelector('input').value = crime.sap;
+                         }
+                    }
+                });
+            }
+
+            const suspectsTbody = document.getElementById('suspects-tbody');
+            suspectsTbody.innerHTML = ''; 
+            if (record.suspects) {
+                record.suspects.forEach(suspect => {
+                    const newRow = document.createElement('tr');
+                    newRow.className = 'suspect-row';
+                    newRow.innerHTML = `
+                        <td class="py-2 px-4 border-b"><input type="text" class="p-1 border rounded-md w-full suspect-name" placeholder="Name & Surname" value="${suspect.name || ''}"></td>
+                        <td class="py-2 px-4 border-b"><input type="text" class="p-1 border rounded-md w-full suspect-id" placeholder="ID Number" value="${suspect.idNumber || ''}"></td>
+                        <td class="py-2 px-4 border-b"><input type="file" class="p-1 border rounded-md w-full suspect-id-pic"></td>
+                        <td class="py-2 px-4 border-b"><button type="button" class="remove-suspect-btn text-red-500 hover:underline">Remove</button></td>
+                    `;
+                    suspectsTbody.appendChild(newRow);
+                });
+            }
         };
         
         window.loadSotRecordIntoForm = (recordId) => { 
             const record = sotRecords.find(r => r.id == recordId);
             if (!record) return;
+            
+            resetSotForm();
+
             handleActionClick('sot-view', 'add');
             document.getElementById('sot-form-title').textContent = `Update SOT Record`;
             document.getElementById('sot-record-id').value = record.id;
-            document.getElementById('sot-date-opened').value = record.dateOpened;
-            document.getElementById('sot-date-assigned').value = record.dateAssigned;
-            document.getElementById('sot-date-closed').value = record.dateClosed;
-            document.getElementById('sot-date-investigation-closed').value = record.investigationCloseDate;
-            document.getElementById('sot-client').value = record.marshallClient;
-            document.getElementById('sot-unit-number').value = record.unitNumber;
-            document.getElementById('sot-business-name').value = record.businessName;
-            document.getElementById('sot-incident-type-select').value = record.incidentType;
-            document.getElementById('sot-person-assigned-select').value = record.personAssigned;
-            document.getElementById('sot-client-contacted').checked = record.clientContacted;
-            document.getElementById('sot-contact-number').value = record.contactNumber;
-            document.getElementById('sot-onsite-meeting').checked = record.onsiteMeeting;
-            document.getElementById('sot-address').value = record.address;
-            document.getElementById('sot-feedback').value = record.feedback;
+            document.getElementById('sot-date-opened').value = record.dateOpened || '';
+            document.getElementById('sot-date-assigned').value = record.dateAssigned || '';
+            document.getElementById('sot-date-closed').value = record.dateClosed || '';
+            document.getElementById('sot-date-investigation-closed').value = record.investigationCloseDate || '';
+            document.getElementById('sot-client').value = record.marshallClient || '';
+            document.getElementById('sot-unit-number').value = record.unitNumber || '';
+            document.getElementById('sot-business-name').value = record.businessName || '';
+            document.getElementById('sot-incident-type-select').value = record.incidentType || '';
+            document.getElementById('sot-person-assigned-select').value = record.personAssigned || '';
+            document.getElementById('sot-client-contacted').checked = record.clientContacted || false;
+            document.getElementById('sot-contact-number').value = record.contactNumber || '';
+            document.getElementById('sot-onsite-meeting').checked = record.onsiteMeeting || false;
+            document.getElementById('sot-address').value = record.address || '';
+            document.getElementById('sot-feedback').value = record.feedback || '';
             document.getElementById('sot-status-buttons').querySelector(`[data-status="${record.status}"]`).click();
+
+            if (record.comments) {
+                const commentMapping = {
+                    cctv: 'cctv-comments',
+                    caseOpen: 'case-open-comments',
+                    technical: 'technical-comments',
+                    sales: 'sales-comments',
+                    response: 'response-comments',
+                    controlRoom: 'control-room-comments',
+                    complaints: 'complaints-comments',
+                    riskAssessment: 'risk-assessment-comments',
+                };
+
+                for (const key in commentMapping) {
+                    const commentValue = record.comments[key];
+                    if (commentValue) {
+                        const textareaId = commentMapping[key];
+                        const textarea = document.getElementById(textareaId);
+                        const checkbox = document.querySelector(`.sot-comment-toggle[data-target="${textareaId}"]`);
+                        textarea.value = commentValue;
+                        checkbox.checked = true;
+                        textarea.classList.remove('hidden');
+                    }
+                }
+            }
         };
 
 
         const handleSaveRecoveryRecord = () => {
              const recordId = document.getElementById('recovery-record-id').value;
              const action = recordId ? 'update' : 'add';
+             
+             const sapContainer = document.querySelector('#recoveries-form .sap-container');
+             const sapNumber = sapContainer.querySelector('input').value;
+             const sapMonth = sapContainer.querySelector('.sap-month').value;
+             const sapYear = sapContainer.querySelector('.sap-year').value;
+             const fullSap = (sapNumber && sapMonth && sapYear) ? `${sapNumber}/${sapMonth}/${sapYear}` : sapNumber;
+
              const recordData = {
                 id: recordId ? parseInt(recordId, 10) : Date.now(),
                 dateTime: document.getElementById('recovery-datetime').value,
@@ -2858,6 +2958,7 @@
                 psFrom: document.getElementById('recovery-ps-from-select').value,
                 caseNumber: document.getElementById('recovery-case-number').value,
                 psRecovered: document.getElementById('recovery-ps-recovered-select').value,
+                sapNumber: fullSap,
                 valueVehicle: document.getElementById('recovery-value-vehicle').value,
                 valueItems: document.getElementById('recovery-value-items').value,
                 address: document.getElementById('recovery-address').value,
@@ -2875,10 +2976,7 @@
                 }
                 resetRecoveryForm();
                 showSuccessModal('Success', `Recovery record ${action === 'add' ? 'saved' : 'updated'}.`);
-                renderRecoveryRecordsTable();
-                const actionContainer = document.getElementById('recoveries-actions');
-                const viewBtn = actionContainer.querySelector('[data-action="view"]');
-                if (viewBtn) viewBtn.click();
+                handleActionClick('recoveries-view', 'view');
             });
         };
         const handleSaveComplaintRecord = () => {
@@ -2909,16 +3007,44 @@
                 }
                 resetComplaintForm();
                 showSuccessModal('Success', `Complaint has been ${action === 'add' ? 'saved' : 'updated'}.`);
-                renderComplaintsRecordsTable();
-                const actionContainer = document.getElementById('complaints-actions');
-                const viewBtn = actionContainer.querySelector('[data-action="view"]');
-                if (viewBtn) viewBtn.click();
+                handleActionClick('complaints-view', 'view');
             });
         };
         const handleSaveArrestRecord = () => {
-             const recordId = document.getElementById('arrest-record-id').value;
-             const action = recordId ? 'update' : 'add';
-             const recordData = {
+            const recordId = document.getElementById('arrest-record-id').value;
+            const action = recordId ? 'update' : 'add';
+
+            const crimes = [];
+            document.querySelectorAll('#pa-crime-details-section .border-t').forEach((crimeSection, index) => {
+                const nature = crimeSection.querySelector(`#crime-${index + 1}-nature`).value;
+                if (nature) { 
+                    const sapContainer = crimeSection.querySelector(`#crime-${index + 1}-sap`);
+                    const sapNumber = sapContainer.querySelector('input').value;
+                    const sapMonth = sapContainer.querySelector('.sap-month').value;
+                    const sapYear = sapContainer.querySelector('.sap-year').value;
+                    const fullSap = (sapNumber && sapMonth && sapYear) ? `${sapNumber}/${sapMonth}/${sapYear}` : sapNumber;
+                    crimes.push({
+                        nature: nature,
+                        station: crimeSection.querySelector(`#crime-${index + 1}-station`).value,
+                        case: crimeSection.querySelector(`#crime-${index + 1}-case`).value,
+                        sap: fullSap,
+                    });
+                }
+            });
+
+            const suspects = [];
+            document.querySelectorAll('#suspects-tbody .suspect-row').forEach(row => {
+                const name = row.querySelector('.suspect-name').value;
+                if (name) { 
+                    suspects.push({
+                        name: name,
+                        idNumber: row.querySelector('.suspect-id').value,
+                        idPic: row.querySelector('.suspect-id-pic').files.length > 0 ? row.querySelector('.suspect-id-pic').files[0].name : '',
+                    });
+                }
+            });
+
+            const recordData = {
                  id: recordId ? parseInt(recordId, 10) : Date.now(),
                  dateTimeCaptured: document.getElementById('arrest-datetime-captured').value,
                  enteredBy: document.getElementById('arrest-entered-by').value,
@@ -2927,6 +3053,8 @@
                  addressOfCrime: document.getElementById('arrest-address').value,
                  totalSuspects: document.getElementById('arrest-total-suspects').value,
                  arrestedBy: document.getElementById('arrest-arrested-by').value,
+                 crimes: crimes,
+                 suspects: suspects
              };
              showConfirmationModal(`Are you sure you want to ${action} this arrest?`, () => {
                 if (action === 'add') {
@@ -2937,10 +3065,7 @@
                 }
                 resetArrestForm();
                 showSuccessModal('Success', `Arrest record ${action === 'add' ? 'saved' : 'updated'}.`);
-                renderArrestRecordsTable();
-                const actionContainer = document.getElementById('positive-arrests-actions');
-                const viewBtn = actionContainer.querySelector('[data-action="view"]');
-                if (viewBtn) viewBtn.click();
+                handleActionClick('positive-arrests-view', 'view');
             });
         };
         const handleSaveSotRecord = () => {
@@ -2962,7 +3087,17 @@
                  onsiteMeeting: document.getElementById('sot-onsite-meeting').checked,
                  address: document.getElementById('sot-address').value,
                  feedback: document.getElementById('sot-feedback').value,
-                 status: document.querySelector('#sot-status-buttons .status-btn-active').dataset.status
+                 status: document.querySelector('#sot-status-buttons .status-btn-active').dataset.status,
+                 comments: {
+                    cctv: document.getElementById('cctv-comments').value,
+                    caseOpen: document.getElementById('case-open-comments').value,
+                    technical: document.getElementById('technical-comments').value,
+                    sales: document.getElementById('sales-comments').value,
+                    response: document.getElementById('response-comments').value,
+                    controlRoom: document.getElementById('control-room-comments').value,
+                    complaints: document.getElementById('complaints-comments').value,
+                    riskAssessment: document.getElementById('risk-assessment-comments').value,
+                }
              };
              showConfirmationModal(`Are you sure you want to ${action} this SOT record?`, () => {
                 if(action === 'add') {
@@ -2973,10 +3108,7 @@
                 }
                 resetSotForm();
                 showSuccessModal('Success', `SOT record ${action === 'add' ? 'saved' : 'updated'}.`);
-                renderSotRecordsTable();
-                const actionContainer = document.getElementById('sot-actions');
-                const viewBtn = actionContainer.querySelector('[data-action="view"]');
-                if (viewBtn) viewBtn.click();
+                handleActionClick('sot-view', 'view');
             });
         };
         
